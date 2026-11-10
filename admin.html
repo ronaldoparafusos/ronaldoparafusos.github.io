@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Entrar | Ronaldo Parafusos</title>
+<script src="config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f3f2ee;font:16px Barlow,system-ui,sans-serif;color:#1d2024;padding:16px}
+  .card{width:100%;max-width:380px;background:#fff;border-radius:14px;box-shadow:0 6px 24px rgba(16,34,87,.12);overflow:hidden}
+  .top{background:#102257;color:#fff;padding:20px 22px;border-bottom:5px solid #ffc20e}
+  .top h1{margin:0;font:800 26px "Barlow Condensed",sans-serif;letter-spacing:.5px}
+  .top p{margin:4px 0 0;opacity:.85;font-size:14px}
+  form{padding:22px;display:grid;gap:12px}
+  label{font-weight:600;font-size:14px}
+  input{width:100%;padding:12px;border:1px solid #d8d6cd;border-radius:8px;font:inherit}
+  input:focus{outline:2px solid #1d3f94;border-color:#1d3f94}
+  button{padding:13px;border:0;border-radius:8px;background:#ffc20e;color:#102257;font:800 18px "Barlow Condensed",sans-serif;letter-spacing:.5px;cursor:pointer}
+  button:disabled{opacity:.6;cursor:wait}
+  .msg{min-height:20px;font-size:14px;color:#d7261e;margin:0}
+  .ok{color:#1d7a32}
+  a{color:#1d3f94;font-size:14px;text-align:center}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top"><h1>RONALDO PARAFUSOS</h1><p>Área do administrador</p></div>
+  <form id="f">
+    <div><label for="em">E-mail</label><input id="em" type="email" autocomplete="username" required></div>
+    <div><label for="pw">Senha</label><input id="pw" type="password" autocomplete="current-password" required></div>
+    <button id="bt" type="submit">ENTRAR</button>
+    <p id="msg" class="msg" role="alert"></p>
+    <a href="./">← Voltar para o site</a>
+  </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  var C=window.RP_CFG||{},msg=document.getElementById("msg"),bt=document.getElementById("bt");
+  if(!C.url||!C.key||!window.supabase){
+    msg.textContent=!window.supabase?"Não foi possível carregar o sistema de login. Verifique a internet.":"O site ainda não foi ligado ao Supabase (arquivo config.js vazio).";
+    bt.disabled=true;return;
+  }
+  var sb=window.supabase.createClient(String(C.url).replace(/\/+$/,""),C.key);
+  sb.auth.getSession().then(function(r){if(r.data.session){msg.className="msg ok";msg.textContent="Você já está conectado. Abrindo o site…";location.href="./"}});
+  document.getElementById("f").onsubmit=async function(e){
+    e.preventDefault();msg.className="msg";msg.textContent="";bt.disabled=true;
+    var r=await sb.auth.signInWithPassword({email:document.getElementById("em").value.trim(),password:document.getElementById("pw").value});
+    if(r.error){bt.disabled=false;msg.textContent="E-mail ou senha incorretos.";return}
+    msg.className="msg ok";msg.textContent="Tudo certo! Abrindo o site no modo administrador…";
+    location.href="./";
+  };
+})();
+</script>
+</body>
+</html>

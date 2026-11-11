@@ -957,8 +957,8 @@ function prodPage(id){
 var BOLT='<svg class="bolt" viewBox="0 0 200 420" role="img" aria-label="Ilustração de um parafuso sextavado"><polygon points="100,6 178,48 178,132 100,174 22,132 22,48" fill="#1d2024"/><polygon points="100,34 154,62 154,118 100,146 46,118 46,62" fill="none" stroke="#ffc20e" stroke-width="6"/><rect x="58" y="174" width="84" height="238" rx="6" fill="#1d2024"/><g stroke="#ffc20e" stroke-width="7"><path d="M58 206l84 -16M58 236l84 -16M58 266l84 -16M58 296l84 -16M58 326l84 -16M58 356l84 -16M58 386l84 -16"/></g></svg>';
 if(!S.banners)S.banners=[{t:"Parafusos e ferragens para obra e oficina",d:"Do parafuso ao chumbador: peça seu orçamento.",l:"p",img:""},{t:"Ferramentas e equipamentos",d:"Chaves, furadeiras, esmerilhadeiras e acessórios.",l:"t",img:""},{t:"Proteção para sua equipe",d:"Luvas, óculos, capacetes e botas de segurança.",l:"s",img:""},{t:"Conserto e peças de motosserra",d:"Correntes, sabres e revisão.",l:"mo",img:""}];
 if(!S.brands)S.brands=["Bosch","Tork","Toyama","Berliner","Kärcher"];
-function showBn(i){var n=(S.banners||[]).length;if(!n)return;bi=(i+n)%n;var sl=document.querySelectorAll("#bn .sl"),ds=document.querySelectorAll("#bn .dots button"),k;for(k=0;k<sl.length;k++)sl[k].classList.toggle("on",k===bi);for(k=0;k<ds.length;k++){if(k===bi)ds[k].setAttribute("aria-current","true");else ds[k].removeAttribute("aria-current")}}
-function startBn(){clearInterval(bt);var b=$("bn");if(!b||(S.banners||[]).length<2||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;b.addEventListener("mouseenter",function(){bpause=true});b.addEventListener("mouseleave",function(){bpause=false});b.addEventListener("focusin",function(){bpause=true});b.addEventListener("focusout",function(){bpause=false});bt=setInterval(function(){if(!bpause&&!document.hidden)showBn(bi+1)},5500)}
+function showBn(i){var n=document.querySelectorAll("#bn .sl").length||(S.banners||[]).length;if(!n)return;bi=(i+n)%n;var sl=document.querySelectorAll("#bn .sl"),ds=document.querySelectorAll("#bn .dots button"),k;for(k=0;k<sl.length;k++)sl[k].classList.toggle("on",k===bi);for(k=0;k<ds.length;k++){if(k===bi)ds[k].setAttribute("aria-current","true");else ds[k].removeAttribute("aria-current")}}
+function startBn(){clearInterval(bt);var b=$("bn");if(!b||document.querySelectorAll("#bn .sl").length<2||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;b.addEventListener("mouseenter",function(){bpause=true});b.addEventListener("mouseleave",function(){bpause=false});b.addEventListener("focusin",function(){bpause=true});b.addEventListener("focusout",function(){bpause=false});bt=setInterval(function(){if(!bpause&&!document.hidden)showBn(bi+1)},5500)}
 function home(){
   var B=(typeof novBanners==="function"?novBanners():[]).concat(S.banners||[]),n=B.length,h="";
   if(bi>=n)bi=0;
@@ -1084,6 +1084,7 @@ function footer(){
   h+='<div><h4>'+T("fSoc")+'</h4><div class="soc" data-ed="s:insta">'+so+'</div></div>';
   h+='<div><h4>'+T("kcat")+'</h4>'+vcats().map(function(c){return'<button class="fl" type="button" data-act="gc" data-id="'+esc(c.id)+'">'+esc(c.n)+'</button>'}).join("")+'</div></div>';
   if(st.length)h+='<div class="stores" data-ed="foot:stores"><h4>'+T("fSt")+'</h4><div class="sg">'+st.map(function(x){var m=safeUrl(x.map);return'<div><b>'+esc(x.n)+'</b>'+(x.ph?'<p><a style="display:inline" href="tel:+55'+esc(x.ph.replace(/\D/g,""))+'">'+esc(x.ph)+'</a></p>':'')+(x.ad?'<p>'+esc(x.ad)+'</p>':'')+(m?'<a href="'+esc(m)+'" target="_blank" rel="noopener">Ver mapa</a>':'')+'</div>'}).join("")+'</div></div>';
+  h+=(typeof legalFoot==="function"?legalFoot():"");
   h+=(typeof legalFoot==="function"?legalFoot():"");
   h+='<p class="leg" data-ed="foot:legal"><span>'+T("foot")+'</span>'+(f.cnpj?' CNPJ: '+esc(f.cnpj):'')+'</p>'+(f.note?'<p class="leg" data-ed="foot:legal" style="margin-top:8px;border:0;padding:0">'+esc(f.note)+'</p>':'');
   return h+'</div></footer>';
@@ -1576,7 +1577,7 @@ function openForm(title,fields,label,onSave,note){
   var f=$("f"),hasT=fields.some(function(x){return x.tab});
   f.innerHTML='<h3>'+esc(title)+'</h3>'+(note?'<p class="note">'+esc(note)+'</p>':'')+(hasT?'<div class="tabs" role="tablist"><button type="button" class="tbt on" role="tab" aria-selected="true" data-act="ftab" data-id="">Produto</button><button type="button" class="tbt" role="tab" aria-selected="false" data-act="ftab" data-id="c">Comparação</button></div>':'')+fields.map(function(x){
     var id="f_"+x.k,h='<label for="'+id+'">'+esc(x.l)+'</label>',r;
-    if(x.t==="gal"&&typeof galEdH==="function")r=galEdH(x);else if(x.t==="gal"&&typeof galEdH==="function")r=galEdH(x);else if(x.t==="n")r='<p class="note">'+esc(x.l)+'</p>';
+    if(x.t==="gal"&&typeof galEdH==="function")r=galEdH(x);else if(x.t==="gal"&&typeof galEdH==="function")r=galEdH(x);else if(x.t==="gal"&&typeof galEdH==="function")r=galEdH(x);else if(x.t==="n")r='<p class="note">'+esc(x.l)+'</p>';
     else if(x.t==="area")r=h+'<textarea id="'+id+'" rows="'+(x.rows||3)+'"'+(x.ph?' placeholder="'+esc(x.ph)+'"':"")+'>'+esc(x.v)+'</textarea>';
     else if(x.t==="select")r=h+'<select id="'+id+'">'+x.o.map(function(o){return'<option value="'+esc(o[0])+'"'+(o[0]===x.v?" selected":"")+'>'+esc(o[1])+'</option>'}).join("")+'</select>';
     else if(x.t==="file")r=h+'<input id="'+id+'" type="file" accept="'+(x.a||"image/*")+'"'+(x.a?"":" multiple")+'>';
@@ -1600,7 +1601,7 @@ function prodForm(id,ins){
   openForm(old?"Editar produto":"Novo produto",fl,"Salvar",async function(v){
     if(!v.n)return"Informe o nome do produto.";
     var bad=lines(v.cmp).filter(function(l){return l.indexOf(":")<1})[0];if(bad)return"Aba Comparação: escreva cada linha assim “Característica: valor”. Falta o “:” em “"+bad.slice(0,40)+"”.";
-    if(v.rm==="1"){p.gal=[];p.img=""}if(typeof v.gl==="string"&&v.gl){try{var gg=JSON.parse(v.gl);if(Array.isArray(gg)){p.gal=gg.filter(Boolean);p.img=p.gal[0]||""}}catch(eg){}}if(typeof v.gl==="string"&&v.gl){try{var gg=JSON.parse(v.gl);if(Array.isArray(gg)){p.gal=gg.filter(Boolean);p.img=p.gal[0]||""}}catch(eg){}}
+    if(v.rm==="1"){p.gal=[];p.img=""}if(typeof v.gl==="string"&&v.gl){try{var gg=JSON.parse(v.gl);if(Array.isArray(gg)){p.gal=gg.filter(Boolean);p.img=p.gal[0]||""}}catch(eg){}}if(typeof v.gl==="string"&&v.gl){try{var gg=JSON.parse(v.gl);if(Array.isArray(gg)){p.gal=gg.filter(Boolean);p.img=p.gal[0]||""}}catch(eg){}}if(typeof v.gl==="string"&&v.gl){try{var gg=JSON.parse(v.gl);if(Array.isArray(gg)){p.gal=gg.filter(Boolean);p.img=p.gal[0]||""}}catch(eg){}}
     if(v.img&&v.img.length){p.gal=p.gal||(p.img?[p.img]:[]);for(var i=0;i<v.img.length;i++){var r=await assets.upload(v.img[i]);p.gal.push(r.id)}p.img=p.gal[0]}
     p.n=v.n;p.c=v.c;p.d=v.d;p.p=v.p;p.po=v.po;p.bd=v.bd;p.pc=v.pc;p.pn=v.pn;p.s=v.s;p.code=v.code;p.brand=v.brand;p.more=v.more;p.un=v.un||"un";p.star=v.star==="1";p.nw=v.nw==="1";p.rt=v.rt?Number(v.rt):0;p.rv=lines(v.rv).map(function(l){var x=l.split("|").map(function(s){return s.trim()}),n=Math.round(Number(String(x[1]||"").replace(",","."))||0);return{n:x[0]||"Cliente",r:(n>=1&&n<=5)?n:0,t:x.slice(2).join(" | ")}}).filter(function(r){return r.r>0});if(p.rv.length)p.rt=rvAvg(p);else delete p.rv;p.cg=v.cg;p.cmp=v.cmp;p.cmpd=v.cmpd;p.et=Date.now();p.up=p.et;
     if(!old){p.ts=Date.now();if(ins)insProd(p,ins);else S.prods.push(p)}
@@ -2036,7 +2037,7 @@ function shareCopy(){
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(i.value).then(function(){ok(true)},fb)}else fb();
 }
 document.addEventListener("click",function(e){
-  if(!e.target.closest(".sw")){var sr0=$("sr");if(sr0)sr0.hidden=true}var kmi=e.target.closest(".kmw");if(!kmi||e.target.closest(".kp a"))kmClose();if(!e.target.closest(".kcw")||e.target.closest(".kcp a"))kcClose();if(!e.target.closest(".kcw")||e.target.closest(".kcp a"))kcClose();if(!e.target.closest(".kcw")||e.target.closest(".kcp a"))kcClose();
+  if(!e.target.closest(".sw")){var sr0=$("sr");if(sr0)sr0.hidden=true}var kmi=e.target.closest(".kmw");if(!kmi||e.target.closest(".kp a"))kmClose();if(!e.target.closest(".kcw")||e.target.closest(".kcp a"))kcClose();if(!e.target.closest(".kcw")||e.target.closest(".kcp a"))kcClose();if(!e.target.closest(".kcw")||e.target.closest(".kcp a"))kcClose();if(!e.target.closest(".kcw")||e.target.closest(".kcp a"))kcClose();
   var ta=e.target.closest("a[href^='tel:'],a[href^='mailto:']");if(ta&&INFRAME&&!ta.hasAttribute("data-native")){e.preventDefault();var th=ta.getAttribute("href");if(/^tel:/i.test(th))callBox(th);else mailBox(th);return}
   if(e.target.closest("a"))return;var b=e.target.closest("[data-act],[data-cat]");if(!b)return;
   var a=b.getAttribute("data-act"),id=b.getAttribute("data-id");
@@ -2063,7 +2064,7 @@ document.addEventListener("click",function(e){
   else if(a==="bn")showBn(bi+1);
   else if(a==="bp")showBn(bi-1);
   else if(a==="bd")showBn(Number(id));
-  else if(a==="bgo"){go(id==="__nov"?"#novidades":String(id).indexOf("p:")===0?"#p-"+String(id).slice(2):(id&&catOf(id))?"#cat-"+id:"#produtos")}
+  else if(a==="bgo"){go(id==="__nov"?"#novidades":String(id).indexOf("p:")===0?"#p-"+String(id).slice(2):String(id).indexOf("p:")===0?"#p-"+String(id).slice(2):(id&&catOf(id))?"#cat-"+id:"#produtos")}
   else if(a==="mass"){go("#edicao-em-massa")}
   else if(a==="bf"){go("#marca-"+slug(id))}
   else if(a==="eb")banForm();

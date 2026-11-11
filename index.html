@@ -1526,7 +1526,7 @@ document.addEventListener("click",cmClose);
 document.addEventListener("keydown",function(e){if(e.key==="Escape")cmClose()});
 window.addEventListener("scroll",cmClose,true);
 var fmore=0;
-function featList(){var oc=function(p){return(typeof ORC==="object"&&ORC[p.id])||0};var hot=S.prods.filter(function(x){return oc(x)>0}).sort(function(a,b){return(oc(b)-oc(a))||((b.img?1:0)-(a.img?1:0))});var hid={};hot.forEach(function(p){hid[p.id]=1});var base=hot.concat(S.prods.filter(function(x){return x.star&&!hid[x.id]}));if(!base.length)base=S.prods.slice(0,24);var ids={};base.forEach(function(p){ids[p.id]=1});var all=base.concat(S.prods.filter(function(p){return !ids[p.id]}));var n=fmore?24+24*fmore:Math.min(base.length,24);return{all:all,shown:all.slice(0,n),more:all.length>n}}
+function featList(){var oc=function(p){return(typeof ORC==="object"&&ORC[p.id])||0};var hot=S.prods.filter(function(x){return oc(x)>0}).sort(function(a,b){return(oc(b)-oc(a))||((b.img?1:0)-(a.img?1:0))});var hid={};hot.forEach(function(p){hid[p.id]=1});var base=hot.concat(S.prods.filter(function(x){return x.star&&!hid[x.id]}));if(base.length<12&&typeof featFill==="function")base=base.concat(featFill(base,12-base.length));if(!base.length)base=S.prods.slice(0,24);var ids={};base.forEach(function(p){ids[p.id]=1});var all=base.concat(S.prods.filter(function(p){return !ids[p.id]}));var n=fmore?24+24*fmore:Math.min(base.length,24);return{all:all,shown:all.slice(0,n),more:all.length>n}}
 function featUpd(){var fl=featList(),g=$("fgrid");if(g)g.innerHTML=fl.shown.map(pcard).join("");var b=$("fmbtn");if(b&&!fl.more&&b.parentNode)b.parentNode.removeChild(b)}
 function hdrStyle(){var h=S.s&&S.s.hdr;return h==="white"||h==="white2"||h==="white3"?h:"blue"}
 function hcl(){var h=hdrStyle();return h==="blue"?"":"hw "+({white:"hv1",white2:"hv2",white3:"hv3"})[h]}
@@ -1712,6 +1712,13 @@ function hrsNow(){var d=new Date(Date.now()-3*36e5),w=d.getUTCDay(),m=d.getUTCHo
   for(var i=1;i<=7;i++){var k=(w+i)%7;if(HRS[k])return{o:0,t:"Fechado agora · abre "+(i===1?"amanhã":HRD[k].toLowerCase())+" às "+HRS[k][0]+"h"}}return{o:0,t:"Fechado"}}
 function hrsH(){var n=hrsNow(),w=new Date(Date.now()-3*36e5).getUTCDay(),g=mapUrl();
   return'<span class="hst '+(n.o?"on":"off")+'">'+n.t+'</span><details class="hrd"><summary>Ver horários da semana</summary><table>'+[1,2,3,4,5,6,0].map(function(k){var h=HRS[k];return'<tr'+(k===w?' class="hoje"':'')+'><td>'+HRD[k]+(k===w?' <small>(hoje)</small>':'')+'</td><td>'+(h?(h[0]<10?"0":"")+h[0]+":00 às "+h[1]+":00":"Fechado")+'</td></tr>'}).join("")+'</table>'+(g?'<a class="hrg" href="'+esc(g)+'" target="_blank" rel="noopener">Feriados e horários especiais no Google ›</a>':'')+'</details>'}
+/* Mais vendidos: completa com produtos variados com foto (um por categoria), trocando a cada semana; os mais pedidos ficam por cima */
+function featFill(base,n){if(n<=0)return[];var ex={};base.forEach(function(p){ex[p.id]=1});var wk=Math.floor(Date.now()/6048e5),by={},cs=[];
+  S.prods.forEach(function(p){if(ex[p.id]||!p.img||String(p.d||"").length<40)return;if(!by[p.c]){by[p.c]=[];cs.push(p.c)}by[p.c].push(p)});
+  function h(s){var x=wk;for(var i=0;i<s.length;i++)x=(x*31+s.charCodeAt(i))|0;return x}
+  cs.sort(function(a,b){return h(a)-h(b)});cs.forEach(function(c){by[c].sort(function(a,b){return h(a.id)-h(b.id)})});
+  var out=[],seenB={},r=0;while(out.length<n&&r<8){cs.forEach(function(c){if(out.length>=n)return;var l=by[c],p=null;for(var i=0;i<l.length;i++){var b=norm(l[i].brand||"");if(!l[i]._u&&(r>0||!seenB[b])){p=l[i];break}}if(p){p._u=1;seenB[norm(p.brand||"")]=1;out.push(p)}});r++}
+  out.forEach(function(p){delete p._u});return out}
 var WM_DEFAULT="Olá! Gostaria de um orçamento deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
 var WM_ORDER="Olá! Gostaria de fazer um pedido deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
 function hasP(p){return !!String(p.p==null?"":p.p).trim()}

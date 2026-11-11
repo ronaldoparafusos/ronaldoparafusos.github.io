@@ -15,10 +15,18 @@ O dono pediu que isso não aconteça mais.
    Aumente o `ver` (Date.now()) para o site saber que há dados novos.
 3. **Antes do commit, confira** que o `index.html` ainda contém:
    `function tvH`, `function catBar`, `function kcContact`, `function waFab`, `function legalFoot`,
-   `function massPage`, `function rpMerge`, `function galEdH` e o CSS `/* === Cabeçalho: Televendas`.
+   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg` e o CSS `/* === Cabeçalho: Televendas`.
    Se algum sumiu, você partiu de uma cópia antiga: pare e refaça a partir do passo 1.
 4. Rode `git diff --stat` e confira que só mudou o que você pretendia.
 5. Se o `git push` for recusado porque o repositório mudou, baixe de novo e reaplique só a sua mudança.
+
+## Fotos e vídeos (plano grátis)
+
+- O dono pediu: **toda foto ou vídeo que ele mandar para adicionar ao site deve ser reduzido antes**, para não gastar o plano grátis
+  (Supabase: 1 GB de arquivos e 5 GB de tráfego por mês; GitHub Pages: site até 1 GB).
+- Fotos: no máximo 1600 px no lado maior, em WebP (qualidade ~80), de preferência abaixo de 300 KB. O painel já faz isso sozinho (`shrinkImg()`).
+- Vídeos: o ideal é o dono postar no YouTube ou Instagram e colar o link em "Vídeo e sobre" (só carrega quando o cliente toca).
+  Se for preciso hospedar o arquivo, comprima (720p, H.264, sem som se for de fundo, poucos MB) e nunca use autoplay de vídeo pesado.
 
 ## Nunca apague nem altere sem pedido do dono
 

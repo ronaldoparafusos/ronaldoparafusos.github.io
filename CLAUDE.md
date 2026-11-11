@@ -32,7 +32,7 @@ O dono pediu que isso não aconteça mais.
 
 - O horário detalhado do rodapé vem da variável `HRS` no index.html (conferido no perfil do Google em 11/11/2026: seg a sex 7h-18h, sáb 7h-12h, dom fechado).
   Se o horário mudar, atualize `HRS` e o JSON-LD do `<head>`.
-- O botão "Avaliar no Google" usa `GREV_DEF` (abre direto a janela de escrever avaliação). Se o dono colar outro link no campo de avaliação do painel (`S.s.grev`), vale o dele.
+- O botão "Avaliar no Google" usa `GREV_DEF` = link oficial `search.google.com/local/writereview?placeid=ChIJfRbYfmhZJ5MR5rC_iRDb6g8` (Place ID da loja; abre direto a avaliação no celular e no computador). Se o dono colar outro link no campo de avaliação do painel (`S.s.grev`), vale o dele.
 
 ## Nunca apague nem altere sem pedido do dono
 

@@ -1272,7 +1272,7 @@ function cnt(n){return n===1?"1 produto":n+" produtos"}
 function qm(x,t){return t.split(/\s+/).every(function(w){if(x.indexOf(w)>=0)return true;if(w.length<4)return false;var a=[w.replace(/ns$/,"m"),w.replace(/es$/,""),w.replace(/s$/,"")];return a.some(function(v){return v!==w&&v.length>2&&x.indexOf(v)>=0})})}var LN=48;
 function rvList(p){return(p.rv||[]).filter(function(r){return r&&Number(r.r)>0})}
 function rvAvg(p){var a=rvList(p);if(!a.length)return 0;return Math.round(a.reduce(function(s,r){return s+Number(r.r)},0)/a.length*10)/10}
-var GREV_DEF="https://www.google.com/search?q=Ronaldo+Parafusos+Colinas+do+Tocantins#lrd=0x932759687ed8167d:0xfeadb1089bfb0e6,3,,,,";
+var GREV_DEF="https://search.google.com/local/writereview?placeid=ChIJfRbYfmhZJ5MR5rC_iRDb6g8";
 function gUrl(){return safeUrl((S.s&&S.s.grev)||"")||GREV_DEF}
 function googleBtn(){var u=gUrl();return u?'<p class="gbtn"><a class="btn dark sm" href="'+esc(u)+'" target="_blank" rel="noopener">★ Avalie a gente no Google</a></p>':""}
 var RVS=0;

@@ -1719,6 +1719,17 @@ function featFill(base,n){if(n<=0)return[];var ex={};base.forEach(function(p){ex
   cs.sort(function(a,b){return h(a)-h(b)});cs.forEach(function(c){by[c].sort(function(a,b){return h(a.id)-h(b.id)})});
   var out=[],seenB={},r=0;while(out.length<n&&r<8){cs.forEach(function(c){if(out.length>=n)return;var l=by[c],p=null;for(var i=0;i<l.length;i++){var b=norm(l[i].brand||"");if(!l[i]._u&&(r>0||!seenB[b])){p=l[i];break}}if(p){p._u=1;seenB[norm(p.brand||"")]=1;out.push(p)}});r++}
   out.forEach(function(p){delete p._u});return out}
+/* Marcas da página inicial rodando sozinhas (só as que têm logo), pausa quando o cliente mexe */
+var BRA={busy:0,t:0};
+function brAuto(){if(BRA.t)return;BRA.t=setInterval(function(){
+  if(document.hidden||BRA.busy||(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches))return;
+  var w=document.querySelector(".brands .rail");if(!w||w.classList.contains("open")||w.classList.contains("fit"))return;
+  var rt=w.querySelector(".rt");if(!rt||!rt.children.length)return;
+  var r=rt.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+  var k=rt.children[0],gap=parseFloat(getComputedStyle(rt).columnGap)||10,step=k.offsetWidth+gap;
+  if(rt.scrollLeft+rt.clientWidth>=rt.scrollWidth-4)rt.scrollTo({left:0,behavior:"smooth"});else rt.scrollBy({left:step,behavior:"smooth"})},2600);
+  ["mouseover","touchstart","focusin"].forEach(function(ev){document.addEventListener(ev,function(e){if(e.target.closest&&e.target.closest(".brands")){BRA.busy=1;clearTimeout(BRA.r);BRA.r=setTimeout(function(){BRA.busy=0},ev==="mouseover"?1500:6000)}},{passive:true})})}
+brAuto();
 var WM_DEFAULT="Olá! Gostaria de um orçamento deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
 var WM_ORDER="Olá! Gostaria de fazer um pedido deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
 function hasP(p){return !!String(p.p==null?"":p.p).trim()}
@@ -2105,7 +2116,7 @@ function brImg(x){return typeof rpImg==="function"?rpImg(x):(/^(https?:|img\/|\/
 function brCount(){var c={};S.prods.forEach(function(p){if(p.brand)c[p.brand]=(c[p.brand]||0)+1});return c}
 function brSorted(){var c=brCount();return(S.brands||[]).filter(function(b){return c[b.n]}).slice().sort(function(a,b){return((b.img?1:0)-(a.img?1:0))||((c[b.n]||0)-(c[a.n]||0))})}
 function brBtn(b,c){return'<button class="bt" type="button" data-act="bf" data-id="'+esc(b.n)+'" aria-label="'+esc(b.n)+'" title="'+esc(b.n)+(c?" ("+cnt(c)+")":"")+'">'+(b.img?'<img src="'+esc(brImg(b.img))+'" alt="'+esc(b.n)+'" loading="lazy">':'<span class="btn2">'+esc(b.n)+'</span>')+'</button>'}
-function brHome(){var a=brSorted(),c=brCount(),sh=a.filter(function(b){return b.img}).slice(0,60);if(sh.length<12)sh=a.slice(0,24);return sh.map(function(b){return brBtn(b,c[b.n])}).join("")+'</div><p class="bmrow"><a class="btn bmall" href="#marcas">Ver todas as marcas ('+a.length+')</a></p><div hidden>'}
+function brHome(){var a=brSorted(),c=brCount(),sh=a.filter(function(b){return b.img}).slice(0,60);if(!sh.length)sh=a.slice(0,24);return sh.map(function(b){return brBtn(b,c[b.n])}).join("")+'</div><p class="bmrow"><a class="btn bmall" href="#marcas">Ver todas as marcas ('+a.length+')</a></p><div hidden>'}
 var BRQ="";
 function brListH(){var c=brCount(),q=norm(BRQ.trim()),a=brSorted().filter(function(b){return!q||norm(b.n).indexOf(q)>=0});if(!a.length)return'<p class="note">Nenhuma marca encontrada.</p>';return'<div class="bla">'+a.map(function(b){return'<a class="bra" href="#marca-'+esc(slug(b.n))+'"><span class="brl">'+(b.img?'<img src="'+esc(brImg(b.img))+'" alt="" loading="lazy">':'<b>'+esc(b.n.slice(0,1))+'</b>')+'</span><span class="brn">'+esc(b.n)+'<small>'+cnt(c[b.n]||0)+'</small></span></a>'}).join("")+'</div>'}
 function brandsPage(){return'<div class="pp"><div class="wrap"><div class="bc"><a href="#inicio">'+T("bcH")+'</a><span>›</span><span>Marcas</span></div><h1 class="pt">Todas as marcas</h1><input id="brq" class="cpq" type="search" autocomplete="off" placeholder="Buscar marca" aria-label="Buscar marca" value="'+esc(BRQ)+'"><div id="brl">'+brListH()+'</div></div></div>'}

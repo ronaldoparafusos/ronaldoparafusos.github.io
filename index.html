@@ -1272,7 +1272,7 @@ function hasP(p){return !!String(p.p==null?"":p.p).trim()}
 function waDesc(p){var d=String(p.d||"").replace(/\s+/g," ").trim();if(d.length>220){d=d.slice(0,220);var i=d.lastIndexOf(" ");if(i>150)d=d.slice(0,i);d=d.replace(/[\s,;:.\-]+$/,"")+"…"}return d}
 function waOwn(){return !!String((S.s&&S.s.wa)||"").replace(/\D/g,"")}
 function waNum(){var d=String((S.s&&S.s.wa)||"").replace(/\D/g,"");if(!d)d=String((S.s&&S.s.phone)||"").replace(/\D/g,"");if(!d)return"";return(d.length>=12&&d.indexOf("55")===0)?d:"55"+d}
-function siteBase(){var u=String((S.s&&S.s.url)||"").trim();if(!u)u=String(location.href);return u.split("#")[0]}
+function siteBase(){var u=String((S.s&&S.s.url)||"").trim();if(!u)u=String(location.href);return u.split("#")[0].split("?")[0]}
 function waMsg(p){var ord=hasP(p);
   var vals={produto:p.n||"",descricao:waDesc(p),codigo:p.code||"",marca:p.brand||"",preco:p.p?money(p.p):"",link:siteBase()+"#p-"+p.id};
   var tpl=ord?((S.s&&S.s.wmo)||WM_ORDER):((S.s&&S.s.wm)||WM_DEFAULT);
@@ -1424,13 +1424,13 @@ function cAdd(id,q,u,o){
 }
 var CM_DEF={
  head:"Olá! Gostaria de solicitar um *orçamento* dos itens abaixo:",
- leg:"📋 *COMO LER ESTA LISTA*\nCada item vem separado e traz:\n• Produto (nome)\n• Código\n• Marca\n• Descrição\n• Unidade de venda\n• Preço no site: dinheiro ou Pix e cartão (os valores do site no momento do pedido; só aparece se o produto tiver preço)\n• Quantidade pedida\n• Observação do cliente (quando houver)",
- item:"*ITEM {n} de {total}*\n📦 *Produto:* {produto}\n🔖 *Código:* {codigo}\n🏷️ *Marca:* {marca}\n📝 *Descrição:* {descricao}\n📏 *Unidade de venda:* {unidade}\n💰 *Preço (dinheiro ou Pix):* {preco}\n💳 *Preço no cartão:* {cartao}\n🔢 *Quantidade:* {quantidade}\n💬 *Observação do item {n}:* {obs}",
+ leg:"📋 *COMO LER ESTA LISTA*\nCada item vem separado e traz:\n• Produto (nome)\n• Código\n• Marca\n• Descrição (resumo)\n• Link do produto no site (foto e descrição completa)\n• Unidade de venda\n• Preço no site: dinheiro ou Pix e cartão (quando houver)\n• Quantidade pedida\n• Observação do cliente (quando houver)",
+ item:"*ITEM {n} de {total}*\n📦 *Produto:* {produto}\n🔖 *Código:* {codigo}\n🏷️ *Marca:* {marca}\n📝 *Descrição:* {descricao}\n🔗 *Ver no site:* {link}\n📏 *Unidade de venda:* {unidade}\n💰 *Preço (dinheiro ou Pix):* {preco}\n💳 *Preço no cartão:* {cartao}\n🔢 *Quantidade:* {quantidade}\n💬 *Observação do item {n}:* {obs}",
  sep:"━━━━━━━━━━━━━━",
  foot:"🧾 *Total de itens:* {total}\n👤 *Cliente:* {nome}\nAguardo o retorno com valores e disponibilidade. Obrigado!"
 };
-var CM_COMPACT="{n}) *{produto}* – {quantidade}\n     Cód.: {codigo}\n     Dinheiro/Pix: {preco}\n     Cartão: {cartao}\n     Obs.: {obs}";
-var CM_MIN="{n}) *{produto}* – {quantidade}\n     Cód.: {codigo}";
+var CM_COMPACT="{n}) *{produto}* – {quantidade}\n     Cód.: {codigo}\n     Site: {link}\n     Dinheiro/Pix: {preco}\n     Cartão: {cartao}\n     Obs.: {obs}";
+var CM_MIN="{n}) *{produto}* – {quantidade}\n     Cód.: {codigo}\n     {link}";
 /* Preços do produto como estão no site. sh=1: sem o "de R$ …" e o selo de desconto (formato curto). Sem preço no site: tudo vazio. */
 function cPrices(p,sh){
   var r={preco:"",cartao:""};
@@ -1441,11 +1441,11 @@ function cPrices(p,sh){
   if(c!=null){var k=Math.max(1,parseInt(p.pn,10)||1);r.cartao=k>1?fm(c)+" em até "+k+"x de "+fm(Math.round(c/k*100)/100):fm(c)}
   return r}
 function cmGet(k){var c=S.s&&S.s.cm;return(c&&c[k]!=null)?c[k]:CM_DEF[k]}
-function cDesc(p){var d=String(p.d||"").replace(/\s+/g," ").trim();if(d.length>110){d=d.slice(0,110);var i=d.lastIndexOf(" ");if(i>70)d=d.slice(0,i);d=d.replace(/[\s,;:.\-]+$/,"")+"…"}return d}
+function cDesc(p){var d=String(p.d||"").replace(/\s+/g," ").trim();if(d.length>80){d=d.slice(0,80);var i=d.lastIndexOf(" ");if(i>50)d=d.slice(0,i);d=d.replace(/[\s,;:.\-]+$/,"")+"…"}return d}
 function fillT(tpl,v){
   /* Linha só com campos opcionais (código, marca, descrição, preço, cartão, obs, nome) vazios some.
      Linha que também traz produto/quantidade/unidade nunca some: o campo vazio vira "—" (ou some entre parênteses). */
-  var OPT={codigo:1,marca:1,descricao:1,obs:1,nome:1,preco:1,cartao:1},CORE={produto:1,quantidade:1,unidade:1},RX=/\{(n|total|produto|codigo|marca|descricao|unidade|quantidade|obs|nome|preco|cartao)\}/g;
+  var OPT={codigo:1,marca:1,descricao:1,obs:1,nome:1,preco:1,cartao:1,link:1},CORE={produto:1,quantidade:1,unidade:1},RX=/\{(n|total|produto|codigo|marca|descricao|unidade|quantidade|obs|nome|preco|cartao|link)\}/g;
   return String(tpl).split("\n").map(function(line){
     var nOpt=0,eOpt=0,core=false;
     line.replace(RX,function(m,k){var x=v[k],e=(x==null||x==="");if(OPT[k]){nOpt++;if(e)eOpt++}if(CORE[k])core=true;return m});
@@ -1455,7 +1455,7 @@ function fillT(tpl,v){
     return out}).filter(function(l){return l!==null}).join("\n")}
 function cMsg(mode){
   var ls=cLines(),n=ls.length,co=mode>=1,nome=CNM.trim(),out=[];
-  var items=ls.map(function(x,i){var p=prodById(x.id),d=unOf(x.u);var pr=cPrices(p,co);return fillT(mode===2?CM_MIN:co?CM_COMPACT:cmGet("item"),{n:i+1,total:n,produto:p.n,codigo:p.code||"",marca:p.brand||"",descricao:co?"":cDesc(p),unidade:d[1],preco:pr.preco,cartao:pr.cartao,quantidade:qTxt(x.q,x.u),obs:x.o,nome:nome})});
+  var items=ls.map(function(x,i){var p=prodById(x.id),d=unOf(x.u);var pr=cPrices(p,co);return fillT(mode===2?CM_MIN:co?CM_COMPACT:cmGet("item"),{n:i+1,total:n,produto:p.n,codigo:p.code||"",marca:p.brand||"",descricao:co?"":cDesc(p),unidade:d[1],preco:pr.preco,cartao:pr.cartao,link:siteBase()+"#p-"+p.id,quantidade:qTxt(x.q,x.u),obs:x.o,nome:nome})});
   var g={total:n,nome:nome},head=fillT(cmGet("head"),g),leg=co?"":fillT(cmGet("leg"),g),foot=fillT(cmGet("foot"),g),sep=co?"":String(cmGet("sep")).trim();
   if(head)out.push(head);
   if(leg)out.push(leg);
@@ -1470,7 +1470,7 @@ function cmForm(){
   openForm("Mensagem do carrinho (WhatsApp)",[
     {k:"head",l:"1) Abertura (primeira linha da mensagem)",t:"area",rows:2,v:cmGet("head")},
     {k:"leg",l:"2) Legenda que aparece acima dos itens: explica o que cada item traz (deixe vazio para não mostrar)",t:"area",rows:8,v:cmGet("leg")},
-    {k:"item",l:"3) Modelo de cada item. Campos: {n} {total} {produto} {codigo} {marca} {descricao} {unidade} {preco} {cartao} {quantidade} {obs}. {preco} e {cartao} vêm do cadastro do produto (preço à vista e preço no cartão). Se um dado estiver vazio (código, marca, descrição, preço, cartão ou observação), a linha que só tem esse dado some sozinha",t:"area",rows:9,v:cmGet("item")},
+    {k:"item",l:"3) Modelo de cada item. Campos: {n} {total} {produto} {codigo} {marca} {descricao} {unidade} {preco} {cartao} {link} {quantidade} {obs}. {preco} e {cartao} vêm do cadastro do produto (preço à vista e preço no cartão); {link} é o endereço do produto no site. Se um dado estiver vazio (código, marca, descrição, preço, cartão ou observação), a linha que só tem esse dado some sozinha",t:"area",rows:9,v:cmGet("item")},
     {k:"sep",l:"4) Linha separadora entre os itens (vazio = sem separador)",v:cmGet("sep")},
     {k:"foot",l:"5) Fechamento. Campos: {total} e {nome} (nome que o cliente digitou)",t:"area",rows:4,v:cmGet("foot")},
     {k:"rst",l:"Voltar tudo ao texto padrão ao salvar?",t:"select",v:"",o:[["","Não, usar o que escrevi acima"],["1","Sim, restaurar o texto padrão (ignora o que escrevi)"]]}

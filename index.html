@@ -2318,14 +2318,24 @@ var RPC=window.RP_CFG||{},SB=null,EXT={"7cdffe24322cfc6bd40d8e20adcf74a3": "jpg"
 function rpImg(x){x=String(x||"");if(/^(https?:|data:|img\/)/.test(x))return x;if(EXT[x])return"img/"+x+"."+EXT[x];return"/_blob/"+x}
 function rpOn(){return!!(RPC.url&&RPC.key&&!window.claude)}
 function rpBase(){return String(RPC.url).replace(/\/+$/,"")}
+/* Economia de tráfego do Supabase (11/11/2026): pergunta só a data da última alteração (updated_at, poucos bytes);
+   se o aparelho já tem a lista dessa mesma data guardada (Cache do navegador), não baixa os ~4 MB de novo. */
+async function rpFetchSite(sig){
+  var H={headers:{apikey:RPC.key},signal:sig,cache:"no-store"},B=rpBase()+"/rest/v1/site?id=eq.1&select=",k=null,cc=null;
+  try{var v=await fetch(B+"updated_at",H);if(v.ok){var vj=await v.json();if(vj&&vj[0]&&vj[0].updated_at)k=B+"data&v="+encodeURIComponent(vj[0].updated_at)}}catch(e){}
+  if(k&&window.caches){try{cc=await caches.open("rp-site-v1");var hit=await cc.match(k);if(hit)return await hit.json()}catch(e){cc=null}}
+  var r=await fetch(B+"data",H);
+  if(!r.ok)return null;
+  if(k&&cc){try{var r2=r.clone();cc.put(k,r2).then(function(){cc.keys().then(function(ks){ks.forEach(function(q){if(q.url!==k)cc.delete(q)})})}).catch(function(){})}catch(e){}}
+  return await r.json();
+}
 async function rpLoad(){
   if(!rpOn())return null;
   try{
     var c=new AbortController(),tm=setTimeout(function(){c.abort()},7000);
-    var r=await fetch(rpBase()+"/rest/v1/site?id=eq.1&select=data",{headers:{apikey:RPC.key},signal:c.signal,cache:"no-store"});
+    var j=await rpFetchSite(c.signal);
     clearTimeout(tm);
-    if(!r.ok)return null;
-    var j=await r.json();
+    if(!j)return null;
     if(j&&j[0]&&j[0].data&&j[0].data.prods){var D=j[0].data;if((D.ver||0)>=(S.ver||0)){var hb={};(D.brands||[]).forEach(function(b){hb[String(b.n).toLowerCase()]=b});(S.brands||[]).forEach(function(b){var o=hb[String(b.n).toLowerCase()];if(!o){(D.brands=D.brands||[]).push(b)}else if(!o.img&&b.img){o.img=b.img}});S=D;return true}var JK=["jj","kjk","ljkl","jkjk","jkujkl","rthjrtj","klhjkl"],nb=(D.brands||[]).filter(function(b){return JK.indexOf(String(b.n))<0}),hv={};nb.forEach(function(b){hv[String(b.n).toLowerCase()]=1});(S.brands||[]).forEach(function(b){var lk=String(b.n).toLowerCase();if(!hv[lk])nb.push(b);else nb.forEach(function(o){if(String(o.n).toLowerCase()===lk&&!o.img&&b.img)o.img=b.img})});D.prods=(typeof rpMerge==="function")?rpMerge(S.prods,D.prods,S.ver,D.del):S.prods;D.brands=nb;D.ver=S.ver;S=D;return false}
     return false;
   }catch(e){return null}

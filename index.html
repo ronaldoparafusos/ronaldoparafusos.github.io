@@ -733,7 +733,7 @@ body.hascp .ctoast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .mscnt .btn{margin-left:4px}
 .msl{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:6px}
 .msr{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid #d3d5d8;border-radius:8px;padding:6px 10px;cursor:pointer;min-width:0}
-.msr.on{border-color:var(--steel);box-shadow:inset 0 0 0 2px var(--steel);background:#eef3ff}
+.msr.on{border-color:var(--steel);box-shadow:inset 0 0 0 2px var(--steel);background:#eef3ff}.msr.on{background:#fff4c2!important;border-color:#f5c400!important;box-shadow:inset 0 0 0 3px #f5c400!important}.msr.on .mst b{color:#1d2024!important}.msr.on .mst small{color:#3a4048!important}.msr.on .lnk2{color:#10215a!important;font-weight:800}.msl{user-select:none;-webkit-user-select:none}.msbox{position:absolute;z-index:80;border:2px solid #f5c400;background:rgba(245,196,0,.18);pointer-events:none;border-radius:4px}.msa .btn[title],.mscnt [title]{cursor:help}.msa .btn{cursor:pointer}.mshelp{font-size:13px;color:var(--muted);margin:0 0 8px}
 .msr input{width:20px;height:20px;flex:none;accent-color:var(--steel)}
 .msi{width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;overflow:hidden;border:1px solid #e3e4e6}
 .msi img{width:100%;height:100%;object-fit:contain}
@@ -1506,14 +1506,14 @@ function massPage(){if(!MS)MS=msNew();var it=msItems(),ns=msSelIds().length,bc={
   h+='<label><span>Categoria</span><select id="msc"><option value="">Todas as categorias</option>'+S.cats.map(function(c){return'<option value="'+esc(c.id)+'"'+(MS.c===c.id?" selected":"")+'>'+esc(c.n)+'</option>'}).join("")+'</select></label>';
   h+='<label><span>Foto</span><select id="msft"><option value="">Com e sem foto</option><option value="sem"'+(MS.ft==="sem"?" selected":"")+'>Sem foto</option><option value="com"'+(MS.ft==="com"?" selected":"")+'>Com foto</option></select></label>';
   h+='<label><span>Outros</span><select id="msnv"><option value="">Todos</option><option value="nov"'+(MS.nv==="nov"?" selected":"")+'>Novidades (último mês)</option><option value="star"'+(MS.nv==="star"?" selected":"")+'>Fixos em Mais vendidos</option><option value="nw"'+(MS.nv==="nw"?" selected":"")+'>Marcados como lançamento</option><option value="desc"'+(MS.nv==="desc"?" selected":"")+'>Descrição curta ou vazia</option></select></label>';
-  h+='<button class="lnk2" type="button" data-ms="clrf">Limpar filtros</button></div>';
-  h+='<div class="mscnt"><b id="msn">'+it.length+'</b>&nbsp;encontrados · <b>'+ns+'</b>&nbsp;selecionados <button class="btn dark sm" type="button" data-ms="all">Selecionar os '+it.length+' encontrados</button>'+(ns?'<button class="lnk2" type="button" data-ms="none">Desmarcar todos</button>':'')+'</div>';
+  h+='<button class="lnk2" type="button" data-ms="clrf" title="Volta todos os filtros ao padrão.">Limpar filtros</button></div>';
+  h+='<div class="mscnt"><b id="msn">'+it.length+'</b>&nbsp;encontrados · <b>'+ns+'</b>&nbsp;selecionados <button class="btn dark sm" type="button" data-ms="all" title="Marca todos os produtos que aparecem com os filtros atuais.">Selecionar os '+it.length+' encontrados</button>'+(ns?'<button class="lnk2" type="button" data-ms="none" title="Desmarca todos os produtos.">Desmarcar todos</button>':'')+'</div><p class="mshelp">Dica: clique e arraste com o botão esquerdo do mouse por cima dos produtos para marcar vários de uma vez (comece num produto já marcado para desmarcar).</p>';
   h+='<div class="msl">'+it.slice(0,MS.lim).map(function(p){var c=catOf(p.c)||{i:"🔩",n:""},on=!!MS.sel[p.id],hf=!!(p.img||(p.gal&&p.gal.length));
-    return'<label class="msr'+(on?" on":"")+'"><input type="checkbox" data-ms="tg" data-id="'+esc(p.id)+'"'+(on?" checked":"")+'><span class="msi">'+(p.img?'<img src="'+esc(rpImg(p.img))+'" alt="" loading="lazy">':catIcon(c))+'</span><span class="mst"><b>'+esc(p.n)+'</b><small>'+(p.brand?esc(p.brand)+' · ':'')+(p.code?'Cód. '+esc(p.code)+' · ':'')+esc(c.n||"")+(hf?'':' · <i>sem foto</i>')+(p.gal&&p.gal.length>1?' · '+p.gal.length+' fotos':'')+'</small></span><button class="lnk2" type="button" data-ms="ed" data-id="'+esc(p.id)+'">Editar</button></label>'}).join("")+'</div>';
+    return'<label class="msr'+(on?" on":"")+'"><input type="checkbox" data-ms="tg" data-id="'+esc(p.id)+'"'+(on?" checked":"")+'><span class="msi">'+(p.img?'<img src="'+esc(rpImg(p.img))+'" alt="" loading="lazy">':catIcon(c))+'</span><span class="mst"><b>'+esc(p.n)+'</b><small>'+(p.brand?esc(p.brand)+' · ':'')+(p.code?'Cód. '+esc(p.code)+' · ':'')+esc(c.n||"")+(hf?'':' · <i>sem foto</i>')+(p.gal&&p.gal.length>1?' · '+p.gal.length+' fotos':'')+'</small></span><button class="lnk2" type="button" data-ms="ed" title="Abre o formulário completo deste produto" data-id="'+esc(p.id)+'">Editar</button></label>'}).join("")+'</div>';
   if(it.length>MS.lim)h+='<p class="frow"><button class="btn dark" type="button" data-ms="more">Mostrar mais ('+(it.length-MS.lim)+' restantes)</button></p>';
   if(!it.length)h+='<p class="note" style="padding:20px 0">Nenhum produto com esses filtros.</p>';
   h+='</div>';
-  h+='<div class="msa"'+(ns?'':' hidden')+'><div class="wrap"><b>'+ns+' selecionado'+(ns>1?'s':'')+'</b><button class="btn sm" type="button" data-ms="foto">Foto</button><button class="btn sm" type="button" data-ms="copia">Copiar foto de outro produto</button><button class="btn dark sm" type="button" data-ms="rmf">Remover fotos</button><button class="btn dark sm" type="button" data-ms="cat">Categoria</button><button class="btn dark sm" type="button" data-ms="mar">Marca</button><button class="btn dark sm" type="button" data-ms="sel">Selos</button><button class="btn dark sm msdel" type="button" data-ms="del">Excluir</button></div></div>';
+  h+='<div class="msa"'+(ns?'':' hidden')+'><div class="wrap"><b>'+ns+' selecionado'+(ns>1?'s':'')+'</b><button class="btn sm" type="button" data-ms="foto" title="Envia uma foto (do computador ou por link da internet) e aplica nos produtos marcados. Você escolhe se ela substitui as fotos, vira a principal, entra no fim ou só vai nos que estão sem foto.">Foto</button><button class="btn sm" type="button" data-ms="copia" title="Pega a foto de um produto que já tem foto (pelo código ou nome) e copia para os produtos marcados.">Copiar foto de outro produto</button><button class="btn dark sm" type="button" data-ms="rmf" title="Apaga todas as fotos dos produtos marcados.">Remover fotos</button><button class="btn dark sm" type="button" data-ms="cat" title="Muda a categoria de todos os produtos marcados de uma vez.">Categoria</button><button class="btn dark sm" type="button" data-ms="mar" title="Muda a marca de todos os produtos marcados de uma vez.">Marca</button><button class="btn dark sm" type="button" data-ms="sel" title="Coloca ou tira os selos dos produtos marcados: fixar em “Mais vendidos” e selo de lançamento.">Selos</button><button class="btn dark sm msdel" type="button" data-ms="del" title="Exclui do catálogo os produtos marcados. Pede para digitar EXCLUIR antes de apagar.">Excluir</button></div></div>';
   return h+'</div>'}
 var msT=null;
 function massBind(){var r=$("ms");if(!r)return;
@@ -1526,7 +1526,20 @@ function massBind(){var r=$("ms");if(!r)return;
     else if(k==="more"){MS.lim+=200;render()}
     else if(k==="clrf"){var s=MS.sel;MS=msNew();MS.sel=s;render()}
     else if(k==="ed")prodForm(b.getAttribute("data-id"));
-    else msAction(k)})}
+    else msAction(k)});
+  var ml=r.querySelector(".msl");if(ml)ml.addEventListener("mousedown",function(e){if(e.button!==0||e.target.closest("input,button,a,select,textarea"))return;
+    var sx=e.pageX,sy=e.pageY,box=null,moved=false,hit={},r0=e.target.closest(".msr"),c0=r0&&r0.querySelector('[data-ms="tg"]'),mode=c0?!MS.sel[c0.getAttribute("data-id")]:true,lx=e.clientX,ly=e.clientY,tm=null;
+    function paint(){var px=lx+window.scrollX,py=ly+window.scrollY,x1=Math.min(sx,px),y1=Math.min(sy,py),x2=Math.max(sx,px),y2=Math.max(sy,py);
+      box.style.left=x1+"px";box.style.top=y1+"px";box.style.width=(x2-x1)+"px";box.style.height=(y2-y1)+"px";
+      ml.querySelectorAll(".msr").forEach(function(el){var b=el.getBoundingClientRect(),bx1=b.left+window.scrollX,by1=b.top+window.scrollY,cb=el.querySelector('[data-ms="tg"]'),id=cb.getAttribute("data-id"),ins=bx1<x2&&bx1+b.width>x1&&by1<y2&&by1+b.height>y1;
+        if(ins){hit[id]=1;el.classList.toggle("on",mode);cb.checked=mode}else if(hit[id]){delete hit[id];el.classList.toggle("on",!!MS.sel[id]);cb.checked=!!MS.sel[id]}})}
+    function mv(ev){lx=ev.clientX;ly=ev.clientY;if(!moved&&Math.abs(ev.pageX-sx)+Math.abs(ev.pageY-sy)<8)return;ev.preventDefault();
+      if(!moved){moved=true;box=document.createElement("div");box.className="msbox";document.body.appendChild(box);tm=setInterval(function(){var h=window.innerHeight;if(ly>h-50){window.scrollBy(0,18);paint()}else if(ly<50){window.scrollBy(0,-18);paint()}},30)}
+      paint()}
+    function up(){document.removeEventListener("mousemove",mv);document.removeEventListener("mouseup",up);clearInterval(tm);if(box)box.remove();
+      if(moved){Object.keys(hit).forEach(function(id){if(mode)MS.sel[id]=1;else delete MS.sel[id]});var sup=function(ce){ce.preventDefault();ce.stopPropagation()};document.addEventListener("click",sup,true);setTimeout(function(){document.removeEventListener("click",sup,true)},60);msRefresh()}}
+    document.addEventListener("mousemove",mv);document.addEventListener("mouseup",up)});
+}
 function msRefresh(){var y=window.scrollY;render();window.scrollTo(0,y)}
 function msSel(){return S.prods.filter(function(p){return MS.sel[p.id]})}
 function msDone(n,txt){var y=window.scrollY;setTimeout(function(){window.scrollTo(0,y);try{cToast(n+" produto"+(n>1?"s":"")+" "+txt)}catch(e){}},30)}

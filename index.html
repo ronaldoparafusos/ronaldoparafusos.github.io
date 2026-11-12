@@ -1108,7 +1108,7 @@ var BOLT='<svg class="bolt" viewBox="0 0 200 420" role="img" aria-label="Ilustra
 if(!S.banners)S.banners=[{t:"Parafusos e ferragens para obra e oficina",d:"Do parafuso ao chumbador: peça seu orçamento.",l:"p",img:""},{t:"Ferramentas e equipamentos",d:"Chaves, furadeiras, esmerilhadeiras e acessórios.",l:"t",img:""},{t:"Proteção para sua equipe",d:"Luvas, óculos, capacetes e botas de segurança.",l:"s",img:""},{t:"Conserto e peças de motosserra",d:"Correntes, sabres e revisão.",l:"mo",img:""}];
 if(!S.brands)S.brands=["Bosch","Tork","Toyama","Berliner","Kärcher"];
 function showBn(i){var n=document.querySelectorAll("#bn .sl").length||(S.banners||[]).length;if(!n)return;bi=(i+n)%n;var sl=document.querySelectorAll("#bn .sl"),ds=document.querySelectorAll("#bn .dots button"),k;for(k=0;k<sl.length;k++)sl[k].classList.toggle("on",k===bi);for(k=0;k<ds.length;k++){if(k===bi)ds[k].setAttribute("aria-current","true");else ds[k].removeAttribute("aria-current")}}
-function startBn(){clearInterval(bt);var b=$("bn");if(!b||document.querySelectorAll("#bn .sl").length<2||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;b.addEventListener("mouseenter",function(){bpause=true});b.addEventListener("mouseleave",function(){bpause=false});b.addEventListener("focusin",function(){bpause=true});b.addEventListener("focusout",function(){bpause=false});bt=setInterval(function(){if(!bpause&&!document.hidden)showBn(bi+1)},5500)}
+function startBn(){clearInterval(bt);var b=$("bn");if(!b||document.querySelectorAll("#bn .sl").length<2||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;b.addEventListener("mouseenter",function(){bpause=true});b.addEventListener("mouseleave",function(){bpause=false});b.addEventListener("focusin",function(){bpause=true});b.addEventListener("focusout",function(){bpause=false});BNI=-1;bt=setInterval(bnTick,250)}
 function home(){
   var B=(typeof novBanners==="function"?novBanners():[]).concat(S.banners||[]),n=B.length,h="";
   if(bi>=n)bi=0;
@@ -1795,16 +1795,16 @@ function novFit(){var g=$("nvgrid");if(!g)return;var cs=getComputedStyle(g).grid
 window.addEventListener("resize",function(){clearTimeout(novFit.t);novFit.t=setTimeout(novFit,150)});
 new MutationObserver(function(){if($("nvgrid")&&!$("nvgrid").dataset.fit){$("nvgrid").dataset.fit=1;NVR=2;novFit()}}).observe(document.getElementById("root"),{childList:true});
 /* Destaques: produto real da categoria do destaque, trocado a cada dia (horário de Brasília) */
-function bnPick(b){var c=b&&b.l;if(!c||!catOf(c))return null;var day=Math.floor((Date.now()-3*36e5)/(864e5*15)),a=S.prods.filter(function(p){return p.c===c&&p.img&&String(p.d||"").length>30});if(!a.length)a=S.prods.filter(function(p){return p.c===c&&p.img});if(!a.length)return null;
+function bnPick(b){var c=b&&b.l;if(!c||!catOf(c))return null;var day=Math.floor((Date.now()-3*36e5)/864e5),a=S.prods.filter(function(p){return p.c===c&&p.img&&String(p.d||"").length>30});if(!a.length)a=S.prods.filter(function(p){return p.c===c&&p.img});if(!a.length)return null;
   a.sort(function(x,y){return x.id<y.id?-1:1});var h=0,s=c+day;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return a[(Math.abs(h)+day*7919)%a.length]}
 function bnPickH(p){return'<button class="bnp" type="button" data-act="bgo" data-id="p:'+esc(p.id)+'" aria-label="Ver '+esc(p.n)+'"><span class="bnpi"><img src="'+esc(rpImg(p.img))+'" alt="'+esc(p.n)+'" loading="lazy"></span><span class="bnpt"><small>Destaque do dia</small><b>'+esc(p.n)+'</b>'+(p.brand?'<em>'+esc(p.brand)+'</em>':'')+'<i>Ver produto ›</i></span></button>'}
-/* Destaques fixos: 6 produtos reais da categoria a cada 15 dias, 3 de cada vez, alternando sozinhos */
-function bnPicks(b,n){var c=b&&b.l;if(!c||!catOf(c))return[];var day=Math.floor((Date.now()-3*36e5)/(864e5*15)),a=S.prods.filter(function(p){return p.c===c&&p.img&&String(p.d||"").length>30});if(a.length<n)a=S.prods.filter(function(p){return p.c===c&&p.img});if(!a.length)return[];
+/* Destaques fixos: 6 produtos reais da categoria por dia, 3 de cada vez, alternando sozinhos */
+function bnPicks(b,n){var c=b&&b.l;if(!c||!catOf(c))return[];var day=Math.floor((Date.now()-3*36e5)/864e5),a=S.prods.filter(function(p){return p.c===c&&p.img&&String(p.d||"").length>30});if(a.length<n)a=S.prods.filter(function(p){return p.c===c&&p.img});if(!a.length)return[];
   a.sort(function(x,y){return x.id<y.id?-1:1});var h=0,s=c+day;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;var st=(Math.abs(h)+day*7919)%a.length,step=Math.max(1,Math.floor(a.length/n)),out=[];
   for(var j=0;j<a.length&&out.length<n;j++){var q=a[(st+j*step+Math.floor(j*step/a.length))%a.length];if(out.indexOf(q)<0)out.push(q)}return out}
 function bnPicksH(b){var a=bnPicks(b,6);if(!a.length)return"";var g=[a.slice(0,3),a.slice(3,6)].filter(function(x){return x.length});
-  return'<div class="bnps"><small class="bnpl">Em destaque</small><div class="bnpw">'+g.map(function(x,i){return'<div class="bnpg'+(i?"":" on")+'">'+x.map(function(p){return'<button class="bnm" type="button" data-act="bgo" data-id="p:'+esc(p.id)+'" aria-label="Ver '+esc(p.n)+'"><span class="bnmi"><img src="'+esc(rpImg(p.img))+'" alt="'+esc(p.n)+'" loading="lazy"></span><b>'+esc(p.n)+'</b><i>Ver ›</i></button>'}).join("")+'</div>'}).join("")+'</div></div>'}
-var BNPT=setInterval(function(){if(document.hidden)return;var w=document.querySelector("#bn .sl.on .bnps");if(!w||w.matches(":hover"))return;var g=w.querySelectorAll(".bnpg");if(g.length<2)return;var k=0;g.forEach(function(x,i){if(x.classList.contains("on"))k=i});g[k].classList.remove("on");g[(k+1)%g.length].classList.add("on")},4000);
+  return'<div class="bnps"><small class="bnpl">Destaques do dia</small><div class="bnpw">'+g.map(function(x,i){return'<div class="bnpg'+(i?"":" on")+'">'+x.map(function(p){return'<button class="bnm" type="button" data-act="bgo" data-id="p:'+esc(p.id)+'" aria-label="Ver '+esc(p.n)+'"><span class="bnmi"><img src="'+esc(rpImg(p.img))+'" alt="'+esc(p.n)+'" loading="lazy"></span><b>'+esc(p.n)+'</b><i>Ver ›</i></button>'}).join("")+'</div>'}).join("")+'</div></div>'}
+/* troca dos 3 produtos agora é feita por bnTick (aos 4,5 s de cada destaque fixo) */
 /* Destaques: arrastar para o lado no celular troca o slide */
 function bnSwipe(){var x0=null,y0=0,t0=0;
   document.addEventListener("touchstart",function(e){var b=e.target.closest&&e.target.closest("#bn");if(!b||e.touches.length!==1){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now()},{passive:true});
@@ -1812,6 +1812,13 @@ function bnSwipe(){var x0=null,y0=0,t0=0;
     if(Math.abs(dx)<40||Math.abs(dx)<Math.abs(dy)*1.2||Date.now()-t0>900)return;
     var n=document.querySelectorAll("#bn .sl").length;if(n<2)return;showBn((bi+(dx<0?1:-1)+n)%n);if(typeof startBn==="function")startBn()},{passive:true})}
 bnSwipe();
+/* Tempo dos Destaques: slide de novidade 5,5 s; destaque fixo 9 s, trocando os 3 produtos aos 4,5 s */
+var BNS=Date.now(),BNI=-1,BN_T={nov:5500,fixo:9000,troca:4500};
+function bnTick(){var now=Date.now();if(BNI!==bi){BNI=bi;BNS=now;var g0=document.querySelectorAll("#bn .sl.on .bnpg");g0.forEach(function(x,i){x.classList.toggle("on",i===0)})}
+  if(bpause||document.hidden){BNS+=250;return}
+  var sl=document.querySelector("#bn .sl.on");if(!sl)return;var w=sl.querySelector(".bnps"),el=now-BNS;
+  if(w){var g=w.querySelectorAll(".bnpg");if(g.length>1&&el>=BN_T.troca&&g[0].classList.contains("on")){g[0].classList.remove("on");g[1].classList.add("on")}}
+  if(el>=(w?BN_T.fixo:BN_T.nov))showBn(bi+1)}
 var WM_DEFAULT="Olá! Gostaria de um orçamento deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
 var WM_ORDER="Olá! Gostaria de fazer um pedido deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
 function hasP(p){return !!String(p.p==null?"":p.p).trim()}

@@ -64,6 +64,7 @@ O dono pediu que isso não aconteça mais.
 - Endereço oficial: **https://ronaldoparafusos.com.br** (registrado no Registro.br, no CNPJ da loja). O antigo `ronaldoparafusos.github.io` redireciona sozinho.
 - Arquivo `CNAME` na raiz com `ronaldoparafusos.com.br`: **nunca apagar nem alterar** (sem ele o site volta para o endereço antigo).
 - DNS no Registro.br (modo avançado): 4 registros A (185.199.108.153, .109, .110, .111) e CNAME `www` → `ronaldoparafusos.github.io`. Não mexer.
+- Domínio extra **ronaldoparafusos.com** (Hostinger, conta do dono, vence ~12/11/2027, renovação R$ 94,99): só redireciona (301) para https://ronaldoparafusos.com.br, configurado em hPanel → DNS → Redirecionamentos. Não precisa de nada neste repositório; não adicionar ao CNAME.
 - Links absolutos (canonical, og:url, og:image, JSON-LD, sitemap.xml, robots.txt, termos.html) usam o domínio novo. Ao criar página ou link absoluto novo, use `https://ronaldoparafusos.com.br`.
 
 ## Revisão de marcas, títulos e nomes populares (12/11/2026, Lotes 33-35)

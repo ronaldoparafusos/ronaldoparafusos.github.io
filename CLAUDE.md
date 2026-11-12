@@ -78,6 +78,12 @@ O dono pediu que isso não aconteça mais.
 - Categoria `cp` "Caça e pesca" (ícone `ICONS.peixe`): anzóis, linhas, molinetes, carretilhas, varas, iscas, viveiro e chapéu de pescador. Marcas conferidas (Albatroz = linha Kara/Sammy; Maruri; Taue; Pinnacle; Marine Sports). Categoria nova precisa ir também para `data->cats` da tabela `site` (o lote não leva categorias).
 - O dono pediu para tirar do site: bebidas, higiene pessoal, combustíveis (diesel, gasolina, etanol, Arla), jet ski, camisetas, itens de escritório e informática, cadeiras, bicicletas, cooktop e fogão. Estão em `del` no Supabase; não recadastrar.
 
+## Fotos das varas e linha Platinum (12/11/2026, Lotes 38-40)
+
+- Na página do produto a galeria é `gal` inteira (a 1ª foto é a grande); `img` é a capa da lista. Ao trocar a foto principal, coloque a nova também como 1ª de `gal` e não repita a mesma foto em tamanhos diferentes (-p e -1).
+- Fotos novas das varas (vara inteira à mostra, sem marca d'água de outra loja): `img/rp-<código>-v.webp` (800 px). Não voltar para as fotos com zoom só no rótulo nem para fotos de outro modelo (ex.: Kara 1802 em vara de 1,35 m).
+- Linhas "Platinum" = Ottoni Platinum XT (monofilamento, 100 m; nº 30 = 0,30 mm), marca Ottoni.
+
 ## Nunca apague nem altere sem pedido do dono
 
 `google1c91dc630ad29760.html`, `CNAME`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`

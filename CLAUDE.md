@@ -15,10 +15,21 @@ O dono pediu que isso não aconteça mais.
    Aumente o `ver` (Date.now()) para o site saber que há dados novos.
 3. **Antes do commit, confira** que o `index.html` ainda contém:
    `function tvH`, `function catBar`, `function kcContact`, `function waFab`, `function legalFoot`,
-   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
+   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
    Se algum sumiu, você partiu de uma cópia antiga: pare e refaça a partir do passo 1.
 4. Rode `git diff --stat` e confira que só mudou o que você pretendia.
 5. Se o `git push` for recusado porque o repositório mudou, baixe de novo e reaplique só a sua mudança.
+
+## Toda mudança gera uma regra (pedido do dono, 12/11/2026)
+
+- **Cada alteração no site (função nova, mudança de layout, comportamento, arquivo novo) deve virar uma regra curta**
+  aqui neste CLAUDE.md e/ou no doc do Projeto ("claude/regras-do-site.md", "claude/desempenho-do-site.md", "claude/backups-do-site.md"):
+  o que foi feito, nome da função/arquivo, e o que não pode ser desfeito. Função nova importante entra na lista de conferência do passo 3.
+- **Faça tudo otimizado e funcional:** código enxuto, sem duplicar funções, imagens leves, sem baixar dados à toa
+  (a lista de produtos só é baixada do Supabase quando muda: `rpFetchSite`, ver "claude/desempenho-do-site.md"), testar no site publicado antes de avisar o dono.
+- **Não abuse da memória:** registre só o essencial, em poucas linhas; detalhes ficam nos docs do Projeto e neste arquivo, não repetidos em vários lugares.
+- Toda gravação na tabela `site` do Supabase precisa atualizar `updated_at` (senão os aparelhos continuam com a lista antiga).
+- O backup diário (repositório privado `ronaldoparafusos/backups`) copia este repositório inteiro automaticamente; não precisa fazer nada, mas não quebre o site com arquivos enormes (limite do GitHub Pages: 1 GB).
 
 ## Fotos e vídeos (plano grátis)
 

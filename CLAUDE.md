@@ -49,7 +49,7 @@ O dono pediu que isso não aconteça mais.
 
 - `history.scrollRestoration="manual"` + `scrollTo(0,0)` no carregamento: ao recarregar (inclusive puxando a tela no celular) o site começa do topo.
   Antes, o navegador devolvia a rolagem antes de a lista carregar e os Destaques apareciam cortados. Ao voltar para a página inicial, `route()` devolve a rolagem salva em `HOMEY`. Não remover.
-- `topLock()` (12/11/2026): o Chrome do iPhone ignora o "manual" e devolve a rolagem antiga depois de carregar; nos primeiros 4 s, se a página rolar sozinha sem o cliente tocar, volta ao topo. Não remover.
+- `topLock()` (12/11/2026): o Chrome do iPhone ignora o "manual" e devolve a rolagem antiga depois de carregar; nos primeiros 4 s, se a página rolar sozinha sem o cliente tocar, volta ao topo. Não remover. Como o CSS tem `scroll-behavior:smooth`, as voltas ao topo usam `toY()` (rolagem "instant"); não trocar por `scrollTo(0,0)`, que fica animado e é interrompido.
 
 ## Avisos de erro (12/11/2026)
 

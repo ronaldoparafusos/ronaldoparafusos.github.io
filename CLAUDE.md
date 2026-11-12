@@ -45,6 +45,11 @@ O dono pediu que isso não aconteça mais.
   Se o horário mudar, atualize `HRS` e o JSON-LD do `<head>`.
 - O botão "Avaliar no Google" usa `GREV_DEF` = link oficial `search.google.com/local/writereview?placeid=ChIJfRbYfmhZJ5MR5rC_iRDb6g8` (Place ID da loja; abre direto a avaliação no celular e no computador). Se o dono colar outro link no campo de avaliação do painel (`S.s.grev`), vale o dele.
 
+## Rolagem ao recarregar (12/11/2026)
+
+- `history.scrollRestoration="manual"` + `scrollTo(0,0)` no carregamento: ao recarregar (inclusive puxando a tela no celular) o site começa do topo.
+  Antes, o navegador devolvia a rolagem antes de a lista carregar e os Destaques apareciam cortados. Ao voltar para a página inicial, `route()` devolve a rolagem salva em `HOMEY`. Não remover.
+
 ## Nunca apague nem altere sem pedido do dono
 
 `google1c91dc630ad29760.html`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`

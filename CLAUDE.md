@@ -73,6 +73,11 @@ O dono pediu que isso não aconteça mais.
 - Descrição termina com "Também conhecido como: ..." (nomes do dia a dia para a busca achar, ex.: enforca-gato). Não repetir o que já está no nome/descrição.
 - Lote que só corrige texto não pode virar "Novidade": usar `up` = up atual do Supabase + 1 nos itens alterados (o `rpMerge` só mantém o `up` do lote se for maior). Itens com `et` (editados no painel) não aceitam lote: corrigir direto na tabela `site` (SQL) e atualizar `updated_at`.
 
+## Categoria "Caça e pesca" e itens retirados (12/11/2026)
+
+- Categoria `cp` "Caça e pesca" (ícone `ICONS.peixe`): anzóis, linhas, molinetes, carretilhas, varas, iscas, viveiro e chapéu de pescador. Marcas conferidas (Albatroz = linha Kara/Sammy; Maruri; Taue; Pinnacle; Marine Sports). Categoria nova precisa ir também para `data->cats` da tabela `site` (o lote não leva categorias).
+- O dono pediu para tirar do site: bebidas, higiene pessoal, combustíveis (diesel, gasolina, etanol, Arla), jet ski, camisetas, itens de escritório e informática, cadeiras, bicicletas, cooktop e fogão. Estão em `del` no Supabase; não recadastrar.
+
 ## Nunca apague nem altere sem pedido do dono
 
 `google1c91dc630ad29760.html`, `CNAME`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`

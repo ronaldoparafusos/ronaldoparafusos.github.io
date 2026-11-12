@@ -66,6 +66,13 @@ O dono pediu que isso não aconteça mais.
 - DNS no Registro.br (modo avançado): 4 registros A (185.199.108.153, .109, .110, .111) e CNAME `www` → `ronaldoparafusos.github.io`. Não mexer.
 - Links absolutos (canonical, og:url, og:image, JSON-LD, sitemap.xml, robots.txt, termos.html) usam o domínio novo. Ao criar página ou link absoluto novo, use `https://ronaldoparafusos.com.br`.
 
+## Revisão de marcas, títulos e nomes populares (12/11/2026, Lotes 33-35)
+
+- Marcas: "marcas" que eram nome de produto (Carburador, Retentor, Filtro Ar, Intercooler...) ficaram sem marca; Flach só fica em carregadores/eletrônicos (niples e válvulas de pé sem marca até o dono informar). Não voltar.
+- Títulos: padrão "4,8 x 350 mm" (com espaço e unidade), polegadas "1.1/2"", acentos, sem marca repetida no fim. Abraçadeiras: nylon = "Abraçadeira de Nylon Preta 4,8 mm x 300 mm" (largura x comprimento) e a descrição explica em cm; rosca sem fim = "Abraçadeira Rosca Sem Fim 9 mm para 13 a 19 mm (1/2" a 3/4")".
+- Descrição termina com "Também conhecido como: ..." (nomes do dia a dia para a busca achar, ex.: enforca-gato). Não repetir o que já está no nome/descrição.
+- Lote que só corrige texto não pode virar "Novidade": usar `up` = up atual do Supabase + 1 nos itens alterados (o `rpMerge` só mantém o `up` do lote se for maior). Itens com `et` (editados no painel) não aceitam lote: corrigir direto na tabela `site` (SQL) e atualizar `updated_at`.
+
 ## Nunca apague nem altere sem pedido do dono
 
 `google1c91dc630ad29760.html`, `CNAME`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`

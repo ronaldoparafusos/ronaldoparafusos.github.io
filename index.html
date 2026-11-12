@@ -2505,17 +2505,18 @@ try{if("scrollRestoration" in history)history.scrollRestoration="manual"}catch(e
    Chrome no iPhone (12/11/2026): mesmo com "manual", ele devolve a rolagem antiga depois que a página cresce.
    topLock: nos primeiros 4 s, se a página rolar sozinha (sem o cliente tocar, rolar ou teclar), volta ao topo. Não vale para links com âncora (#contato). */
 function toY(y){try{window.scrollTo({top:y,left:0,behavior:"instant"})}catch(e){window.scrollTo(0,y)}}
-function topLock(){var t0=Date.now(),u=false,ev=["touchstart","wheel","keydown","mousedown"];
+function topLock(){var until=Date.now()+4000,u=false,ev=["touchstart","wheel","keydown","mousedown"];
   function mark(){u=true;ev.forEach(function(e){removeEventListener(e,mark,true)})}
   ev.forEach(function(e){addEventListener(e,mark,{capture:true,passive:true})});
-  function fix(){if(u||Date.now()-t0>4000)return;var h=location.hash.slice(1);if(h&&h!=="inicio"&&document.getElementById(h))return;if(window.scrollY>0)toY(0)}
-  addEventListener("scroll",fix,{passive:true});addEventListener("load",function(){fix();setTimeout(fix,60);setTimeout(fix,400)});addEventListener("pageshow",fix)}
+  function fix(){if(u||Date.now()>until)return;var h=location.hash.slice(1);if(h&&h!=="inicio"&&document.getElementById(h))return;if(window.scrollY>0)toY(0)}
+  topLock.renew=function(){until=Math.max(until,Date.now()+2500);fix()};
+  addEventListener("scroll",fix,{passive:true});addEventListener("load",function(){topLock.renew();setTimeout(fix,60);setTimeout(fix,400)});addEventListener("pageshow",fix)}
 topLock();
 cLoad();window.addEventListener("hashchange",route);
 (async function(){
   var loaded=await rpLoad();
   route();
-  if(!location.hash||location.hash==="#"||location.hash==="#inicio")toY(0);
+  if(!location.hash||location.hash==="#"||location.hash==="#inicio")toY(0);if(topLock.renew)topLock.renew();
   if(typeof orcLoad==="function")orcLoad();
   if(window.claude){
     try{var u=await claude.use("user");canEdit=!!(u&&((u.isOwner&&u.isOwner())||(u.canEdit&&u.canEdit())))}catch(e){}

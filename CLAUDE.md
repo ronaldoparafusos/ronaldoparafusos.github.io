@@ -58,9 +58,16 @@ O dono pediu que isso não aconteça mais.
 - Uma tarefa programada diária consulta `avisos_novos` e avisa o dono no celular; ele liga o computador e libera a correção. **Não corrigir avisos sem a liberação do dono.**
 - Termos: cláusula 13.4.1. Não remover essas funções.
 
+## Domínio próprio (12/11/2026, pedido do dono)
+
+- Endereço oficial: **https://ronaldoparafusos.com.br** (registrado no Registro.br, no CNPJ da loja). O antigo `ronaldoparafusos.github.io` redireciona sozinho.
+- Arquivo `CNAME` na raiz com `ronaldoparafusos.com.br`: **nunca apagar nem alterar** (sem ele o site volta para o endereço antigo).
+- DNS no Registro.br (modo avançado): 4 registros A (185.199.108.153, .109, .110, .111) e CNAME `www` → `ronaldoparafusos.github.io`. Não mexer.
+- Links absolutos (canonical, og:url, og:image, JSON-LD, sitemap.xml, robots.txt, termos.html) usam o domínio novo. Ao criar página ou link absoluto novo, use `https://ronaldoparafusos.com.br`.
+
 ## Nunca apague nem altere sem pedido do dono
 
-`google1c91dc630ad29760.html`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`
+`google1c91dc630ad29760.html`, `CNAME`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`
 e a imagem `img/og-ronaldo-parafusos-v5.jpg`.
 
 ## Avise o dono

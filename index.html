@@ -2501,6 +2501,14 @@ async function rpAdmin(loaded){
 }
 /* Página recarregada (inclusive puxando a tela para baixo no celular): o site começa do topo, sem o navegador tentar devolver a rolagem antes de a página carregar */
 try{if("scrollRestoration" in history)history.scrollRestoration="manual"}catch(e){}
+/* Chrome no iPhone (12/11/2026): mesmo com "manual", ele devolve a rolagem antiga depois que a página cresce.
+   topLock: nos primeiros 4 s, se a página rolar sozinha (sem o cliente tocar, rolar ou teclar), volta ao topo. Não vale para links com âncora (#contato). */
+function topLock(){var t0=Date.now(),u=false,ev=["touchstart","wheel","keydown","mousedown"];
+  function mark(){u=true;ev.forEach(function(e){removeEventListener(e,mark,true)})}
+  ev.forEach(function(e){addEventListener(e,mark,{capture:true,passive:true})});
+  function fix(){if(u||Date.now()-t0>4000)return;var h=location.hash.slice(1);if(h&&h!=="inicio"&&document.getElementById(h))return;if(window.scrollY>0)window.scrollTo(0,0)}
+  addEventListener("scroll",fix,{passive:true});addEventListener("load",function(){fix();setTimeout(fix,60);setTimeout(fix,400)});addEventListener("pageshow",fix)}
+topLock();
 cLoad();window.addEventListener("hashchange",route);
 (async function(){
   var loaded=await rpLoad();

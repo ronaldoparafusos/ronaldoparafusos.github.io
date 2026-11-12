@@ -86,6 +86,15 @@ O dono pediu que isso não aconteça mais.
 - Fotos novas das varas (vara inteira à mostra, sem marca d'água de outra loja): `img/rp-<código>-v.webp` (800 px). Não voltar para as fotos com zoom só no rótulo nem para fotos de outro modelo (ex.: Kara 1802 em vara de 1,35 m).
 - Linhas "Platinum" = Ottoni Platinum XT (monofilamento, 100 m; nº 30 = 0,30 mm), marca Ottoni.
 
+## Celular, títulos, Google e logos das marcas (12/11/2026, Lotes 41-42)
+
+- Celular (até 760 px): o botão de categorias mostra só o ☰ (texto "Categorias" fica escondido por CSS, `.kcbl`), e no lugar dos atalhos da barra azul aparece a logo com o nome (`.kclg`, usa `S.s.lg.hm` em fundo branco). A barra fica fixa ao rolar (header sticky). Não voltar.
+- Botões "Ver todas as marcas" e "Ver todas as novidades" não mostram número. Títulos dos cartões em até 4 linhas (`.sc h3`), destaques 3.
+- Google: favicon da loja (`favicon.ico`, `favicon-48/192/512.png`, `apple-touch-icon.png`) no lugar do emoji 🔩; JSON-LD `logo` = `favicon-512.png` e `WebSite` com o nome. Não apagar esses arquivos.
+- Páginas para o Google: `categoria/<nome>/` e `marca/<nome>/` (HTML simples com a lista de produtos e links para `/#p-<id>`), geradas por `python3 ferramentas/paginas_google.py`, que também refaz o `sitemap.xml`. **Rodar de novo depois de cada lote** (nomes, categorias ou marcas novas).
+- Logos das marcas: `img/logos/<slug>.webp` no campo `img` de `brands` do JSON (o `rpFetchSite` copia para as marcas do Supabase que estão sem logo). Marcas de nome duvidoso ficaram sem logo de propósito.
+- Nomes: sem abreviações (AC = aço carbono, MA = rosca métrica, MB = rosca métrica fina, ET = enegrecido temperado, cód. = código, SOQ = soquete etc.) e com acentos. Produtos com nome igual levam "(referência X)" e, se a referência também for igual, "código" interno.
+
 ## Nunca apague nem altere sem pedido do dono
 
 `google1c91dc630ad29760.html`, `CNAME`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`

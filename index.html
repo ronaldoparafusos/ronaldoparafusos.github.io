@@ -1039,7 +1039,7 @@ header .kcb .wrap{gap:6px;padding-left:12px;padding-right:0}
 .avxo{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:12px}
 .avxc{background:#fff;color:#1d2024;border-radius:12px;max-width:520px;width:100%;max-height:92vh;overflow:auto;padding:18px 18px 14px;box-shadow:0 10px 40px rgba(0,0,0,.35);font:15px/1.4 Barlow,sans-serif}
 .avxc.lg{max-width:860px}.avxc h3{margin:0 0 4px;font:800 22px "Barlow Condensed",sans-serif}.avxc .avxs{margin:0 0 10px;font-size:13px;color:#555}
-.avxc label.avxo2{display:flex;gap:8px;align-items:center;padding:7px 4px;border-bottom:1px solid #eee;cursor:pointer}
+.avxc label.avxo2{display:flex;gap:10px;align-items:center;justify-content:flex-start;text-align:left;padding:8px 4px;border-bottom:1px solid #eee;cursor:pointer;font-weight:600}.avxc label.avxo2 input{width:18px!important;height:18px;flex:0 0 18px;margin:0;padding:0;accent-color:#1d2024}.avxc label.avxo2 span{flex:1}
 .avxc textarea,.avxc input[type=text]{width:100%;box-sizing:border-box;border:1px solid #bbb;border-radius:8px;padding:8px;font:inherit;margin-top:8px}
 .avxc .avxb{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
 .avxc .avxh{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
@@ -1848,7 +1848,7 @@ function avLim(add){var k="rp_av_"+new Date().toISOString().slice(0,10),n=0;try{
 function repLink(id){return'<p class="avxl"><button type="button" data-act="rep" data-id="'+esc(id)+'">⚠ Encontrou algum erro neste produto? Avise a gente</button></p>'}
 function repOpen(pid){var p=pid?prodById(pid):null,t=AV_TIP[p?"p":"s"];
   var o=avShow('<h3>'+(p?"Reportar erro no produto":"Reportar problema no site")+'</h3><p class="avxs">'+(p?esc(p.n):"Conte o que não funcionou. Isso ajuda a gente a corrigir rápido.")+'</p>'+
-  t.map(function(x,i){return'<label class="avxo2"><input type="radio" name="avt" value="'+esc(x)+'"'+(i?"":" checked")+'> '+esc(x)+'</label>'}).join("")+
+  t.map(function(x,i){return'<label class="avxo2"><input type="radio" name="avt" value="'+esc(x)+'"'+(i?"":" checked")+'><span>'+esc(x)+'</span></label>'}).join("")+
   '<textarea id="avm" rows="3" maxlength="500" placeholder="Descreva o erro (opcional)"></textarea>'+
   '<input type="text" id="avc" maxlength="80" placeholder="Seu nome ou telefone (opcional, só se quiser resposta)">'+
   '<input type="text" id="avw" class="avxh" tabindex="-1" autocomplete="off" aria-hidden="true">'+

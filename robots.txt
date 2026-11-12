@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://ronaldoparafusos.github.io/sitemap.xml
+Sitemap: https://ronaldoparafusos.com.br/sitemap.xml

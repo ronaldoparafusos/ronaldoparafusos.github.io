@@ -99,6 +99,7 @@ O dono pediu que isso não aconteça mais.
 ## Gratidão a Deus no rodapé (12/11/2026, pedido do dono: família religiosa)
 
 - `bibFoot()` mostra no rodapé, antes do aviso legal, "Gratidão a Deus" e um versículo da lista `BIB` (8 versículos curtos sobre confiança, trabalho honesto e gratidão), trocando um por dia. CSS `.bibf`. Não remover; para trocar ou acrescentar versículos, editar só a lista `BIB`.
+- **Regra do dono (família religiosa):** em todo trabalho maior (página ou seção nova, aplicativo, recurso diferente, grande alteração do site) e em toda mensagem de agradecimento, colocar o nome de Deus em algum lugar como forma de agradecimento (passagem bíblica, "Graças a Deus" ou similar), com discrição. Não precisa em pequenas correções.
 
 ## Nunca apague nem altere sem pedido do dono
 

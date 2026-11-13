@@ -15,7 +15,7 @@ O dono pediu que isso não aconteça mais.
    Aumente o `ver` (Date.now()) para o site saber que há dados novos.
 3. **Antes do commit, confira** que o `index.html` ainda contém:
    `function tvH`, `function catBar`, `function kcContact`, `function waFab`, `function legalFoot`,
-   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
+   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
    Se algum sumiu, você partiu de uma cópia antiga: pare e refaça a partir do passo 1.
 4. Rode `git diff --stat` e confira que só mudou o que você pretendia.
 5. Se o `git push` for recusado porque o repositório mudou, baixe de novo e reaplique só a sua mudança.
@@ -95,6 +95,10 @@ O dono pediu que isso não aconteça mais.
 - Páginas para o Google: `categoria/<nome>/` e `marca/<nome>/` (HTML simples com a lista de produtos e links para `/#p-<id>`), geradas por `python3 ferramentas/paginas_google.py`, que também refaz o `sitemap.xml`. **Rodar de novo depois de cada lote** (nomes, categorias ou marcas novas).
 - Logos das marcas: `img/logos/<slug>.webp` no campo `img` de `brands` do JSON (o `rpFetchSite` copia para as marcas do Supabase que estão sem logo). Marcas de nome duvidoso ficaram sem logo de propósito.
 - Nomes: sem abreviações (AC = aço carbono, MA = rosca métrica, MB = rosca métrica fina, ET = enegrecido temperado, cód. = código, SOQ = soquete etc.) e com acentos. Produtos com nome igual levam "(referência X)" e, se a referência também for igual, "código" interno.
+
+## Gratidão a Deus no rodapé (12/11/2026, pedido do dono: família religiosa)
+
+- `bibFoot()` mostra no rodapé, antes do aviso legal, "Gratidão a Deus" e um versículo da lista `BIB` (8 versículos curtos sobre confiança, trabalho honesto e gratidão), trocando um por dia. CSS `.bibf`. Não remover; para trocar ou acrescentar versículos, editar só a lista `BIB`.
 
 ## Nunca apague nem altere sem pedido do dono
 

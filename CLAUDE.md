@@ -5,6 +5,19 @@ Entre 11/11/2026 08:40 e 13:16, os commits "Lote 21", "Lote 22" e "Lote 23" publ
 e apagaram mudanças feitas por outras conversas (cabeçalho, menu Categorias, aviso legal, edição em massa, novidades).
 O dono pediu que isso não aconteça mais.
 
+## REGRA SEM EXCEÇÃO: preços e dados internos da loja nunca ficam públicos (pedido do dono, 13/11/2026)
+
+- **Nunca grave preços da loja** (à vista, a prazo, custo, margem, tabela de preços) em nada que seja público:
+  página do site, JSON do `index.html`, tabela `site` do Supabase (é lida com a chave pública, qualquer um consegue baixar),
+  este repositório do GitHub (público), arquivos em `img/`, `tmp/`, sitemap ou qualquer arquivo publicado.
+  **Esconder na tela não basta**: o dado não pode existir onde um concorrente consiga ler. O campo `p` dos produtos fica sempre vazio.
+- O mesmo vale para **informações essenciais/internas da loja** (custos, fornecedores e condições de compra, estoque em quantidade,
+  dados de clientes, faturamento, senhas e acessos).
+- Preços só existem no computador da loja (buscador de preços, pasta `C:\BuscadorPrecos`) ou em lugar privado.
+- Integração futura com o sistema da loja (NorteSys): para o site só podem ir nome, código, código de barras, produtos novos/saídos de linha
+  e, se o dono pedir, "disponível/em falta" **sem quantidade**.
+- Se algum pedido parecer exigir publicar preço ou dado interno, **pare e pergunte ao dono antes**.
+
 ## Antes de publicar qualquer coisa
 
 1. **Baixe a versão mais recente logo antes de editar:** `git fetch origin main && git reset --hard origin/main`.

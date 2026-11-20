@@ -28,7 +28,7 @@ O dono pediu que isso não aconteça mais.
    Aumente o `ver` (Date.now()) para o site saber que há dados novos.
 3. **Antes do commit, confira** que o `index.html` ainda contém:
    `function tvH`, `function catBar`, `function kcContact`, `function waFab`, `function legalFoot`,
-   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
+   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, `function bibTick`, o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
    Se algum sumiu, você partiu de uma cópia antiga: pare e refaça a partir do passo 1.
 4. Rode `git diff --stat` e confira que só mudou o que você pretendia.
 5. Se o `git push` for recusado porque o repositório mudou, baixe de novo e reaplique só a sua mudança.
@@ -112,6 +112,7 @@ O dono pediu que isso não aconteça mais.
 ## Gratidão a Deus no rodapé (12/11/2026, pedido do dono: família religiosa)
 
 - `bibFoot()` mostra no rodapé, antes do aviso legal, "Gratidão a Deus" e um versículo da lista `BIB` (8 versículos curtos sobre confiança, trabalho honesto e gratidão), trocando um por dia. CSS `.bibf`. Não remover; para trocar ou acrescentar versículos, editar só a lista `BIB`.
+- `bibTick()` (19/11/2026, pedido do dono): no celular, os versículos da mesma lista `BIB` passam devagar ao lado da logo na barra azul (CSS `.kcvs`/`.kcvt`, animação `kcvm`; para ao tocar; parado para quem pede menos movimento). O tamanho da logo não muda. Não remover.
 - **Regra do dono (família religiosa):** em todo trabalho maior (página ou seção nova, aplicativo, recurso diferente, grande alteração do site) e em toda mensagem de agradecimento, colocar o nome de Deus em algum lugar como forma de agradecimento (passagem bíblica, "Graças a Deus" ou similar), com discrição. Não precisa em pequenas correções.
 
 ## Nunca apague nem altere sem pedido do dono

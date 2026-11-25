@@ -22,8 +22,12 @@ CSS = """*{box-sizing:border-box}body{margin:0;font:16px/1.45 system-ui,-apple-s
 a{color:#2b4ea2}header{background:#fff;border-bottom:4px solid #f5c518}header .w{display:flex;align-items:center;gap:14px;padding:10px 16px}
 header img{height:44px;width:auto}.w{max-width:1100px;margin:0 auto;padding:16px}h1{font-size:28px;margin:8px 0}
 .btn{display:inline-block;background:#f5c518;color:#1d2024;font-weight:700;text-decoration:none;padding:11px 18px;border-radius:8px;border:2px solid #1d2024;margin:6px 8px 6px 0}
-.btn.b{background:#2b4ea2;color:#fff;border-color:#2b4ea2}ul.l{list-style:none;padding:0;margin:14px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
-ul.l a{display:block;background:#fff;border:1px solid #ddd;border-radius:8px;padding:9px 11px;text-decoration:none;color:#1d2024}ul.l a:hover{border-color:#2b4ea2}
+.btn.b{background:#2b4ea2;color:#fff;border-color:#2b4ea2}ul.l{list-style:none;padding:0;margin:14px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+ul.l a{display:flex;flex-direction:column;height:100%;background:#fff;border:1px solid #ddd;border-radius:10px;padding:8px;text-decoration:none;color:#1d2024}ul.l a:hover{border-color:#2b4ea2;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+ul.l .f{aspect-ratio:1/1;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px}
+ul.l .f img{width:100%;height:100%;object-fit:contain}ul.l .f.s{background:#eef1f7}ul.l .f.s img{width:45%;height:auto;opacity:.5}
+ul.l .n{font-size:14px;line-height:1.3}ul.l .m{font-size:12px;color:#555;margin-top:4px}ul.l .v{margin-top:auto;padding-top:6px;font-size:12.5px;color:#2b4ea2;font-weight:600}
+.dica{background:#fff8dc;border:1px solid #f5c518;border-radius:8px;padding:8px 12px;font-size:14px}
 nav.c{display:flex;flex-wrap:wrap;gap:6px;margin:20px 0}nav.c a{background:#fff;border:1px solid #ccc;border-radius:20px;padding:6px 12px;text-decoration:none;font-size:14px}
 footer{background:#2b4ea2;color:#fff;margin-top:30px}footer a{color:#fff}small{color:#555}"""
 def nav_html():
@@ -31,7 +35,14 @@ def nav_html():
         f'<a href="/categoria/{slug(c["n"])}/">{e(c["n"])}</a>' for c in cats) + "</nav>"
 def page(path, title, h1, intro, items, app_hash):
     url = f"{SITE}/{path}/"
-    lis = "".join(f'<li><a href="/#p-{e(p["id"])}">{e(p["n"])}</a></li>' for p in sorted(items, key=lambda p: p["n"].lower()))
+    def foto(p):
+        im = str(p.get("img") or "")
+        if not im: return '<span class="f s"><img src="/favicon-192.png" alt="" loading="lazy" width="80" height="80"></span>'
+        if not im.startswith("http"): im = "/" + im.lstrip("/")
+        return f'<span class="f"><img src="{e(im)}" alt="{e(p["n"])}" loading="lazy" decoding="async" width="200" height="200"></span>'
+    lis = "".join(f'<li><a href="/#p-{e(p["id"])}">{foto(p)}<span class="n">{e(p["n"])}</span>'
+                  + (f'<span class="m">{e(p["brand"])}</span>' if p.get("brand") else "")
+                  + '<span class="v">Ver detalhes ›</span></a></li>' for p in sorted(items, key=lambda p: p["n"].lower()))
     ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Ronaldo Parafusos", "item": SITE + "/"},
         {"@type": "ListItem", "position": 2, "name": h1, "item": url}]}
@@ -42,7 +53,8 @@ def page(path, title, h1, intro, items, app_hash):
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script><style>{CSS}</style></head><body>
 <header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.png" alt="Ronaldo Parafusos"></a></div></header>
 <main class="w"><p><small><a href="/">Início</a> › {e(h1)}</small></p><h1>{e(h1)}</h1><p>{e(intro)}</p>
-<p><a class="btn" href="/{app_hash}">Ver com fotos no catálogo</a><a class="btn b" href="https://wa.me/5563984514163">Pedir orçamento no WhatsApp</a></p>
+<p><a class="btn" href="/{app_hash}">Abrir no catálogo completo</a><a class="btn b" href="https://wa.me/5563984514163">Pedir orçamento no WhatsApp</a></p>
+<p class="dica">Toque no produto para ver a foto grande, a descrição e a ficha técnica.</p>
 <ul class="l">{lis}</ul>{nav_html()}</main>
 <footer><div class="w"><b>Ronaldo Parafusos</b> · Av. Pedro Ludovico Teixeira, 2034 - Centro, Colinas do Tocantins (TO) · <a href="tel:+556334761955">(63) 3476-1955</a> · <a href="/termos.html">Termos de Uso</a></div></footer>
 </body></html>"""

@@ -80,6 +80,7 @@ O dono pediu que isso não aconteça mais.
 - Domínio extra **ronaldoparafusos.com** (Hostinger, conta do dono, vence ~12/11/2027, renovação R$ 94,99): só redireciona (301) para https://ronaldoparafusos.com.br, configurado em hPanel → DNS → Redirecionamentos. Não precisa de nada neste repositório; não adicionar ao CNAME.
 - Google Search Console: propriedade de domínio `ronaldoparafusos.com.br` verificada (12/11/2026) por registro TXT `google-site-verification=...` no DNS do Registro.br; sitemap enviado (129 páginas). Não apagar esse TXT.
 - Search Console (conta ronaldoparafusos@gmail.com): "Mudança de endereço" de ronaldoparafusos.github.io para ronaldoparafusos.com.br confirmada em 13/11/2026. Não cancelar e não remover a propriedade antiga por pelo menos 180 dias.
+- `termos.html` tem `<meta name="robots" content="noindex, follow">` e fica fora do `sitemap.xml` (pedido do dono, 25/11/2026: quem vem do Google tem que cair nos produtos, não nos termos). A página continua no ar (link no rodapé). Não tirar o noindex nem bloquear no robots.txt (o Google precisa ler o noindex).
 - Links absolutos (canonical, og:url, og:image, JSON-LD, sitemap.xml, robots.txt, termos.html) usam o domínio novo. Ao criar página ou link absoluto novo, use `https://ronaldoparafusos.com.br`.
 
 ## Revisão de marcas, títulos e nomes populares (12/11/2026, Lotes 33-35)

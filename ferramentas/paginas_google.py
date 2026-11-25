@@ -83,7 +83,7 @@ sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitem
 def add(u, f, pr): sm.append(f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>{f}</changefreq>\n    <priority>{pr}</priority>\n  </url>")
 add(SITE + "/", "weekly", "1.0")
 for u in urls: add(u, "weekly", "0.7" if "/categoria/" in u else "0.6")
-add(SITE + "/termos.html", "yearly", "0.3")
+# termos.html fica fora do sitemap e com noindex (pedido do dono, 25/11/2026: cliente vindo do Google tem que cair nos produtos)
 sm.append("</urlset>")
 open("sitemap.xml", "w", encoding="utf-8").write("\n".join(sm) + "\n")
 print(len(urls), "páginas")

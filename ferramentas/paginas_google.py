@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Gera páginas simples (que o Google consegue ler) para cada categoria e para as marcas principais,
+"""(25/11/2026, pedido do dono) Quem abre a página é levado na hora para a mesma categoria/marca no site completo (com fotos, filtros e carrinho);
+o conteúdo abaixo fica para o Google e para quem está sem JavaScript.
+Gera páginas simples (que o Google consegue ler) para cada categoria e para as marcas principais,
 e atualiza o sitemap.xml. Rodar na raiz do repositório:  python3 ferramentas/paginas_google.py
 As páginas leem a lista de produtos do JSON <script id="data"> do index.html."""
 import json, re, unicodedata, html, datetime, os, shutil
@@ -50,7 +52,9 @@ def page(path, title, h1, intro, items, app_hash):
 <title>{e(title)}</title><meta name="description" content="{e(intro[:155])}"><link rel="canonical" href="{url}">
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:title" content="{e(title)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}/img/og-ronaldo-parafusos-v5.jpg">
-<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script><style>{CSS}</style></head><body>
+<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
+<script>location.replace("/{app_hash}")</script>
+<style>{CSS}</style></head><body>
 <header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.png" alt="Ronaldo Parafusos"></a></div></header>
 <main class="w"><p><small><a href="/">Início</a> › {e(h1)}</small></p><h1>{e(h1)}</h1><p>{e(intro)}</p>
 <p><a class="btn" href="/{app_hash}">Abrir no catálogo completo</a><a class="btn b" href="https://wa.me/5563984514163">Pedir orçamento no WhatsApp</a></p>

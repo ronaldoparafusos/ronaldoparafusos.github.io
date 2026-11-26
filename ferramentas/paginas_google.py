@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""(25/11/2026, pedido do dono) Quem abre a página é levado na hora para a mesma categoria/marca no site completo (com fotos, filtros e carrinho);
-o conteúdo abaixo fica para o Google e para quem está sem JavaScript.
+"""(26/11/2026, pedido do dono) Páginas SEM redirecionamento automático (o redirecionamento fazia o Google tratar como desvio
+para a página inicial); o botão "Abrir no catálogo completo" leva à categoria/marca no site completo.
 Gera páginas simples (que o Google consegue ler) para cada categoria e para as marcas principais,
 e atualiza o sitemap.xml. Rodar na raiz do repositório:  python3 ferramentas/paginas_google.py
 As páginas leem a lista de produtos do JSON <script id="data"> do index.html."""
@@ -66,7 +66,6 @@ def page(path, title, h1, intro, items, app_hash):
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:title" content="{e(title)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}/img/og-ronaldo-parafusos-v5.jpg">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
-<script>location.replace("/{app_hash}")</script>
 <style>{CSS}</style></head><body>
 <header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.png" alt="Ronaldo Parafusos"></a></div></header>
 <main class="w"><p><small><a href="/">Início</a> › {e(h1)}</small></p><h1>{e(h1)}</h1><p>{e(intro)}</p>

@@ -28,7 +28,7 @@ O dono pediu que isso não aconteça mais.
    Aumente o `ver` (Date.now()) para o site saber que há dados novos.
 3. **Antes do commit, confira** que o `index.html` ainda contém:
    `function tvH`, `function catBar`, `function kcContact`, `function waFab`, `function legalFoot`,
-   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, `function bibTick`, o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
+   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, `function bibTick`, `function rpLib` (carregando `/sb-2.119.2.js`), o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
    Se algum sumiu, você partiu de uma cópia antiga: pare e refaça a partir do passo 1.
 4. Rode `git diff --stat` e confira que só mudou o que você pretendia.
 5. Se o `git push` for recusado porque o repositório mudou, baixe de novo e reaplique só a sua mudança.
@@ -116,6 +116,24 @@ O dono pediu que isso não aconteça mais.
 - `bibFoot()` mostra no rodapé, antes do aviso legal, "Gratidão a Deus" e um versículo da lista `BIB` (8 versículos curtos sobre confiança, trabalho honesto e gratidão), trocando um por dia. CSS `.bibf`. Não remover; para trocar ou acrescentar versículos, editar só a lista `BIB`.
 - `bibTick()` (19/11/2026, pedido do dono): no celular, os versículos da mesma lista `BIB` passam devagar ao lado da logo na barra azul (CSS `.kcvs`/`.kcvt`, animação `kcvm`; para ao tocar; parado para quem pede menos movimento). O tamanho da logo não muda. Não remover.
 - **Regra do dono (família religiosa):** em todo trabalho maior (página ou seção nova, aplicativo, recurso diferente, grande alteração do site) e em toda mensagem de agradecimento, colocar o nome de Deus em algum lugar como forma de agradecimento (passagem bíblica, "Graças a Deus" ou similar), com discrição. Não precisa em pequenas correções.
+
+## Segurança e páginas de produto (26/11/2026, pedido do dono)
+
+- **Biblioteca do Supabase servida pelo próprio site:** `sb-2.119.2.js` (versão fixa, copiada do pacote oficial do npm). `admin.html` e o `rpLib()` do `index.html` usam `/sb-2.119.2.js`. Não voltar para o CDN `supabase-js@2` sem versão. Para atualizar: trocar o arquivo e o nome nos dois lugares.
+- **CSP** por `<meta http-equiv="Content-Security-Policy">` logo depois do `<meta charset>` no `index.html` e no `admin.html`. Ela libera: Supabase (`*.supabase.co`), Google Fonts, vídeos do YouTube (nocookie) e do Instagram, e o Google Maps. **Ao incluir um serviço externo novo (script, iframe, fetch), acrescente o domínio na CSP**, senão ele é bloqueado. Não usar `eval`.
+- **Supabase (feito pelo SQL editor):**
+  - `orc_contagem`: anon só lê as colunas `pid` e `n`;
+  - `orc_registrar`: aceita só ids válidos, no máximo 60 por chamada, 120 por aparelho (hash do IP, tabela `orc_limite`, guardado 7 dias) e 5.000 por dia no total;
+  - bucket `fotos`: até 5 MB e só `image/*`;
+  - **cadastro público de usuários DESLIGADO** no Auth.
+  
+  Não desfazer.
+- **Páginas de produto:** `produto/<nome>-<id>/index.html`, uma por produto, **sem preço**, com nome, marca, código, fotos, descrição, ficha, link do catálogo (`/#p-<id>`) e WhatsApp. O CSS fica compartilhado em `produto/p.css`.
+  - **Sem redirecionamento automático, de propósito:** redirecionar para `/#...` faria o Google tratar como desvio para a página inicial e não indexar o produto.
+  - As páginas de categoria e marca agora apontam para as páginas de produto.
+  - Tudo é gerado por `python3 ferramentas/paginas_google.py`, que usa a lista do Supabase (cai para o `index.html` se não conseguir) e refaz o `sitemap.xml`. **Rodar de novo depois de cada lote.**
+- JSON-LD da loja: `sameAs` com Instagram, Facebook e Google Maps, e `hasMap`.
+- Termos 13.12: cita o limite contra robôs (hash do IP, 7 dias).
 
 ## Nunca apague nem altere sem pedido do dono
 

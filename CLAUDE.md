@@ -132,6 +132,7 @@ O dono pediu que isso não aconteça mais.
   - **Sem redirecionamento automático, de propósito:** redirecionar para `/#...` faria o Google tratar como desvio para a página inicial e não indexar o produto.
   - As páginas de categoria e marca agora apontam para as páginas de produto.
   - Tudo é gerado por `python3 ferramentas/paginas_google.py`, que usa a lista do Supabase (cai para o `index.html` se não conseguir) e refaz o `sitemap.xml`. **Rodar de novo depois de cada lote.**
+- Fonte do Google carregada sem travar a tela (`rel="preload"` + `onload`, com `<noscript>`) desde 26/11/2026 (PageSpeed). Não voltar para `rel="stylesheet"` direto.
 - JSON-LD da loja: `sameAs` com Instagram, Facebook e Google Maps, e `hasMap`.
 - Termos 13.12: cita o limite contra robôs (hash do IP, 7 dias).
 

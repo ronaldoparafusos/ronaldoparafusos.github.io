@@ -67,7 +67,7 @@ def page(path, title, h1, intro, items, app_hash):
 <meta property="og:title" content="{e(title)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}/img/og-ronaldo-parafusos-v5.jpg">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 <style>{CSS}</style></head><body>
-<header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.png" alt="Ronaldo Parafusos"></a></div></header>
+<header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.webp" alt="Ronaldo Parafusos"></a></div></header>
 <main class="w"><p><small><a href="/">Início</a> › {e(h1)}</small></p><h1>{e(h1)}</h1><p>{e(intro)}</p>
 <p><a class="btn" href="/{app_hash}">Abrir no catálogo completo</a><a class="btn b" href="https://wa.me/5563984514163">Pedir orçamento no WhatsApp</a></p>
 <p class="dica">Toque no produto para ver a foto grande, a descrição e a ficha técnica.</p>
@@ -146,7 +146,7 @@ for p in sorted(prods, key=lambda x: x["id"]):
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:title" content="{e(titulo)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{e(SITE + fotos[0] if fotos and fotos[0].startswith('/') else (fotos[0] if fotos else SITE + '/img/og-ronaldo-parafusos-v5.jpg'))}">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script><link rel="stylesheet" href="/produto/p.css"></head><body>
-<header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.png" alt="Ronaldo Parafusos" width="160" height="44"></a></div></header>
+<header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.webp" alt="Ronaldo Parafusos" width="160" height="44"></a></div></header>
 <main class="w"><p><small><a href="/">Início</a>{f' › <a href="/categoria/{slug(cn)}/">{e(cn)}</a>' if cn else ''} › {e(nome)}</small></p>
 <div class="pp"><div><div class="fo">{principal}</div>{f'<div class="gl">{mini}</div>' if mini else ''}</div>
 <div><h1>{e(nome)}</h1><p class="mc">{e(marca) + ' · ' if marca else ''}{'Código ' + e(cod) if cod else ''}</p>
@@ -181,7 +181,7 @@ CONTATO = f"""<!DOCTYPE html>
 <meta property="og:title" content="Contato | Ronaldo Parafusos"><meta property="og:url" content="{SITE}/contato/"><meta property="og:image" content="{SITE}/img/og-ronaldo-parafusos-v5.jpg">
 <script type="application/ld+json">{json.dumps(LD_C, ensure_ascii=False)}</script>
 <style>{CSS}.ct{{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:18px 0}}.ct a.c{{display:block;border:1px solid #dde3ee;border-radius:12px;padding:16px;text-decoration:none;color:#202124;background:#fff}}.ct b{{display:block;color:#2b4ea2;font-size:18px;margin-bottom:4px}}table{{border-collapse:collapse}}td{{padding:4px 14px 4px 0}}</style></head>
-<body><header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.png" alt="Ronaldo Parafusos" width="160" height="44"></a></div></header>
+<body><header><div class="w"><a href="/"><img src="/img/0839075d551e07b4f116e808714a3049.webp" alt="Ronaldo Parafusos" width="160" height="44"></a></div></header>
 <main class="w"><h1>Contato da Ronaldo Parafusos</h1>
 <p>Parafusos, ferramentas, ferragens e materiais em Colinas do Tocantins (TO). Fale com a gente pelo canal que preferir:</p>
 <div class="ct">

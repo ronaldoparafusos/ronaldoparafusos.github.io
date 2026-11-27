@@ -143,6 +143,13 @@ O dono pediu que isso não aconteça mais.
 - Página `contato/` (gerada pelo mesmo script): WhatsApp (63) 98451-4163, telefone (63) 3476-1955, e-mail, endereço, horário e redes, com JSON-LD e `contactPoint`, para o Google e a IA do Google mostrarem as formas de contato. Está no sitemap. Se telefone, endereço ou horário mudarem, atualizar no script, no JSON-LD do `index.html` e em `HRS`.
 - O rodapé das páginas geradas tem link para o WhatsApp e para `/contato/`.
 
+## Desempenho (27/11/2026, PageSpeed celular 76)
+
+- Logos do topo em versão leve: `img/<hash>.webp` (600 px de largura) para os hashes de `S.s.lg` (h, hm, i, im), com `EXT` apontando para `webp`. Os PNG originais continuam em `img/` porque são usados nas artes (não apagar). Se trocar a logo no painel, gerar o `.webp` leve também.
+- Logos das marcas (`img/logos/`) com no máximo 100 px de altura.
+- `config.js` vai inline no `index.html` (não bloqueia mais a tela). O arquivo `config.js` continua existindo para `admin.html`; se trocar a chave, trocar nos dois lugares.
+- O que mais pesa é o JSON dos produtos dentro do `index.html` (~4,3 MB). Tirar ele de lá exige mudar o jeito de publicar lotes; só fazer com aprovação do dono.
+
 ## Nunca apague nem altere sem pedido do dono
 
 `google1c91dc630ad29760.html`, `CNAME`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`

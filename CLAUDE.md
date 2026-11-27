@@ -149,6 +149,7 @@ O dono pediu que isso não aconteça mais.
 - Logos das marcas (`img/logos/`) com no máximo 100 px de altura.
 - `config.js` vai inline no `index.html` (não bloqueia mais a tela). O arquivo `config.js` continua existindo para `admin.html`; se trocar a chave, trocar nos dois lugares.
 - O que mais pesa é o JSON dos produtos dentro do `index.html` (~4,3 MB). Tirar ele de lá exige mudar o jeito de publicar lotes; só fazer com aprovação do dono.
+- **Ajustes pendentes:** o dono aprovou (27/11/2026) tirar o JSON do `index.html` para `dados.json`, mas **só quando ele pedir**, junto com outros ajustes. A lista fica no doc do Projeto "claude/ajustes-pendentes-site.md". Nenhuma conversa começa esses ajustes sozinha; ajustes e ideias novas que o dono aprovar vão para esse doc.
 
 ## Nunca apague nem altere sem pedido do dono
 

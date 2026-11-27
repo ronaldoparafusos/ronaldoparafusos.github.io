@@ -1,5 +1,6 @@
 # (26/11/2026, pedido do dono) Páginas do Google automáticas: todo dia e a cada mudança na lista de produtos,
-# roda ferramentas/paginas_google.py (lê a lista do Supabase) e publica as páginas de produto, categoria, marca e contato.
+# roda ferramentas/paginas_google.py (lê a lista do Supabase) e publica as páginas de produto, categoria, marca, contato,
+# perguntas frequentes, 404, boot.js e llms.txt (27/11/2026).
 # Só faz commit se alguma página mudou (o sitemap sozinho não conta, porque a data muda todo dia).
 name: Páginas do Google
 on:
@@ -7,7 +8,7 @@ on:
     - cron: "17 9 * * *"   # todo dia, 6h17 de Brasília
   push:
     branches: [main]
-    paths: ["index.html", "ferramentas/paginas_google.py"]
+    paths: ["index.html", "dados.json", "app.js", "app.css", "ferramentas/paginas_google.py", "ferramentas/faq.json"]
   workflow_dispatch:
 permissions:
   contents: write
@@ -32,7 +33,7 @@ jobs:
           fi
           git config user.name "Páginas do Google (automático)"
           git config user.email "actions@users.noreply.github.com"
-          git add -A produto categoria marca contato sitemap.xml
+          git add -A produto categoria marca contato perguntas-frequentes boot.js 404.html llms.txt sitemap.xml
           git commit -q -m "Páginas do Google atualizadas automaticamente"
           for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep 10; done
           exit 1

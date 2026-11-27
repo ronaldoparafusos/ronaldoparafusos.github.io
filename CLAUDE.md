@@ -22,13 +22,13 @@ O dono pediu que isso não aconteça mais.
 
 1. **Baixe a versão mais recente logo antes de editar:** `git fetch origin main && git reset --hard origin/main`.
    Nunca reaproveite um `index.html` guardado antes (na conversa, em /tmp ou em outra pasta).
-2. **Lotes de produtos:** troque **somente** o JSON dentro de
-   `<script id="data" type="application/json">...</script>` (procure pelas marcas de texto, nunca por número de linha).
-   Não reescreva CSS, JavaScript nem o resto do arquivo. Mantenha nos produtos os campos `ts`, `up`, `et` e a lista `del`.
-   Aumente o `ver` (Date.now()) para o site saber que há dados novos.
-3. **Antes do commit, confira** que o `index.html` ainda contém:
+2. **Lotes de produtos (desde 27/11/2026):** a lista fica em **`dados.json`** (não mais dentro do `index.html`).
+   Troque só os produtos/dados em `dados.json`. Mantenha nos produtos os campos `ts`, `up`, `et` e a lista `del`.
+   Aumente o `ver` (Date.now()) e rode `python3 ferramentas/paginas_google.py` (atualiza `boot.js` com o novo `ver`, as páginas e o sitemap).
+   Não reescreva `app.js`/`app.css` num lote.
+3. **Antes do commit, confira** que o `app.js` (o JavaScript do site, desde 27/11/2026) ainda contém:
    `function tvH`, `function catBar`, `function kcContact`, `function waFab`, `function legalFoot`,
-   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, `function bibTick`, `function rpLib` (carregando `/sb-2.119.2.js`), o CSS `/* Rodapé organizado:` e o CSS `/* === Cabeçalho: Televendas`.
+   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, `function bibTick`, `function rpLib` (carregando `/sb-2.119.2.js`), `function pHref`, `function pathRt`, `function qtok`, `function dLoad`, `function faqSec`, `function cEntH`, `function ppInfo`; o `app.css` contém `/* Rodapé organizado:`, `/* === Cabeçalho: Televendas` e `/* === Ajustes 27/11/2026`; e o `index.html` carrega `/boot.js` e `/app.js`.
    Se algum sumiu, você partiu de uma cópia antiga: pare e refaça a partir do passo 1.
 4. Rode `git diff --stat` e confira que só mudou o que você pretendia.
 5. Se o `git push` for recusado porque o repositório mudou, baixe de novo e reaplique só a sua mudança.
@@ -148,8 +148,24 @@ O dono pediu que isso não aconteça mais.
 - Logos do topo em versão leve: `img/<hash>.webp` (600 px de largura) para os hashes de `S.s.lg` (h, hm, i, im), com `EXT` apontando para `webp`. Os PNG originais continuam em `img/` porque são usados nas artes (não apagar). Se trocar a logo no painel, gerar o `.webp` leve também.
 - Logos das marcas (`img/logos/`) com no máximo 100 px de altura.
 - `config.js` vai inline no `index.html` (não bloqueia mais a tela). O arquivo `config.js` continua existindo para `admin.html`; se trocar a chave, trocar nos dois lugares.
-- O que mais pesa é o JSON dos produtos dentro do `index.html` (~4,3 MB). Tirar ele de lá exige mudar o jeito de publicar lotes; só fazer com aprovação do dono.
-- **Ajustes pendentes:** o dono aprovou (27/11/2026) tirar o JSON do `index.html` para `dados.json`, mas **só quando ele pedir**, junto com outros ajustes. A lista fica no doc do Projeto "claude/ajustes-pendentes-site.md". Nenhuma conversa começa esses ajustes sozinha; ajustes e ideias novas que o dono aprovar vão para esse doc.
+- **Ajustes pendentes:** lista no doc do Projeto "claude/ajustes-pendentes-site.md". Nenhuma conversa começa esses ajustes sozinha; ajustes e ideias novas que o dono aprovar vão para esse doc.
+
+## Site em arquivos separados, endereços próprios e busca inteligente (27/11/2026, pedido do dono)
+
+- Arquivos: `index.html` (só o `<head>` com SEO + `<div id="root">`), `app.js` (JavaScript), `app.css` (CSS), `dados.json` (lista de produtos dos lotes),
+  `boot.js` (configurações, categorias, marcas, perguntas e o `ver`; **gerado** pelo `paginas_google.py`, não editar à mão). Sem preço em nenhum deles.
+- O site lê a lista do Supabase (como antes); `dados.json` só é baixado se o Supabase falhar ou se o `ver` do `boot.js` for maior (lote novo), e aí o `rpMerge` junta como antes.
+- **Endereços próprios** (o Google ignora o que vem depois do `#`): produto `/produto/<nome>-<id>/` (`pHref`), categoria `/categoria/<nome>/`, marca `/marca/<nome>/`.
+  Links antigos `/#p-<id>`, `#cat-`, `#marca-` continuam funcionando e trocam sozinhos para o endereço novo (`route`, `hPath`, `pathRt`). Não voltar para links `#p-`.
+- **Páginas geradas = o próprio site:** cada página tem o conteúdo escrito (título, foto grande, descrição, ficha, JSON-LD BreadcrumbList + WebPage com `primaryImageOfPage`,
+  `max-image-preview:large`) e carrega `boot.js` + `app.js`, que montam o visual completo no mesmo endereço, **sem redirecionar**. Produto/categoria/marca levam um `<script id="pre">` com os itens daquela página **sem preço** (`safe()` no gerador).
+- `<base href="/">` em todas as páginas (as imagens `img/...` e links funcionam em qualquer endereço). `404.html` é o próprio site (abre produto novo antes da página dele existir).
+- Também gerados: `/perguntas-frequentes/` (texto em `ferramentas/faq.json`, JSON-LD FAQPage; bloco na página inicial `faqSec`), `/contato/` (mapa só ao tocar, `data-map`), `llms.txt`, `sitemap.xml` (data = última alteração do produto).
+- Marcas com 3 ou mais produtos ganham página (`MIN_MARCA`). Títulos repetidos ganham "(código X)".
+- **Busca inteligente** (`qm`, `qtok`, `qph`, `qlev`, `qsc`): ignora acentos e palavras de ligação, aceita escrita parecida (Blumenal = Blumenau, parafuzo, filips), erro de digitação, plural, "10mm" = "10 mm";
+  ordena pelo mais parecido; se nada tiver todas as palavras, mostra "itens parecidos". Já procura em `bc` (código de barras) e `ref` quando esses campos existirem.
+- Produto: "Clientes também procuram" (`simOf`), "Entrega grátis em Colinas", "Respondemos no WhatsApp em 2 a 10 minutos" e "Aberto/Fechado agora" (`ppInfo`). Carrinho: "Quero entrega"/"Vou retirar na loja" + endereço, vai na mensagem (`cEntH`, `CENT`).
+- Pagamento em todo o site: cartão de crédito, cartão de débito, Pix e dinheiro.
 
 ## Nunca apague nem altere sem pedido do dono
 

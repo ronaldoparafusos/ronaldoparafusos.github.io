@@ -16,9 +16,14 @@ for f in nomes:
         urls.append(f"{SITE}/{f[:-len('index.html')]}")
 urls = list(dict.fromkeys(urls))[:10000]
 if not urls: print("IndexNow: nenhuma página mudou."); sys.exit(0)
-body = json.dumps({"host": "ronaldoparafusos.com.br", "key": KEY, "keyLocation": f"{SITE}/{KEY}.txt", "urlList": urls}).encode()
-try:
-    r = urllib.request.urlopen(urllib.request.Request("https://api.indexnow.org/indexnow", data=body, headers={"Content-Type": "application/json; charset=utf-8"}), timeout=60)
-    print("IndexNow:", r.status, len(urls), "páginas avisadas")
-except Exception as ex:
-    print("IndexNow: falhou (não é grave, o sitemap continua valendo):", ex)
+import time
+ok = 0; erro = None
+for i in range(0, len(urls), 100):  # o IndexNow recusa (403) pedidos muito grandes: manda de 100 em 100
+    body = json.dumps({"host": "ronaldoparafusos.com.br", "key": KEY, "keyLocation": f"{SITE}/{KEY}.txt", "urlList": urls[i:i + 100]}).encode()
+    try:
+        urllib.request.urlopen(urllib.request.Request("https://api.indexnow.org/indexnow", data=body, headers={"Content-Type": "application/json; charset=utf-8"}), timeout=60)
+        ok += len(urls[i:i + 100])
+    except Exception as ex:
+        erro = erro or ex
+    time.sleep(1)
+print("IndexNow:", ok, "de", len(urls), "páginas avisadas", f"(erro: {erro}; não é grave, o sitemap continua valendo)" if erro else "")

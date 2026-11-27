@@ -145,7 +145,7 @@ for c in cats:
     if not it: continue
     n = c["n"]; path = f"categoria/{slug(n)}"; url = f"{SITE}/{path}/"
     og = next((absu(big_img(p)) for p in it if big_img(p)), None)
-    desc = f"{n} na Ronaldo Parafusos, em Colinas do Tocantins (TO): {len(it)} itens com foto e ficha técnica. Entrega grátis em Colinas. Orçamento pelo WhatsApp."
+    desc = f"{n} no Ronaldo Parafusos, em Colinas do Tocantins (TO): {len(it)} itens com foto e ficha técnica. Entrega grátis em Colinas. Orçamento pelo WhatsApp."
     main = (f'<p class="bcs"><a href="/">Início</a> › {e(n)}</p><h1>{e(n)}</h1><p>{e(desc)}</p>'
             f'<p><a class="sbt b" href="https://wa.me/{WA}">Pedir orçamento no WhatsApp</a></p>'
             f'<ul class="l">{"".join(card(p) for p in it)}</ul>{nav_html()}')
@@ -163,7 +163,7 @@ for bn, it in sorted(bc.items(), key=lambda x: -len(x[1])):
     it = ordem(it); path = f"marca/{slug(bn)}"; url = f"{SITE}/{path}/"
     if os.path.exists(path): continue
     og = next((absu(big_img(p)) for p in it if big_img(p)), None)
-    desc = f"Produtos {bn} na Ronaldo Parafusos, em Colinas do Tocantins (TO): {len(it)} itens com foto e ficha técnica. Orçamento pelo WhatsApp."
+    desc = f"Produtos {bn} no Ronaldo Parafusos, em Colinas do Tocantins (TO): {len(it)} itens com foto e ficha técnica. Orçamento pelo WhatsApp."
     main = (f'<p class="bcs"><a href="/">Início</a> › {e(bn)}</p><h1>Produtos {e(bn)}</h1><p>{e(desc)}</p>'
             f'<ul class="l">{"".join(card(p) for p in it)}</ul>{nav_html()}')
     write(path, shell(path, f"{bn} | Ronaldo Parafusos - Colinas do Tocantins", desc, main,
@@ -192,7 +192,7 @@ for p in sorted(prods, key=lambda x: x["id"]):
     t = titulo(p)
     if tc[t.lower()] > 1: t += f" (código {cod or pid})"   # títulos únicos para o Google
     meta = (nome + (" - " + marca if marca else "") + (f", código {cod}" if cod else "") + ". "
-            + (desc or f"{cn} na Ronaldo Parafusos.") + " Colinas do Tocantins (TO), entrega grátis em Colinas.").replace("\n", " ")
+            + (desc or f"{cn} no Ronaldo Parafusos.") + " Colinas do Tocantins (TO), entrega grátis em Colinas.").replace("\n", " ")
     crumbs = [("Ronaldo Parafusos", SITE + "/")] + ([(cn, f"{SITE}/categoria/{slug(cn)}/")] if cn else []) + [(nome, url)]
     lds = [bc_ld(crumbs)]
     if big:
@@ -229,7 +229,7 @@ LD_C = {"@context": "https://schema.org", "@type": "HardwareStore", "name": "Ron
         "hasMap": "https://www.google.com/maps?cid=1146969919196213478",
         "sameAs": ["https://www.instagram.com/ronaldoparafusos/", "https://www.facebook.com/RONALDOPARAFUSOS2017/", "https://www.google.com/maps?cid=1146969919196213478"]}
 MAPA = "https://www.google.com/maps?q=-8.054911,-48.482806&z=17&output=embed"
-main = ('<p class="bcs"><a href="/">Início</a> › Contato</p><h1>Contato da Ronaldo Parafusos</h1>'
+main = ('<p class="bcs"><a href="/">Início</a> › Contato</p><h1>Contato do Ronaldo Parafusos</h1>'
         '<p>Respondemos no WhatsApp em 2 a 10 minutos (em horário de atendimento). Entrega grátis em Colinas do Tocantins.</p>'
         f'<p><a class="sbt b" href="https://wa.me/{WA}">Chamar no WhatsApp</a><a class="sbt" href="/#produtos">Ver todos os produtos</a></p>'
         '<ul class="ctl">'
@@ -244,7 +244,7 @@ main = ('<p class="bcs"><a href="/">Início</a> › Contato</p><h1>Contato da Ro
         f'<h2>Como chegar</h2><button type="button" class="sbt" data-map="{MAPA}">Ver o mapa aqui</button>'
         '<p><a class="sbt" href="/perguntas-frequentes/">Perguntas frequentes</a></p>')
 write("contato", shell("contato", "Contato | Ronaldo Parafusos - Colinas do Tocantins (TO)",
-      "Fale com a Ronaldo Parafusos: WhatsApp (63) 98451-4163, telefone (63) 3476-1955, e-mail ronaldoparafusos@gmail.com. Av. Pedro Ludovico Teixeira, 2034 - Centro, Colinas do Tocantins (TO).",
+      "Fale com o Ronaldo Parafusos: WhatsApp (63) 98451-4163, telefone (63) 3476-1955, e-mail ronaldoparafusos@gmail.com. Av. Pedro Ludovico Teixeira, 2034 - Centro, Colinas do Tocantins (TO).",
       main, [LD_C, bc_ld([("Ronaldo Parafusos", SITE + "/"), ("Contato", SITE + "/contato/")])]))
 
 # ---------- perguntas frequentes ----------
@@ -254,7 +254,7 @@ main = ('<p class="bcs"><a href="/">Início</a> › Perguntas frequentes</p><h1>
 LD_F = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]}
 write("perguntas-frequentes", shell("perguntas-frequentes", "Perguntas frequentes | Ronaldo Parafusos - Colinas do Tocantins",
-      "Dúvidas sobre orçamento, entrega grátis em Colinas do Tocantins, formas de pagamento, oficina de motosserras e outras máquinas, horário e contato da Ronaldo Parafusos.",
+      "Dúvidas sobre orçamento, entrega grátis em Colinas do Tocantins, formas de pagamento, oficina de motosserras e outras máquinas, horário e contato do Ronaldo Parafusos.",
       main, [LD_F, bc_ld([("Ronaldo Parafusos", SITE + "/"), ("Perguntas frequentes", SITE + "/perguntas-frequentes/")])]))
 
 # ---------- 404 (o próprio site: busca, categorias e WhatsApp; abre também produto novo antes da página dele existir) ----------

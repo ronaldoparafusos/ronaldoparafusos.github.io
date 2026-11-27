@@ -168,6 +168,11 @@ O dono pediu que isso não aconteça mais.
 - Pagamento em todo o site: cartão de crédito, cartão de débito, Pix e dinheiro.
 - Contato, perguntas frequentes e 404 mostram, embaixo das informações, "Conheça nossos produtos" com marcas, categorias, mais vendidos e novidades (`homeLite()`), e o botão "Ver todos os produtos" (pedido do dono: cliente leigo não pode achar que não há produtos). Não tirar.
 
+## Nome da loja no masculino (27/11/2026, pedido do dono)
+
+- Escrever sempre **"o Ronaldo Parafusos"**: do, no, pelo, ao Ronaldo Parafusos (nunca "a/da/na/pela Ronaldo Parafusos"), em site, termos, páginas geradas, artes, posts e mensagens. Só a razão social fica "Ronaldo Parafusos Ltda ME".
+- No que é feito para o dono, usar ícones desenhados (SVG) no lugar de emojis (ex.: carrinho "Quero entrega"/"Vou retirar na loja"). Emojis só dentro do texto da mensagem do WhatsApp.
+
 ## Nunca apague nem altere sem pedido do dono
 
 `google1c91dc630ad29760.html`, `CNAME`, `sitemap.xml`, `robots.txt`, `termos.html`, `CLAUDE.md`, as tags de SEO do `<head>`

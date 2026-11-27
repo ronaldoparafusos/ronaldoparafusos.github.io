@@ -307,7 +307,7 @@ var RVS=0;
 function rvSec(p){var a=rvList(p),avg=rvAvg(p),h='<div class="sec" id="avaliacoes"><h2>Avaliações dos clientes</h2>';
  if(a.length)h+='<p class="rvs">'+stars(avg)+' <small>('+a.length+(a.length===1?' avaliação':' avaliações')+')</small></p>'+a.map(function(r){return'<div class="rvi"><b>'+esc(r.n||"Cliente")+'</b> '+stars(r.r)+(r.t?'<p>'+esc(r.t)+'</p>':'')+'</div>'}).join("");
  else h+='<p>Este produto ainda não tem avaliações.</p>';
- var gu=gUrl();if(gu)h+='<div class="rvg"><div class="rvgt"><span class="rvgstar" aria-hidden="true">★★★★★</span><b>Comprou com a gente? Avalie a loja no Google</b><span>Leva 1 minuto e ajuda outros clientes a conhecer a '+esc(String(tv("brand")))+'.</span></div><a class="btn rvgb" href="'+esc(gu)+'" target="_blank" rel="noopener"><span class="rvgs" aria-hidden="true">★★★★★</span> Avaliar no Google</a></div>';
+ var gu=gUrl();if(gu)h+='<div class="rvg"><div class="rvgt"><span class="rvgstar" aria-hidden="true">★★★★★</span><b>Comprou com a gente? Avalie a loja no Google</b><span>Leva 1 minuto e ajuda outros clientes a conhecer o '+esc(String(tv("brand")))+'.</span></div><a class="btn rvgb" href="'+esc(gu)+'" target="_blank" rel="noopener"><span class="rvgs" aria-hidden="true">★★★★★</span> Avaliar no Google</a></div>';
  if(waNum()){RVS=0;h+='<details class="rvd"'+(gu?'':' open')+'><summary><span class="rvdi">'+WAI+'</span>Avaliar só este produto pelo WhatsApp</summary><div class="rvf"><p><b>Avaliar este produto</b></p><div class="rvst" role="group" aria-label="Sua nota">'+[1,2,3,4,5].map(function(i){return'<button type="button" class="rvb" data-act="rvs" data-id="'+i+'" aria-label="'+i+(i>1?' estrelas':' estrela')+'">☆</button>'}).join("")+'</div><input id="rvn" type="text" maxlength="40" placeholder="Seu nome"><textarea id="rvt" rows="3" maxlength="400" placeholder="O que você achou do produto?"></textarea><p class="note" id="rvmsg" hidden>Escolha de 1 a 5 estrelas.</p><button class="btn wa" type="button" data-act="rvsend" data-id="'+esc(p.id)+'">'+WAI+' Enviar avaliação pelo WhatsApp</button><p class="note">Sua avaliação vai para a loja pelo WhatsApp e aparece aqui depois de conferida pela loja.</p></div></details>'}
  return h+'</div>'}
 function rvSend(id){var p=prodById(id);if(!p)return;var m=$("rvmsg");if(!RVS){if(m)m.hidden=false;return}if(m)m.hidden=true;
@@ -706,7 +706,7 @@ function catBar(){var cs=vcats();if(!cs.length)return"";var cur=pg==="cat"?pv:""
 function kcContact(){var a=kacts();return a?'<div class="kcf"><div class="kcft">'+T("kfT")+'</div><div class="kcacts">'+a.replace(/class="act /g,'class="act sm ')+'</div></div>':""}
 function kcClose(){var p=document.querySelector(".kcp"),b=document.querySelector(".kcbt");if(p)p.hidden=true;if(b)b.setAttribute("aria-expanded","false")}
 function waFabNum(){return waOwn()?waNum():"5563984514163"}
-function waFab(){return'<a class="wfab" href="https://wa.me/'+waFabNum()+'?text='+encodeURIComponent("Olá! Vim pelo site da "+tv("brand")+" e gostaria de atendimento.")+'" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" title="Falar no WhatsApp">'+IC.wa+'</a>'}
+function waFab(){return'<a class="wfab" href="https://wa.me/'+waFabNum()+'?text='+encodeURIComponent("Olá! Vim pelo site do "+tv("brand")+" e gostaria de atendimento.")+'" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" title="Falar no WhatsApp">'+IC.wa+'</a>'}
 document.addEventListener("keydown",function(e){if(e.key==="Escape")kcClose()});
 /* fotos reduzidas no envio + vídeo por link */
 function shrinkImg(f){return new Promise(function(ok){try{
@@ -914,11 +914,11 @@ function simOf(p){var id=p.id,ok={};ok[id]=1;function f(fn){return S.prods.filte
   var c=f(function(x){return p.brand&&x.brand===p.brand&&x.img});
   return a.slice(0,6).concat(b).slice(0,10).concat(c).slice(0,12)}
 /* Entrega grátis, prazo de resposta e aberto/fechado agora (perto dos botões de orçamento) */
-var TRK='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>';
+var STO='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M4 9v11h16V9M3 9h18M9 20v-6h6v6"/></svg>',TRK='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>';
 function ppInfo(){var n=hrsNow();return'<div class="ppi"><p class="egr">'+TRK+'<span><b>Entrega grátis</b> em Colinas do Tocantins</span></p><p class="rtm">'+IC.wa+'<span>Respondemos no WhatsApp em <b>2 a 10 minutos</b> (em horário de atendimento)</span></p><p class="hst2 '+(n.o?"on":"off")+'">'+n.t+'</p></div>'}
 /* Carrinho: entrega ou retirada (vai na mensagem do WhatsApp) */
 var CENT="",CEND="";try{CENT=localStorage.getItem("rp_ent")||"";CEND=localStorage.getItem("rp_end")||""}catch(e){}
-function cEntH(){return'<fieldset class="cent"><legend>Como prefere receber?</legend><label><input type="radio" name="cent" value="e"'+(CENT==="e"?" checked":"")+'> <span>🚚 Quero entrega <small>(grátis em Colinas do Tocantins)</small></span></label><label><input type="radio" name="cent" value="r"'+(CENT==="r"?" checked":"")+'> <span>🏪 Vou retirar na loja</span></label><input id="cend" maxlength="120" autocomplete="street-address" placeholder="Endereço para entrega (opcional)" aria-label="Endereço para entrega" value="'+esc(CEND)+'"'+(CENT==="e"?"":" hidden")+'></fieldset>'}
+function cEntH(){return'<fieldset class="cent"><legend>Como prefere receber?</legend><label><input type="radio" name="cent" value="e"'+(CENT==="e"?" checked":"")+'> <span class="cei">'+TRK+'Quero entrega <small>(grátis em Colinas do Tocantins)</small></span></label><label><input type="radio" name="cent" value="r"'+(CENT==="r"?" checked":"")+'> <span class="cei">'+STO+'Vou retirar na loja</span></label><input id="cend" maxlength="120" autocomplete="street-address" placeholder="Endereço para entrega (opcional)" aria-label="Endereço para entrega" value="'+esc(CEND)+'"'+(CENT==="e"?"":" hidden")+'></fieldset>'}
 document.addEventListener("change",function(e){var t=e.target;if(t&&t.name==="cent"){CENT=t.value;try{localStorage.setItem("rp_ent",CENT)}catch(x){}var d=$("cend");if(d)d.hidden=CENT!=="e";if(typeof cLive==="function")cLive()}});
 document.addEventListener("input",function(e){var t=e.target;if(t&&t.id==="cend"){CEND=t.value;try{localStorage.setItem("rp_end",CEND)}catch(x){}if(typeof cLive==="function")cLive()}});
 /* Perguntas frequentes (texto aprovado pelo dono; vem do boot.js, gerado de ferramentas/faq.json) */
@@ -1004,7 +1004,7 @@ var IC={
 };
 function mapUrl(){var s=S.s||{},u=safeUrl(s.maps);if(u&&/^https?:/i.test(u))return u;var a=String(s.addr||"").trim();return a?"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(a):""}
 function act(cls,ico,t,sub,href,ext,attrs){return'<a class="act '+cls+'" href="'+esc(href)+'"'+(ext?' target="_blank" rel="noopener"':"")+(attrs||"")+'><span class="acI">'+ico+'</span><span class="acT"><b>'+esc(t)+'</b>'+(sub?'<small>'+esc(sub)+'</small>':"")+'</span><span class="acA" aria-hidden="true">›</span></a>'}
-function waHello(){return"https://wa.me/"+waNum()+"?text="+encodeURIComponent("Olá! Vim pelo site da "+tv("brand")+" e gostaria de pedir um orçamento.")}
+function waHello(){return"https://wa.me/"+waNum()+"?text="+encodeURIComponent("Olá! Vim pelo site do "+tv("brand")+" e gostaria de pedir um orçamento.")}
 var CBT={
  wa:{n:"WhatsApp",s:"WhatsApp",l:"Enviar mensagem no WhatsApp",b:"Peça seu orçamento agora",cls:"wa",ic:"wa",ext:1},
  tel:{n:"Ligar",s:"Ligar",l:null,b:null,cls:"tel",ic:"tel"},
@@ -1382,7 +1382,7 @@ function lauHead(){return'<div class="lau-h"><span class="lau-badge">📋</span>
 function compPage(){return'<div class="pp"><div class="wrap"><div class="bc"><a href="#inicio">'+T("bcH")+'</a><span>›</span><span>'+T("cmpPg")+'</span></div><h1 class="pt">'+T("cmpPg")+'</h1><div id="cpc">'+compBody()+'</div></div></div>'}
 var SHI='<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/></g><path d="M8.6 10.6l6.8-4M8.6 13.4l6.8 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
 var SHO={tg:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M21.5 3.2 2.9 10.4c-.8.3-.8 1.4 0 1.7l4.6 1.6 1.8 5.6c.2.7 1.1.9 1.6.4l2.5-2.4 4.7 3.5c.6.4 1.4.1 1.6-.6L22.9 4.6c.2-.9-.6-1.7-1.4-1.4zM9.6 13.3l8.1-5-6.3 6.3-.3 3z"/></svg>',fb:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M13.6 21v-8h2.7l.4-3.2h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.7V3.5c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.2H7.7V13h2.7v8z"/></svg>',ml:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 5h18a1 1 0 0 1 1 1v.4l-10 6.2L2 6.4V6a1 1 0 0 1 1-1zm-1 3.8 10 6.2 10-6.2V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/></svg>'};
-function shareData(p){var nm=tv("brand"),pr=p.p?" ("+money(p.p)+")":"";return{title:p.n+" | "+nm,text:"Olha este produto da "+nm+": "+p.n+pr,url:siteBase()+pHref(p)}}
+function shareData(p){var nm=tv("brand"),pr=p.p?" ("+money(p.p)+")":"";return{title:p.n+" | "+nm,text:"Olha este produto do "+nm+": "+p.n+pr,url:siteBase()+pHref(p)}}
 function shareP(id){
   var p=S.prods.filter(function(x){return x.id===id})[0];if(!p)return;
   shareGo(shareData(p));
@@ -1455,7 +1455,7 @@ document.addEventListener("click",function(e){
   else if(a==="cpgb"){CPG=null;CPQ="";cpRefresh()}
   else if(a==="cpmore"){CPN+=20;cpListUpd()}
   else if(a==="cpd"){cpDiff=!cpDiff;cpRefresh()}
-  else if(a==="shcmp"){var sp2=CMP.map(prodById).filter(Boolean);if(sp2.length){var nm2=tv("brand"),lst=sp2.map(function(x){return x.n}).join(" x ");shareGo({h:"Compartilhar comparação",lab:"Link da comparação",title:"Comparação: "+lst+" | "+nm2,text:"Compare estes produtos na "+nm2+": "+lst,url:siteBase()+cpHash()})}}
+  else if(a==="shcmp"){var sp2=CMP.map(prodById).filter(Boolean);if(sp2.length){var nm2=tv("brand"),lst=sp2.map(function(x){return x.n}).join(" x ");shareGo({h:"Compartilhar comparação",lab:"Link da comparação",title:"Comparação: "+lst+" | "+nm2,text:"Compare estes produtos no "+nm2+": "+lst,url:siteBase()+cpHash()})}}
   else if(a==="ftab"){var ff=$("f");Array.prototype.forEach.call(ff.querySelectorAll(".tpn"),function(d){d.hidden=d.getAttribute("data-tab")!==id});Array.prototype.forEach.call(ff.querySelectorAll(".tbt"),function(t){var on=t===b;t.classList.toggle("on",on);t.setAttribute("aria-selected",String(on))})}
   else if(a==="shc")shareCopy();
   else if(a==="cq")cqBox(id);

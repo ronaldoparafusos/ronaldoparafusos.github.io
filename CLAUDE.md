@@ -134,7 +134,14 @@ O dono pediu que isso não aconteça mais.
   - Tudo é gerado por `python3 ferramentas/paginas_google.py`, que usa a lista do Supabase (cai para o `index.html` se não conseguir) e refaz o `sitemap.xml`. **Rodar de novo depois de cada lote.**
 - Fonte do Google carregada sem travar a tela (`rel="preload"` + `onload`, com `<noscript>`) desde 26/11/2026 (PageSpeed). Não voltar para `rel="stylesheet"` direto.
 - JSON-LD da loja: `sameAs` com Instagram, Facebook e Google Maps, e `hasMap`.
-- Termos 13.12: cita o limite contra robôs (hash do IP, 7 dias).
+- Termos 13.12: cita o limite contra robôs (hash do IP, 7 dias). Termos 13.7 não cita mais o jsDelivr (a biblioteca é servida pelo próprio site).
+
+## Páginas automáticas e contato (26/11/2026, pedido do dono)
+
+- `.github/workflows/paginas-google.yml` roda `ferramentas/paginas_google.py` todo dia (6h17) e a cada push que muda o `index.html` ou o gerador, e publica sozinho as páginas de produto, categoria, marca e contato. Só faz commit se alguma página mudou. Não apagar.
+  Rodar o script na mão depois de um lote continua permitido (o workflow não atrapalha), mas já não é obrigatório.
+- Página `contato/` (gerada pelo mesmo script): WhatsApp (63) 98451-4163, telefone (63) 3476-1955, e-mail, endereço, horário e redes, com JSON-LD e `contactPoint`, para o Google e a IA do Google mostrarem as formas de contato. Está no sitemap. Se telefone, endereço ou horário mudarem, atualizar no script, no JSON-LD do `index.html` e em `HRS`.
+- O rodapé das páginas geradas tem link para o WhatsApp e para `/contato/`.
 
 ## Nunca apague nem altere sem pedido do dono
 

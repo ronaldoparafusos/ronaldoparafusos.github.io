@@ -1,0 +1,38 @@
+# (26/11/2026, pedido do dono) Páginas do Google automáticas: todo dia e a cada mudança na lista de produtos,
+# roda ferramentas/paginas_google.py (lê a lista do Supabase) e publica as páginas de produto, categoria, marca e contato.
+# Só faz commit se alguma página mudou (o sitemap sozinho não conta, porque a data muda todo dia).
+name: Páginas do Google
+on:
+  schedule:
+    - cron: "17 9 * * *"   # todo dia, 6h17 de Brasília
+  push:
+    branches: [main]
+    paths: ["index.html", "ferramentas/paginas_google.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: paginas-google
+  cancel-in-progress: false
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Gerar páginas
+        run: python3 ferramentas/paginas_google.py
+      - name: Publicar se mudou
+        run: |
+          if git diff --quiet -- . ':(exclude)sitemap.xml' && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+            echo "Nenhuma página mudou."; exit 0
+          fi
+          git config user.name "Páginas do Google (automático)"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A produto categoria marca contato sitemap.xml
+          git commit -q -m "Páginas do Google atualizadas automaticamente"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep 10; done
+          exit 1

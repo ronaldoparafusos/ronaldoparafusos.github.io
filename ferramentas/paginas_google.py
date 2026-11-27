@@ -72,7 +72,7 @@ def big_img(p):
 def absu(u): return u if u.startswith("http") else SITE + u
 def pdate(p):
     t = p.get("up") or p.get("ts")
-    try: return datetime.datetime.utcfromtimestamp(int(t) / 1000).date().isoformat()
+    try: return datetime.datetime.fromtimestamp(int(t) / 1000, datetime.timezone.utc).date().isoformat()
     except Exception: return None
 SAFE = ["id", "c", "n", "code", "un", "brand", "d", "img", "s", "gal", "more", "cg", "cmp", "ts", "up", "nw", "rt", "rv", "bc", "ref", "et"]
 def safe(p):
@@ -90,7 +90,7 @@ ICONS = "".join(re.findall(r'<link rel="(?:icon|apple-touch-icon)"[^>]*>', ix))
 STH = f'<header class="sth"><div class="w"><a href="/"><img src="{LOGO}" alt="Ronaldo Parafusos" width="174" height="48"></a></div></header>'
 STF = ('<footer class="stf"><div class="w"><b>Ronaldo Parafusos</b> · Av. Pedro Ludovico Teixeira, 2034 - Centro, Colinas do Tocantins (TO) · '
        '<a href="tel:+556334761955">(63) 3476-1955</a> · <a href="https://wa.me/5563984514163">WhatsApp (63) 98451-4163</a> · '
-       '<a href="/contato/">Contato</a> · <a href="/perguntas-frequentes/">Perguntas frequentes</a> · <a href="/termos.html">Termos de Uso</a></div></footer>')
+       '<a href="/contato/">Contato</a> · <a href="/servicos/conserto-de-motosserra/">Oficina</a> · <a href="/perguntas-frequentes/">Perguntas frequentes</a> · <a href="/termos.html">Termos de Uso</a></div></footer>')
 def nav_html():
     return '<nav class="c" aria-label="Categorias">' + "".join(
         f'<a href="/categoria/{slug(c["n"])}/">{e(c["n"])}</a>' for c in cats if c["id"] in CATS_OK) + "</nav>"
@@ -257,6 +257,51 @@ write("perguntas-frequentes", shell("perguntas-frequentes", "Perguntas frequente
       "Dúvidas sobre orçamento, entrega grátis em Colinas do Tocantins, formas de pagamento, oficina de motosserras e outras máquinas, horário e contato do Ronaldo Parafusos.",
       main, [LD_F, bc_ld([("Ronaldo Parafusos", SITE + "/"), ("Perguntas frequentes", SITE + "/perguntas-frequentes/")])]))
 
+
+# ---------- serviços da oficina (27/11/2026, pedido do dono: aparecer no Google para quem procura conserto na região) ----------
+# Texto só com o que o dono confirmou (conserto de várias máquinas, peças, todo conserto tem garantia, entrega grátis em Colinas). Sem prazo e sem preço.
+def nn(s):
+    s = unicodedata.normalize("NFD", str(s).lower()); return "".join(c for c in s if unicodedata.category(c) != "Mn")
+SERVICOS = [
+    ("conserto-de-motosserra", "Conserto de motosserra em Colinas do Tocantins", "motosserra",
+     "Sua motosserra parou, está falhando, sem força, vazando óleo ou com a corrente frouxa? A oficina do Ronaldo Parafusos conserta motosserras em Colinas do Tocantins (TO) e tem as peças na própria loja: corrente, sabre, pinhão, carburador, vela, filtro, cordinha de partida e muito mais. Assim o conserto fica mais rápido, porque a peça já está aqui.",
+     r"motosserra|sabre|corrente|pinhao"),
+    ("conserto-de-rocadeira", "Conserto de roçadeira em Colinas do Tocantins", "roçadeira",
+     "Roçadeira que não pega, morre na aceleração ou perdeu força? Consertamos roçadeiras de vários modelos em Colinas do Tocantins (TO), com peças e acessórios na loja: carretel, fio de nylon, lâmina, carburador, vela, filtro e cordinha de partida.",
+     r"rocadeira|carretel|fio de nylon|fio nylon"),
+    ("conserto-de-motobomba", "Conserto de motobomba em Colinas do Tocantins", "motobomba",
+     "Motobomba sem pressão, que não puxa água ou não liga? Fazemos o conserto de motobombas em Colinas do Tocantins (TO) e temos peças, mangotes, mangueiras e conexões para deixar a irrigação e o abastecimento funcionando de novo.",
+     r"motobomba|bomba|mangote|valvula de pe"),
+    ("conserto-de-motor-estacionario", "Conserto de motor estacionário em Colinas do Tocantins", "motor estacionário",
+     "Motor estacionário a gasolina ou a diesel com problema? A oficina do Ronaldo Parafusos conserta motores estacionários em Colinas do Tocantins (TO), além de compressores e outras máquinas, com peças como carburador, vela, filtro, junta e partida.",
+     r"motor estacionario|estacionario|motor a gasolina|motor diesel|compressor"),
+    ("pecas-para-motosserra-e-rocadeira", "Peças para motosserra e roçadeira em Colinas do Tocantins", "peças",
+     "Peças e acessórios para motosserra e roçadeira em Colinas do Tocantins (TO): correntes, sabres, limas, carburadores, filtros, velas, carretéis, fios de nylon, lâminas e muito mais. Consulte pelo WhatsApp e, se precisar, a nossa oficina faz a troca para você.",
+     r"motosserra|rocadeira|sabre|corrente|carretel|lima|carburador"),
+]
+SRV_URLS = []
+if os.path.isdir("servicos"): shutil.rmtree("servicos")
+for sl, tit, maq, txt, rx in SERVICOS:
+    path = f"servicos/{sl}"; url = f"{SITE}/{path}/"
+    it = ordem([p for p in prods if re.search(rx, nn(p["n"])) and p.get("img")])[:24]
+    wa = f"https://wa.me/{WA}?text=" + urllib.parse.quote(f"Olá! Vi no site e preciso de {('peças para motosserra/roçadeira' if sl.startswith('pecas') else 'conserto de ' + maq)}.")
+    outros = "".join(f'<a href="/servicos/{s2}/">{e(t2.replace(" em Colinas do Tocantins", ""))}</a>' for s2, t2, *_ in SERVICOS if s2 != sl)
+    main = (f'<p class="bcs"><a href="/">Início</a> › Oficina › {e(tit.replace(" em Colinas do Tocantins", ""))}</p><h1>{e(tit)}</h1><p>{e(txt)}</p>'
+            f'<p><a class="sbt b" href="{e(wa)}">Chamar no WhatsApp</a><a class="sbt" href="tel:+556334761955">Ligar (63) 3476-1955</a></p>'
+            '<h2>Como funciona</h2><ol class="ctl"><li>Traga a sua máquina à loja ou chame no WhatsApp para tirar dúvidas.</li>'
+            '<li>Nossa equipe passa o orçamento do conserto.</li><li>Consertamos usando as peças que temos na loja.</li><li>Todo conserto feito na nossa oficina tem garantia.</li></ol>'
+            '<p>Endereço: Av. Pedro Ludovico Teixeira, 2034 - Centro, Colinas do Tocantins (TO). Segunda a sexta, 7h às 18h; sábado, 7h às 12h. '
+            'Respondemos no WhatsApp em 2 a 10 minutos (em horário de atendimento). Peças com entrega grátis em Colinas do Tocantins.</p>'
+            + (f'<h2>Peças e acessórios na loja</h2><ul class="l">{"".join(card(p) for p in it)}</ul>' if it else "")
+            + f'<h2>Outros serviços</h2><nav class="c">{outros}</nav>' + nav_html())
+    ld = {"@context": "https://schema.org", "@type": "Service", "name": tit, "serviceType": tit.replace(" em Colinas do Tocantins", ""), "url": url,
+          "description": txt, "areaServed": {"@type": "City", "name": "Colinas do Tocantins"},
+          "provider": {"@type": "HardwareStore", "name": "Ronaldo Parafusos", "url": SITE + "/", "telephone": "+55-63-3476-1955",
+                       "address": {"@type": "PostalAddress", "streetAddress": "Av. Pedro Ludovico Teixeira, 2034 - Centro", "addressLocality": "Colinas do Tocantins", "addressRegion": "TO", "postalCode": "77761-670", "addressCountry": "BR"}}}
+    og = absu(big_img(it[0])) if it and big_img(it[0]) else None
+    write(path, shell(path, f"{tit} | Ronaldo Parafusos", txt, main, [ld, bc_ld([("Ronaldo Parafusos", SITE + "/"), (tit, url)])], og))
+    SRV_URLS.append(url)
+
 # ---------- 404 (o próprio site: busca, categorias e WhatsApp; abre também produto novo antes da página dele existir) ----------
 main = ('<h1>Página não encontrada</h1><p>Este endereço não existe ou o produto saiu do catálogo. Use a busca no topo, escolha uma categoria abaixo ou fale com a gente.</p>'
         f'<p><a class="sbt" href="/">Ir para a página inicial</a><a class="sbt b" href="https://wa.me/{WA}">Chamar no WhatsApp</a></p>' + nav_html())
@@ -274,7 +319,7 @@ LL = ["# Ronaldo Parafusos", "",
       "- Empresa: Ronaldo Parafusos Ltda ME, CNPJ 28.453.578/0001-12", "",
       "## Páginas principais", "",
       f"- [Catálogo]({SITE}/): {len(prods)} produtos com foto, marca, código e ficha técnica",
-      f"- [Contato]({SITE}/contato/)", f"- [Perguntas frequentes]({SITE}/perguntas-frequentes/)", "", "## Categorias", ""]
+      f"- [Contato]({SITE}/contato/)", f"- [Perguntas frequentes]({SITE}/perguntas-frequentes/)", "", "## Oficina", ""] + [f"- [{x[1]}]({SITE}/servicos/{x[0]}/)" for x in SERVICOS] + ["", "## Categorias", ""]
 LL += [f"- [{c['n']}]({SITE}/categoria/{slug(c['n'])}/)" for c in cats if c["id"] in CATS_OK]
 LL += ["", f"Lista completa de páginas: {SITE}/sitemap.xml", ""]
 open("llms.txt", "w", encoding="utf-8").write("\n".join(LL))
@@ -288,6 +333,7 @@ allm = lastmod(prods)
 add(SITE + "/", allm, "daily", "1.0")
 add(SITE + "/contato/", None, "monthly", "0.8")
 add(SITE + "/perguntas-frequentes/", None, "monthly", "0.7")
+for u in SRV_URLS: add(u, None, "monthly", "0.9")
 for u, lm, f, pr in lists: add(u, lm, f, pr)
 for u, lm in purls: add(u, lm, "monthly", "0.6")
 # termos.html fica fora do sitemap e com noindex (pedido do dono, 25/11/2026)

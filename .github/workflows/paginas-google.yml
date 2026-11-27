@@ -21,6 +21,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -33,7 +35,14 @@ jobs:
           fi
           git config user.name "Páginas do Google (automático)"
           git config user.email "actions@users.noreply.github.com"
-          git add -A produto categoria marca contato perguntas-frequentes boot.js 404.html llms.txt sitemap.xml
+          git add -A produto categoria marca servicos contato perguntas-frequentes boot.js 404.html llms.txt sitemap.xml
           git commit -q -m "Páginas do Google atualizadas automaticamente"
           for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep 10; done
           exit 1
+      - name: Avisar Bing e outros buscadores (IndexNow)
+        if: always()
+        run: |
+          BASE="${{ github.event.before }}"
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE" 2>/dev/null; then BASE="${{ github.sha }}"; fi
+          git pull -q origin main || true
+          python3 ferramentas/indexnow.py "$BASE" || true

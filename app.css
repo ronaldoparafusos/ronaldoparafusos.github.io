@@ -1116,3 +1116,14 @@ header .kcb .wrap{padding-right:12px}
 .stc .ctl{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}.stc .ctl li{padding:8px 12px;font-size:15px}.stp2{border-top:4px solid #f5c518;margin-top:10px;padding-top:14px}
 @media(max-width:700px){.stc p,.stc .ctl li{font-size:15px}}
 .cei{display:inline-flex;align-items:center;gap:6px}.cei svg{width:20px;height:20px;color:#2b4ea2;flex:none}
+/* Busca 2 e oficina (27/11/2026) */
+.sw .hs{padding-right:44px}.mic{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:transparent;color:#2b4ea2;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mic svg{width:22px;height:22px}.mic.on{background:#e11d48;color:#fff;animation:micp 1s infinite}@keyframes micp{50%{box-shadow:0 0 0 6px rgba(225,29,72,.25)}}
+.si.sic{background:#eef3ff}.si.sic b{color:#2b4ea2}
+.si.siw{display:flex;gap:8px;align-items:center;background:#eafaf0;color:#14532d;text-decoration:none}.si.siw svg{width:20px;height:20px;color:#16a34a;flex:none}
+.waask{display:inline-flex;gap:8px;align-items:center;margin-top:12px}.waask svg{width:18px;height:18px}
+.ofi{padding:18px 0}.ofp{margin:-4px 0 12px;color:#444}.ofg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.ofc{display:flex;gap:12px;align-items:center;background:#fff;border:2px solid #e3e5ea;border-left:5px solid #f5c518;border-radius:10px;padding:14px;text-decoration:none;color:#1d2024;font-weight:700}
+.ofc:hover{border-color:#2b4ea2}.ofc svg{width:34px;height:34px;color:#2b4ea2;flex:none}
+.bsd{max-width:640px;width:92vw;border:0;border-radius:12px;padding:18px}.bst{width:100%;border-collapse:collapse;font-size:14px}.bst td,.bst th{border-bottom:1px solid #eee;padding:6px;text-align:left}
+.stc ol.ctl{list-style:decimal}.stc ol.ctl li{list-style-position:inside}

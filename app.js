@@ -33,8 +33,8 @@ function mailBox(href){
 }
 function catOf(id){return S.cats.filter(function(c){return c.id===id})[0]}
 function render(){CPC=null;clearInterval(bt);theme();if((pg==="cat"&&!catOf(pv))||(pg==="brand"&&!brandBySlug(slug(pv)))){pg="";pv="";location.hash=""}if(view&&!RPL&&!S.prods.some(function(x){return x.id===view})){view="";if(location.hash.indexOf("#p-")===0)location.hash=""}
-  var s=S.s,h='<header class="'+hcl()+'"><div class="wrap"><a class="brand" href="#inicio" data-ed="logo">'+brandLogo()+'</a><div class="sw"><input id="hq" class="hs" data-ed="tx:ph" type="search" autocomplete="off" placeholder="'+T("ph")+'" aria-label="Buscar produtos" value="'+esc(term)+'"><div id="sr" class="sr" hidden></div></div><nav>'+(typeof tvH==="function"?tvH():"")+(canEdit?'<button class="btn dark" type="button" data-act="te">'+(edit?"Sair da edição":"Editar site")+'</button>':'')+cartHd()+'</nav></div>'+(typeof catBar==="function"?catBar():"")+'</header>';
-  if(canEdit&&edit)h+='<div class="bar"><div class="wrap"><b>Modo de edição <small style="font-weight:400">· dica: clique com o botão direito em qualquer texto, botão, endereço, produto, categoria ou marca para editar</small></b><button class="btn dark sm" type="button" data-act="np">+ Produto</button><button class="btn sm" type="button" data-act="mass">Edição em massa</button><button class="btn sm" type="button" data-act="avl">Avisos de erro<span class="avn">'+(typeof AVN!=="undefined"&&AVN?" ("+AVN+")":"")+'</span></button><button class="btn dark sm" type="button" data-act="ec">Categorias</button><button class="btn dark sm" type="button" data-act="es">Textos e contato</button><button class="btn dark sm" type="button" data-act="ebt">Botões de contato</button><button class="btn dark sm" type="button" data-act="ecm">Mensagem do carrinho</button><button class="btn dark sm" type="button" data-act="eb">Destaques</button><button class="btn dark sm" type="button" data-act="em">Marcas</button><button class="btn dark sm" type="button" data-act="ev">Vídeo e sobre</button><button class="btn dark sm" type="button" data-act="efs">Rodapé</button><button class="btn dark sm" type="button" data-act="efl">Links do rodapé</button><button class="btn dark sm" type="button" data-act="eo">Lojas</button><button class="btn sm" type="button" data-act="pub"'+(dirty?'':' disabled')+'>Publicar alterações</button></div></div>';
+  var s=S.s,h='<header class="'+hcl()+'"><div class="wrap"><a class="brand" href="#inicio" data-ed="logo">'+brandLogo()+'</a><div class="sw"><input id="hq" class="hs" data-ed="tx:ph" type="search" autocomplete="off" placeholder="'+T("ph")+'" aria-label="Buscar produtos" value="'+esc(term)+'">'+micH()+'<div id="sr" class="sr" hidden></div></div><nav>'+(typeof tvH==="function"?tvH():"")+(canEdit?'<button class="btn dark" type="button" data-act="te">'+(edit?"Sair da edição":"Editar site")+'</button>':'')+cartHd()+'</nav></div>'+(typeof catBar==="function"?catBar():"")+'</header>';
+  if(canEdit&&edit)h+='<div class="bar"><div class="wrap"><b>Modo de edição <small style="font-weight:400">· dica: clique com o botão direito em qualquer texto, botão, endereço, produto, categoria ou marca para editar</small></b><button class="btn dark sm" type="button" data-act="np">+ Produto</button><button class="btn sm" type="button" data-act="mass">Edição em massa</button><button class="btn sm" type="button" data-act="bsl">Buscas sem resultado</button><button class="btn sm" type="button" data-act="avl">Avisos de erro<span class="avn">'+(typeof AVN!=="undefined"&&AVN?" ("+AVN+")":"")+'</span></button><button class="btn dark sm" type="button" data-act="ec">Categorias</button><button class="btn dark sm" type="button" data-act="es">Textos e contato</button><button class="btn dark sm" type="button" data-act="ebt">Botões de contato</button><button class="btn dark sm" type="button" data-act="ecm">Mensagem do carrinho</button><button class="btn dark sm" type="button" data-act="eb">Destaques</button><button class="btn dark sm" type="button" data-act="em">Marcas</button><button class="btn dark sm" type="button" data-act="ev">Vídeo e sobre</button><button class="btn dark sm" type="button" data-act="efs">Rodapé</button><button class="btn dark sm" type="button" data-act="efl">Links do rodapé</button><button class="btn dark sm" type="button" data-act="eo">Lojas</button><button class="btn sm" type="button" data-act="pub"'+(dirty?'':' disabled')+'>Publicar alterações</button></div></div>';
   var top=h;h+='<main id="inicio">'+home();
   h+=videoSec();h+=faqSec();h+=contactSec()+'</main>'+footer()+'';
   if(view)h=top+'<main id="inicio">'+(prodById(view)?prodPage(view):'<div class="wrap"><p class="ldg">Carregando produto…</p></div>')+'</main>'+footer()+'';else if(pg)h=top+'<main id="inicio">'+(pg==="static"?'<div class="wrap"><div class="stc stin">'+STATIC+'</div></div><div class="stp2"><div class="wrap"><h2 class="sh">Conheça nossos produtos</h2></div>'+homeLite()+'</div>':pg==="compare"?compPage():pg==="cart"?cartPage():pg==="brands"?brandsPage():(pg==="mass"&&canEdit&&typeof massPage==="function")?massPage():listPage())+'</main>'+footer()+'';rTitle();$("root").innerHTML=h+'<div id="cptw">'+cpTrayH()+'</div>'+(typeof waFab==="function"?waFab():"");cpSync();if(pg==="cart")cLive();bindSearch();railInit();if(pg==="mass"&&canEdit&&typeof massBind==="function")massBind();if(view||pg)return;
@@ -94,6 +94,7 @@ function home(){
   var fl=featList();
   if(fl.all.length&&S.s.feat!=="0")h+='<section style="padding:16px 0"><div class="wrap"><h2 class="sh">'+T("featT")+'</h2><div id="fgrid" class="g4">'+fl.shown.map(pcard).join("")+'</div><p class="frow">'+(fl.more?'<button id="fmbtn" class="btn" type="button" data-act="fmore">'+T("moreB")+'</button>':"")+'<a class="btn dark" href="#produtos">'+T("allB")+'</a></p></div></section>';
   if(typeof novSec==="function")h+=novSec();
+  h+=ofiSec();
   return h;
 }
 var DT={brand:"Ronaldo Parafusos",navProd:"Produtos",navCont:"Contato",call:"Ligar agora",bnBtn:"Ver produtos",brandsT:"Marcas",catsT:"Navegue por categorias",featT:"Mais vendidos",prodT:"Nossos produtos",ph:"Buscar: parafuso, luva, tinta…",contT:"Peça seu orçamento",contP:"Diga o produto e a quantidade que você precisa. Também atendemos pelo Instagram.",foot:"© Ronaldo Parafusos. Ferragens, ferramentas e parafusos.",quote:"Solicitar orçamento",order:"Fazer pedido",quoteB:"Solicitar orçamento via WhatsApp",orderB:"Fazer pedido pelo WhatsApp",noP:"Consulte o preço",cash:"à vista no dinheiro ou Pix",boxP:"Fale com a gente para confirmar disponibilidade e prazo.",descT:"Descrição",specT:"Ficha técnica",moreT:"Mais sobre o produto",simT:"Clientes também procuram",cmpL:"Comparar",cmpOn:"Na comparação",cmpB:"Comparar com outros produtos",cmpBon:"Na comparação (remover)",cmpPg:"Comparar produtos",fInst:"Institucional",fAt:"Atendimento",fSoc:"Siga nossas redes",kcat:"Categorias",fSt:"Nossas lojas",routeT:"Como chegar na loja",allT:"Todos os produtos",moreB:"Ver mais",allB:"Ver todos os produtos",menuT:"Menu",kfT:"Fale com a gente",bcH:"Início",fltT:"Filtros",fltC:"Limpar",fltS:"Mostrar filtros",fltH:"Ocultar filtros",srtT:"Ordenar por",railM:"Ver todas",railL:"Ver menos",fltP:"Preço (R$)",fltR:"Avaliação",fltO:"Outros",fltA:"Todas",flt4:"4 estrelas ou mais",flt3:"3 estrelas ou mais",fltN:"Novidades e lançamentos",fltV:"Mais vendidos",cartT:"Carrinho de orçamento",cartS:"Carrinho",cartAdd:"Adicionar ao carrinho",cartAddS:"+ Carrinho",cartBoxT:"Quer orçar vários produtos?",cartBoxD:"Escolha a quantidade, adicione ao carrinho e, no fim, envie a lista inteira de uma vez pelo WhatsApp.",cartObs:"Observação (ex.: medida, cor)",cartGo:"Ver carrinho",cartOk:"Adicionado ao carrinho",cartEmpty:"Seu carrinho está vazio.",cartEmptyD:"Escolha os produtos, defina a quantidade e toque em “Adicionar ao carrinho”.",cartMore:"Adicionar mais produtos",cartName:"Seu nome (opcional)",cartSend:"Solicitar orçamento via WhatsApp",cartNote:"A lista vai para o WhatsApp da loja com nome, código e quantidade de cada produto. A loja responde com valores e disponibilidade.",cartCopy:"Copiar lista",cartClr:"Limpar carrinho",cartClrQ:"Toque de novo para limpar",cartRm:"Remover"};
@@ -179,7 +180,7 @@ if(!S.f)S.f={links:[{t:"Início",u:"#inicio"},{t:"Produtos",u:"#produtos"},{t:"F
 if(!S.v)S.v={t:"",video:"",cols:[]};
 function safeUrl(u){u=String(u||"").trim();return /^(https?:\/\/|mailto:|tel:|#)/i.test(u)?u:""}
 function ext(u){return /^https?:/i.test(u)?' target="_blank" rel="noopener"':""}
-function bindSearch(){
+var BST;function bindSearch(){
   var q=$("hq");if(!q)return;
   function show(){
     var t=norm(q.value.trim()),box=$("sr");term=q.value;
@@ -188,13 +189,14 @@ function bindSearch(){
     var r=S.prods.filter(function(p){return qm(qhx(p),t)}).map(function(p,i){return{p:p,s:qsc(qhx(p),t),i:i}}).sort(function(a,b){return b.s-a.s||((b.p.img?1:0)-(a.p.img?1:0))||a.i-b.i}).map(function(o){return o.p}),mx=window.innerWidth<=760?8:6;
     var r2=(r.length<mx&&typeof srDesc==="function")?S.prods.filter(function(p){return r.indexOf(p)<0&&srDesc(p,t)}):[];
     function siH(p){var c=catOf(p.c);return'<a class="si" href="'+esc(pHref(p))+'"><b>'+nmH(p)+'</b><span>'+esc(c?c.n:"")+'</span></a>'}
-    var h=r.slice(0,mx).map(siH).join("");
+    var h=sgH(t)+r.slice(0,mx).map(siH).join("");
     if(r2.length)h+='<div class="si sih">'+(r.length?'Também citam “'+esc(q.value.trim())+'” na descrição:':'Nenhum produto com esse nome. Estes citam “'+esc(q.value.trim())+'” na descrição:')+'</div>'+r2.slice(0,Math.max(3,mx-r.length)).map(siH).join("");
     var tot=r.length>=12?r.length:r.length+r2.length;
     var r3=[];if(!r.length&&!r2.length){QPT=1;r3=S.prods.filter(function(p){return qm(qhx(p),t)});QPT=0;tot=r3.length;if(r3.length)h='<div class="si sih">Não achamos tudo o que você digitou. Veja itens parecidos:</div>'+r3.slice(0,mx).map(siH).join("")}
-    if(!r.length&&!r2.length&&!r3.length)h='<div class="si">Nenhum produto encontrado. Tente outra palavra ou <a href="'+tel()+'">ligue para a loja</a>.</div>';
+    if(!r.length&&!r2.length){clearTimeout(BST);BST=setTimeout(function(){bsLog(q.value)},1500)}
+    if(!r.length&&!r2.length&&!r3.length)h=sgH(t)+'<div class="si">Nenhum produto encontrado. Tente outra palavra ou <a href="'+tel()+'">ligue para a loja</a>.</div>';
     else h+='<button class="si all" type="button" data-act="sa">Ver todos os resultados ('+tot+')</button>';
-    box.innerHTML=h;box.hidden=false;
+    h+=waAskH(q.value);box.innerHTML=h;box.hidden=false;
   }
   var qtm;q.addEventListener("input",function(){clearTimeout(qtm);qtm=setTimeout(show,90)});
   q.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();term=q.value;if(term.trim())go("#busca")}else if(e.key==="Escape"){$("sr").hidden=true}});
@@ -400,7 +402,7 @@ function listItems(){
   return a.map(function(o){return o.p});
 }
 function listUpd(){
-  var it=listItems(),g=$("lgrid");if(!g)return;
+  var it=listItems(),g=$("lgrid");if(!g)return;if(pg==="search"&&term.trim()&&!it.length)bsLog(term);
   g.innerHTML=listCards(it);
   var e=$("lempty");if(e)e.hidden=it.length>0;
   var c=$("lcount");if(c)c.textContent=cnt(it.length);
@@ -421,7 +423,7 @@ function listPage(){
   var it=listItems(),open=fopen===null?(window.innerWidth>=900):fopen;
   var h='<div class="pp"><div class="wrap"><div class="bc"><a href="#inicio">'+T("bcH")+'</a><span>›</span><span id="lcrumb">'+esc(ptitle())+'</span></div><h1 class="pt"><span id="lbimg">'+titleImg()+'</span><span id="ltitle">'+esc(ptitle())+'</span></h1>';
   h+='<div class="lbar"><button class="btn sm" type="button" data-act="ft" aria-controls="fp">'+(open?T("fltH"):T("fltS"))+'</button><span class="meta" id="lcount">'+cnt(it.length)+'</span><label class="srt" data-ed="tx:srtT">'+T("srtT")+' <select data-f="sort">'+[["","Relevância"],["pa","Menor preço"],["pd","Maior preço"],["nw","Lançamentos"],["rt","Melhor avaliados"],["az","Nome (A a Z)"]].map(function(o){return'<option value="'+o[0]+'"'+(F.sort===o[0]?" selected":"")+'>'+o[1]+'</option>'}).join("")+'</select></label></div>';
-  h+='<div class="lay'+(open?"":" fclosed")+'" id="lay">'+fpanel()+'<div><div id="lgrid" class="grid">'+listCards(it)+'</div><div id="lempty" class="empty" style="margin-top:20px"'+(it.length?" hidden":"")+'>'+((pg==="search"&&!term.trim())?"Digite o nome do produto na busca do topo.":'Nenhum produto encontrado com esses filtros. <a href="'+tel()+'">Ligue para '+esc(S.s.phone)+'</a> e a gente confirma se tem.'+((canEdit&&edit&&F.brands.length)?"<br>Para ligar produtos a uma marca, edite o produto e escolha a marca.":""))+'</div></div></div></div></div>';
+  h+='<div class="lay'+(open?"":" fclosed")+'" id="lay">'+fpanel()+'<div><div id="lgrid" class="grid">'+listCards(it)+'</div><div id="lempty" class="empty" style="margin-top:20px"'+(it.length?" hidden":"")+'>'+((pg==="search"&&!term.trim())?"Digite o nome do produto na busca do topo.":'Nenhum produto encontrado com esses filtros. <a href="'+tel()+'">Ligue para '+esc(S.s.phone)+'</a> e a gente confirma se tem.'+(pg==="search"&&term.trim()?waAskH(term,"btn wa sm waask"):"")+((canEdit&&edit&&F.brands.length)?"<br>Para ligar produtos a uma marca, edite o produto e escolha a marca.":""))+'</div></div></div></div></div>';
   return h;
 }
 function fhandle(e){
@@ -895,9 +897,10 @@ function qn(s){return String(s).replace(/(\d)[.,](\d)/g,"$1,$2").replace(/(\d)(m
 function qph(s){return s.replace(/ph/g,"f").replace(/[cs]h/g,"x").replace(/lh/g,"li").replace(/nh/g,"ni").replace(/qu|q/g,"c").replace(/gu(?=[ei])/g,"g").replace(/g(?=[ei])/g,"j").replace(/sc(?=[ei])|c(?=[ei])|ss|z/g,"s").replace(/k/g,"c").replace(/w/g,"v").replace(/y/g,"i").replace(/h/g,"").replace(/l(?![aeiou])/g,"u").replace(/m(?![aeiou\s]|$)/g,"n").replace(/([a-z])\1+/g,"$1")}
 function qhx(p){return norm(p.n+" "+(p.brand||"")+" "+(p.code||"")+" "+(p.bc||"")+" "+(p.ref||""))}
 function qprep(x){var c=QC.get(x);if(!c){if(QC.size>40000)QC.clear();var n=qn(x);c={n:n,p:qph(n),w:null};QC.set(x,c)}return c}
-function qtoks(t){var a=qn(norm(t)).split(/[\s\/]+/).filter(Boolean),b=a.filter(function(w){return!QSW[w]});return b.length?b:a}
+function qtoks(t){var s0=" "+qn(norm(t)).replace(/[\s\/]+/g," ")+" ";if(typeof QSYP!=="undefined")QSYP.forEach(function(k,i){if(s0.indexOf(" "+k+" ")>=0)s0=s0.replace(" "+k+" "," \u00a7"+i+" ")});var a=s0.split(" ").filter(Boolean),b=a.filter(function(w){return!QSW[w]});return b.length?b:a}
 function qlev(a,b,k){var m=a.length,n=b.length,i,j;if(Math.abs(m-n)>k)return k+1;var p=[];for(j=0;j<=n;j++)p[j]=j;for(i=1;i<=m;i++){var c=[i],mn=i;for(j=1;j<=n;j++){c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a.charCodeAt(i-1)===b.charCodeAt(j-1)?0:1));if(c[j]<mn)mn=c[j]}if(mn>k)return k+1;p=c}return p[n]}
 function qtok(c,w,fz){
+  if(w.charAt(0)==="\u00a7")return qsyn(c,QSYP[+w.slice(1)]);
   if(c.n.indexOf(w)>=0)return 3;
   var v=[w.replace(/oes$|aes$/,"ao"),w.replace(/ns$/,"m"),w.replace(/is$/,"l"),w.replace(/es$/,""),w.replace(/s$/,"")],i;
   for(i=0;i<v.length;i++)if(v[i]!==w&&v[i].length>2&&c.n.indexOf(v[i])>=0)return 3;
@@ -905,7 +908,7 @@ function qtok(c,w,fz){
   var pw=qph(w.replace(/s$/,""));if(pw.length>2&&c.p.indexOf(pw)>=0)return 2;
   if(fz&&w.length>=4){var k=w.length>=8?2:1;if(!c.w)c.w=c.n.split(/[^a-z0-9]+/).filter(function(x){return x.length>=3});
     for(i=0;i<c.w.length;i++){var x=c.w[i];if(qlev(x,w,k)<=k||(x.length>w.length&&qlev(x.slice(0,w.length),w,1)<=1&&w.length>=5))return 1}}
-  return 0}
+  return qsyn(c,w)||qsyn(c,w.replace(/s$/,""))}
 function qsc(x,t){var c=qprep(x),ts=qtoks(t),s=0,q=qn(norm(t)).trim();ts.forEach(function(w){s+=qtok(c,w,1)});if(q&&c.n.indexOf(q)>=0)s+=4;var fw=c.n.split(/[^a-z0-9]+/)[0]||"",w0=ts[0]||"";if(w0&&(fw.indexOf(w0)===0||qph(fw)===qph(w0)||(w0.length>=4&&qlev(fw,w0,w0.length>=8?2:1)<=(w0.length>=8?2:1))))s+=2;return s}
 /* "Clientes também procuram": mesma categoria e marca primeiro, depois a mesma categoria (com foto) e a mesma marca */
 function simOf(p){var id=p.id,ok={};ok[id]=1;function f(fn){return S.prods.filter(function(x){if(ok[x.id]||!fn(x))return false;return true})}
@@ -926,6 +929,76 @@ document.addEventListener("input",function(e){var t=e.target;if(t&&t.id==="cend"
 function homeLite(){var x=home(),m='<div class="stripe" aria-hidden="true"></div>',k=x.indexOf(m);return k>=0?x.slice(k+m.length):x}
 function faqSec(){var F=(BOOT&&BOOT.faq)||[];if(!F.length)return"";
   return'<section class="faq"><div class="wrap"><h2>Perguntas frequentes</h2>'+F.slice(0,6).map(function(q){return'<details><summary>'+esc(q[0])+'</summary><p>'+esc(q[1])+'</p></details>'}).join("")+'<a class="btn dark sm" href="perguntas-frequentes/">Ver todas as perguntas</a></div></section>'}
+
+/* ===== Busca 2 (27/11/2026, pedido do dono: atrair clientes) =====
+   QSY: nomes do dia a dia -> como está no catálogo. Chave com espaço = expressão (trocada antes de separar as palavras).
+   Cada valor é uma lista de alternativas (basta uma bater); alternativa com espaço exige todas as palavras. */
+var QSY={
+"enforca gato":["abracadeira nylon"],"fita metrica":["trena"],"serra eletrica":["motosserra","serra circular","serra marmore"],"moto serra":["motosserra"],
+"pe de cabra":["pe de cabra","alavanca"],"chave inglesa":["inglesa","ajustavel"],"chave de boca":["chave fixa","chave combinada","chave boca"],
+"chave estrela":["chave estrela","chave combinada"],"bomba d agua":["motobomba","bomba submersa","bomba centrifuga","bomba periferica","bomba agua","bomba d"],"bomba de agua":["motobomba","bomba submersa","bomba centrifuga","bomba periferica","bomba agua","bomba d"],"bomba dagua":["motobomba","bomba submersa","bomba centrifuga","bomba periferica","bomba agua","bomba d"],
+"bomba costal":["pulverizador"],"lava jato":["lavadora"],"carrinho de mao":["carrinho"],"boca de lobo":["cavadeira"],"bico de mangueira":["esguicho"],
+"fio de rocadeira":["fio nylon","carretel"],"fio de nylon":["fio nylon","carretel"],"linha de rocadeira":["fio nylon","carretel"],"protetor auricular":["abafador","protetor auricular","plug"],
+"protetor de ouvido":["abafador","protetor auricular"],"veda rosca":["veda rosca","vedarosca","fita veda"],"cola de cano":["adesivo","cola"],"cola cano":["adesivo","cola"],
+"trava rosca":["trava rosca"],"ferro de solda":["ferro de solda","soldador"],"maquina de solda":["inversora","maquina solda","transformador solda"],
+"parafuso de madeira":["parafuso soberba","parafuso madeira","atarraxante"],"parafuso de telha":["parafuso telha"],"tico tico":["tico"],"bota de borracha":["bota pvc","bota borracha","galocha"],
+"capa de chuva":["capa chuva"],"luva de raspa":["raspa"],"cola quente":["cola quente","bastao"],"espuma expansiva":["espuma"],"caixa d agua":["caixa d"],
+"serra copo":["serra copo"],"disco de corte":["disco corte"],"disco de serra":["disco serra"],"oleo 2 tempos":["2 tempos","dois tempos"],
+lixadeira:["esmerilhadeira","lixadeira"],makita:["esmerilhadeira","serra marmore","furadeira","makita"],maquita:["esmerilhadeira","serra marmore","furadeira"],
+esmeril:["esmerilhadeira","rebolo","esmeril"],capinadeira:["rocadeira"],rocadera:["rocadeira"],rosadeira:["rocadeira"],motoserra:["motosserra"],
+cano:["tubo","eletroduto","cano"],canos:["tubo","eletroduto","cano"],metro:["trena","metro"],botina:["botina","bota"],bota:["bota","botina"],galocha:["bota"],
+torques:["torquesa","alicate"],torquesa:["torquesa","alicate"],arrebite:["rebite"],rebitador:["rebitadeira"],parafusadeira:["parafusadeira","furadeira"],
+benjamim:["benjamim","adaptador tomada","plug"],benjamin:["benjamim","adaptador tomada","plug"],espada:["sabre"],lavajato:["lavadora"],wap:["lavadora"],
+desengripante:["desengripante","wd"],wd40:["desengripante","wd"],tiner:["thinner"],thiner:["thinner"],diluente:["thinner","aguarras"],zarcao:["zarcao","fundo"],
+trincha:["trincha","pincel"],pincel:["pincel","trincha"],soldador:["ferro de solda","inversora"],inversora:["inversora","maquina solda"],
+martelete:["martelete","rompedor","perfurador"],rompedor:["rompedor","martelete"],epi:["luva","oculos","capacete","botina","abafador","mascara","respirador"],
+mascara:["mascara","respirador"],respirador:["respirador","mascara"],tranca:["trinco","ferrolho","tranca"],trinco:["trinco","ferrolho"],
+interruptor:["interruptor","tecla"],pilha:["pilha","bateria"],cotovelo:["joelho","curva"],engate:["engate"],ventilador:["ventilador"],
+cimento:["cimento","argamassa"],rejunte:["rejunte"],bucha:["bucha"],prego:["prego"],grampo:["grampo"],furadeira:["furadeira"],
+lima:["lima"],limatao:["lima"],sabre:["sabre"],corrente:["corrente"],vela:["vela"],carburador:["carburador"],mangote:["mangote"],
+mangueira:["mangueira","mangote"],pistola:["pistola"],compressor:["compressor"],lanterna:["lanterna"],cadeado:["cadeado"],
+enxadao:["enxadao"],cavadeira:["cavadeira","boca de lobo"],machado:["machado"],foice:["foice"],
+graxa:["graxa"],oleo:["oleo","lubrificante"],lubrificante:["lubrificante","oleo"],selador:["selador"],verniz:["verniz"],
+silicone:["silicone"],veda:["veda"],aspersor:["aspersor"],gotejador:["gotejador","gotejamento"],tela:["tela"],arame:["arame"],
+abracadeira:["abracadeira"],nivel:["nivel"],prumo:["prumo"],esquadro:["esquadro"],serrote:["serrote"],martelo:["martelo"],marreta:["marreta"],
+talhadeira:["talhadeira"],ponteiro:["ponteiro"],colher:["colher de pedreiro","colher"],desempenadeira:["desempenadeira"]
+};
+var QSYP=Object.keys(QSY).filter(function(k){return k.indexOf(" ")>0}).sort(function(a,b){return b.length-a.length});
+function qsyn(c,w){var a=QSY[w];if(!a)return 0;for(var i=0;i<a.length;i++){var p=a[i].split(" "),ok=true;for(var j=0;j<p.length;j++)if(c.n.indexOf(p[j])<0){ok=false;break}if(ok)return 2}return 0}
+/* Sugestões de categoria e marca no topo da caixa de busca */
+function sgH(t){var out=[],k;if(t.length<3)return"";
+  (S.cats||[]).forEach(function(c){if(out.length<2&&qm(norm(c.n),t,1))out.push('<a class="si sic" href="categoria/'+slug(c.n)+'/"><b>Categoria: '+esc(c.n)+'</b><span>Ver todos</span></a>')});
+  k=0;(S.brands||[]).forEach(function(b){var bn=norm(b.n);if(k<2&&bn.length>2&&(bn===norm(t.trim())||bn.indexOf(norm(t.trim()))===0)){var n=S.prods.filter(function(p){return norm(p.brand||"")===bn}).length;if(n){k++;out.push('<a class="si sic" href="#marca-'+esc(slug(b.n))+'"><b>Marca: '+esc(b.n)+'</b><span>'+n+(n===1?" produto":" produtos")+'</span></a>')}}});
+  return out.join("")}
+/* "Não achou? Pergunte no WhatsApp" com o que o cliente digitou */
+function waAsk(q){var n=(typeof waNum==="function"&&waNum())||"5563984514163";return"https://wa.me/"+n+"?text="+encodeURIComponent("Olá! Procurei no site por \""+String(q).trim()+"\" e não encontrei. Vocês têm?")}
+function waAskH(q,cls){return'<a class="'+(cls||"si siw")+'" href="'+esc(waAsk(q))+'" target="_blank" rel="noopener">'+IC.wa+'<span>Não achou? <b>Pergunte no WhatsApp</b></span></a>'}
+/* Buscas sem resultado: só a palavra (sem dado do cliente), 1 vez por palavra por aparelho por dia; o administrador vê em "Buscas sem resultado" */
+var BSL={};
+function bsLog(t){t=norm(String(t||"")).replace(/\s+/g," ").trim().slice(0,60);if(t.length<3||canEdit||!rpOn())return;
+  try{var d=new Date().toISOString().slice(0,10),o=JSON.parse(localStorage.getItem("rp_bs")||"{}");if(o.d!==d)o={d:d,l:[]};if(o.l.indexOf(t)>=0||o.l.length>=30)return;o.l.push(t);localStorage.setItem("rp_bs",JSON.stringify(o))}catch(e){if(BSL[t])return;BSL[t]=1}
+  try{fetch(rpBase()+"/rest/v1/rpc/busca_registrar",{method:"POST",headers:{apikey:RPC.key,"Content-Type":"application/json"},body:JSON.stringify({t:t}),keepalive:true}).catch(function(){})}catch(e){}}
+async function bsOpen(){var d=document.getElementById("bsd");if(!d){d=document.createElement("dialog");d.id="bsd";d.className="bsd";document.body.appendChild(d)}
+  d.innerHTML='<p>Carregando…</p>';if(!d.open)d.showModal();
+  try{var r=await SB.from("buscas").select("termo,n,ult").order("n",{ascending:false}).limit(300);if(r.error)throw r.error;var a=r.data||[];
+    d.innerHTML='<h2>Buscas sem resultado</h2><p class="note">O que os clientes procuraram no site e não encontraram (sem nenhum dado do cliente). Use para saber o que cadastrar ou comprar. Somem sozinhas em 180 dias.</p>'+(a.length?'<table class="bst"><tr><th>Palavra buscada</th><th>Vezes</th><th>Última</th><th></th></tr>'+a.map(function(x){return'<tr><td>'+esc(x.termo)+'</td><td>'+x.n+'</td><td>'+new Date(x.ult).toLocaleDateString("pt-BR")+'</td><td><button class="lnk2" type="button" data-bsx="'+esc(x.termo)+'">Apagar</button></td></tr>'}).join("")+'</table>':'<p>Nenhuma busca sem resultado até agora.</p>')+'<p><button class="btn dark sm" type="button" data-bsc="1">Fechar</button></p>';
+  }catch(e){d.innerHTML='<p>Não consegui carregar a lista agora.</p><p><button class="btn dark sm" type="button" data-bsc="1">Fechar</button></p>'}
+  d.onclick=async function(ev){var b=ev.target.closest("button");if(!b)return;if(b.hasAttribute("data-bsc")){d.close();return}var k=b.getAttribute("data-bsx");if(k){try{await SB.from("buscas").delete().eq("termo",k)}catch(x){}bsOpen()}}}
+/* Busca por voz (celular/Chrome): botão de microfone na barra de busca */
+var VOZ=(function(){try{return!!(window.SpeechRecognition||window.webkitSpeechRecognition)}catch(e){return false}})();
+var MICI='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
+function micH(){return VOZ?'<button type="button" class="mic" aria-label="Buscar falando" title="Buscar falando">'+MICI+'</button>':""}
+document.addEventListener("click",function(e){var m=e.target.closest&&e.target.closest(".mic");if(!m)return;e.preventDefault();
+  try{var R=new(window.SpeechRecognition||window.webkitSpeechRecognition)();R.lang="pt-BR";R.interimResults=false;R.maxAlternatives=1;m.classList.add("on");
+    R.onresult=function(ev){var q=$("hq");if(!q)return;q.value=ev.results[0][0].transcript.replace(/[.!?]$/,"");q.dispatchEvent(new Event("input"));q.focus()};
+    R.onend=R.onerror=function(){m.classList.remove("on")};R.start()}catch(x){m.classList.remove("on")}});
+/* Oficina na página inicial: serviços com página própria (geradas em /servicos/) */
+var OFS=[["conserto-de-motosserra","Conserto de motosserra",'<path d="M3 15h11l3-3h3v6h-3l-3-3"/><path d="M5 15v3h6v-3"/><circle cx="18.5" cy="15" r=".8"/>'],
+  ["conserto-de-rocadeira","Conserto de roçadeira",'<path d="M4 4l11 11"/><path d="M15 15l2 5 3-3-5-2z"/><path d="M6 8l-2 2"/>'],
+  ["conserto-de-motobomba","Conserto de motobomba",'<circle cx="10" cy="13" r="5"/><path d="M15 13h6M10 8V4h4"/><path d="M10 13h.01"/>'],
+  ["conserto-de-motor-estacionario","Conserto de motor estacionário",'<rect x="4" y="8" width="12" height="9" rx="1"/><path d="M16 11h3v3h-3M7 8V5h6v3M7 17v2M13 17v2"/>'],
+  ["pecas-para-motosserra-e-rocadeira","Peças para motosserra e roçadeira",'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>']];
+function ofiSec(){return'<section class="ofi"><div class="wrap"><h2 class="sh">Oficina: conserto e peças</h2><p class="ofp">Consertamos motosserras, roçadeiras, motobombas, motores estacionários e outras máquinas. Todo conserto tem garantia.</p><div class="ofg">'+OFS.map(function(o){return'<a class="ofc" href="servicos/'+o[0]+'/"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+o[2]+'</svg><span>'+o[1]+'</span></a>'}).join("")+'</div></div></section>'}
 
 var WM_DEFAULT="Olá! Gostaria de um orçamento deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
 var WM_ORDER="Olá! Gostaria de fazer um pedido deste produto:\n*{produto}*\nDescrição: {descricao}\nCódigo: {codigo}\nMarca: {marca}\nPreço no site: {preco}\nLink: {link}";
@@ -1437,6 +1510,7 @@ document.addEventListener("click",function(e){
   else if(a==="bgo"){go(id==="__nov"?"#novidades":String(id).indexOf("p:")===0?"#p-"+String(id).slice(2):(id&&catOf(id))?"#cat-"+id:"#produtos")}
   else if(a==="mass"){go("#edicao-em-massa")}
   else if(a==="rep"){if(typeof repOpen==="function")repOpen(id)}
+  else if(a==="bsl"){bsOpen()}
   else if(a==="avl"){if(typeof avOpen==="function")avOpen()}
   else if(a==="nvmore"){NVR+=2;novFit()}
   else if(a==="bf"){go("#marca-"+slug(id))}

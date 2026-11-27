@@ -1113,3 +1113,5 @@ header .kcb .wrap{padding-right:12px}
 .faq summary{font-weight:700;cursor:pointer}.faq details p{margin:8px 0 0}.faq .btn{margin-top:10px}
 .stc.stin{padding:16px 0;max-width:none}
 .card h3 a.cdl{color:inherit;text-decoration:none}
+.stc .ctl{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}.stc .ctl li{padding:8px 12px;font-size:15px}.stp2{border-top:4px solid #f5c518;margin-top:10px;padding-top:14px}
+@media(max-width:700px){.stc p,.stc .ctl li{font-size:15px}}

@@ -230,8 +230,8 @@ LD_C = {"@context": "https://schema.org", "@type": "HardwareStore", "name": "Ron
         "sameAs": ["https://www.instagram.com/ronaldoparafusos/", "https://www.facebook.com/RONALDOPARAFUSOS2017/", "https://www.google.com/maps?cid=1146969919196213478"]}
 MAPA = "https://www.google.com/maps?q=-8.054911,-48.482806&z=17&output=embed"
 main = ('<p class="bcs"><a href="/">Início</a> › Contato</p><h1>Contato da Ronaldo Parafusos</h1>'
-        '<p>Parafusos, ferramentas, ferragens, peças e oficina de motosserras, roçadeiras, motobombas e outras máquinas em Colinas do Tocantins (TO). '
-        'Respondemos no WhatsApp em 2 a 10 minutos (em horário de atendimento). Entrega grátis em Colinas do Tocantins.</p>'
+        '<p>Respondemos no WhatsApp em 2 a 10 minutos (em horário de atendimento). Entrega grátis em Colinas do Tocantins.</p>'
+        f'<p><a class="sbt b" href="https://wa.me/{WA}">Chamar no WhatsApp</a><a class="sbt" href="/#produtos">Ver todos os produtos</a></p>'
         '<ul class="ctl">'
         f'<li><b>WhatsApp:</b> <a href="https://wa.me/{WA}">(63) 98451-4163</a> (orçamentos, preços e disponibilidade)</li>'
         '<li><b>Telefone:</b> <a href="tel:+556334761955">(63) 3476-1955</a> (também atende WhatsApp)</li>'
@@ -242,14 +242,14 @@ main = ('<p class="bcs"><a href="/">Início</a> › Contato</p><h1>Contato da Ro
         '<li><b>Empresa:</b> Ronaldo Parafusos Ltda ME · CNPJ 28.453.578/0001-12</li></ul>'
         '<h2>Horário de funcionamento</h2><p>Segunda a sexta: 7h às 18h · Sábado: 7h às 12h · Domingo: fechado</p>'
         f'<h2>Como chegar</h2><button type="button" class="sbt" data-map="{MAPA}">Ver o mapa aqui</button>'
-        f'<p><a class="sbt b" href="https://wa.me/{WA}">Chamar no WhatsApp</a><a class="sbt" href="/perguntas-frequentes/">Perguntas frequentes</a></p>')
+        '<p><a class="sbt" href="/perguntas-frequentes/">Perguntas frequentes</a></p>')
 write("contato", shell("contato", "Contato | Ronaldo Parafusos - Colinas do Tocantins (TO)",
       "Fale com a Ronaldo Parafusos: WhatsApp (63) 98451-4163, telefone (63) 3476-1955, e-mail ronaldoparafusos@gmail.com. Av. Pedro Ludovico Teixeira, 2034 - Centro, Colinas do Tocantins (TO).",
       main, [LD_C, bc_ld([("Ronaldo Parafusos", SITE + "/"), ("Contato", SITE + "/contato/")])]))
 
 # ---------- perguntas frequentes ----------
-main = ('<p class="bcs"><a href="/">Início</a> › Perguntas frequentes</p><h1>Perguntas frequentes</h1><div class="faqp">'
-        + "".join(f'<details open><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q, a in FAQ)
+main = ('<p class="bcs"><a href="/">Início</a> › Perguntas frequentes</p><h1>Perguntas frequentes</h1><p><a class="sbt" href="/#produtos">Ver todos os produtos</a></p><div class="faqp">'
+        + "".join(f'<details><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q, a in FAQ)
         + f'</div><p><a class="sbt b" href="https://wa.me/{WA}">Tirar outra dúvida no WhatsApp</a><a class="sbt" href="/contato/">Contato</a></p>')
 LD_F = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]}

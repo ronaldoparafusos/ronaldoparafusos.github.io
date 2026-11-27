@@ -166,6 +166,7 @@ O dono pediu que isso não aconteça mais.
   ordena pelo mais parecido; se nada tiver todas as palavras, mostra "itens parecidos". Já procura em `bc` (código de barras) e `ref` quando esses campos existirem.
 - Produto: "Clientes também procuram" (`simOf`), "Entrega grátis em Colinas", "Respondemos no WhatsApp em 2 a 10 minutos" e "Aberto/Fechado agora" (`ppInfo`). Carrinho: "Quero entrega"/"Vou retirar na loja" + endereço, vai na mensagem (`cEntH`, `CENT`).
 - Pagamento em todo o site: cartão de crédito, cartão de débito, Pix e dinheiro.
+- Contato, perguntas frequentes e 404 mostram, embaixo das informações, "Conheça nossos produtos" com marcas, categorias, mais vendidos e novidades (`homeLite()`), e o botão "Ver todos os produtos" (pedido do dono: cliente leigo não pode achar que não há produtos). Não tirar.
 
 ## Nunca apague nem altere sem pedido do dono
 

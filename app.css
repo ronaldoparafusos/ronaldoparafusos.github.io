@@ -1117,7 +1117,7 @@ header .kcb .wrap{padding-right:12px}
 @media(max-width:700px){.stc p,.stc .ctl li{font-size:15px}}
 .cei{display:inline-flex;align-items:center;gap:6px}.cei svg{width:20px;height:20px;color:#2b4ea2;flex:none}
 /* Busca 2 e oficina (27/11/2026) */
-.sw .hs{padding-right:44px}.mic{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:transparent;color:#2b4ea2;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sw:has(.mic) .hs{padding-right:44px}.mic{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:transparent;color:#2b4ea2;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .mic svg{width:22px;height:22px}.mic.on{background:#e11d48;color:#fff;animation:micp 1s infinite}@keyframes micp{50%{box-shadow:0 0 0 6px rgba(225,29,72,.25)}}
 .si.sic{background:#eef3ff}.si.sic b{color:#2b4ea2}
 .si.siw{display:flex;gap:8px;align-items:center;background:#eafaf0;color:#14532d;text-decoration:none}.si.siw svg{width:20px;height:20px;color:#16a34a;flex:none}

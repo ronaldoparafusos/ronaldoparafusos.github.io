@@ -985,13 +985,37 @@ async function bsOpen(){var d=document.getElementById("bsd");if(!d){d=document.c
   }catch(e){d.innerHTML='<p>Não consegui carregar a lista agora.</p><p><button class="btn dark sm" type="button" data-bsc="1">Fechar</button></p>'}
   d.onclick=async function(ev){var b=ev.target.closest("button");if(!b)return;if(b.hasAttribute("data-bsc")){d.close();return}var k=b.getAttribute("data-bsx");if(k){try{await SB.from("buscas").delete().eq("termo",k)}catch(x){}bsOpen()}}}
 /* Busca por voz (celular/Chrome): botão de microfone na barra de busca */
-var VOZ=(function(){try{return!!(window.SpeechRecognition||window.webkitSpeechRecognition)}catch(e){return false}})();
+/* Só mostra o microfone onde a busca por voz funciona bem: Chrome/Edge no Android e no computador.
+   iPhone/iPad, navegadores dentro de apps (Instagram, Facebook, WhatsApp), Android WebView e o app Claude ficam sem o botão:
+   lá o cliente usa o microfone do próprio teclado, que funciona sempre (pedido do dono: só deixar o que é 100% funcional). */
+var VOZ=(function(){try{var u=navigator.userAgent||"";if(!(window.SpeechRecognition||window.webkitSpeechRecognition))return false;
+  if(/iPhone|iPad|iPod|Macintosh.*Mobile|CriOS|FxiOS|EdgiOS|FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|; wv\)|Electron|Claude|SamsungBrowser|OPR\//.test(u))return false;
+  if(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)return false;
+  return/(Chrome|Edg)\/\d+/.test(u)}catch(e){return false}})();
 var MICI='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
-function micH(){return VOZ?'<button type="button" class="mic" aria-label="Buscar falando" title="Buscar falando">'+MICI+'</button>':""}
-document.addEventListener("click",function(e){var m=e.target.closest&&e.target.closest(".mic");if(!m)return;e.preventDefault();
-  try{var R=new(window.SpeechRecognition||window.webkitSpeechRecognition)();R.lang="pt-BR";R.interimResults=false;R.maxAlternatives=1;m.classList.add("on");
-    R.onresult=function(ev){var q=$("hq");if(!q)return;q.value=ev.results[0][0].transcript.replace(/[.!?]$/,"");q.dispatchEvent(new Event("input"));q.focus()};
-    R.onend=R.onerror=function(){m.classList.remove("on")};R.start()}catch(x){m.classList.remove("on")}});
+function micH(){return VOZ?'<button type="button" class="mic" aria-label="Buscar falando" title="Toque e fale o nome do produto">'+MICI+'</button>':""}
+/* Microfone (28/11/2026, refeito): resultado aparece enquanto fala, ao terminar abre a página de resultados; tocar de novo para; mensagens claras de erro */
+var MREC=null;
+function micMsg(t){var w=document.querySelector(".sw");if(!w)return;var d=w.querySelector(".micm");if(!d){d=document.createElement("div");d.className="micm";d.setAttribute("role","status");w.appendChild(d)}d.textContent=t;clearTimeout(micMsg.t);if(t)micMsg.t=setTimeout(function(){d.remove()},6000)}
+function micUi(on){var m=document.querySelector(".mic"),q=$("hq");if(m)m.classList.toggle("on",on);if(q)q.placeholder=on?"Fale o nome do produto…":T("ph")}
+function micStart(){
+  if(MREC){try{MREC.stop()}catch(e){}return}
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){micMsg("Seu navegador não tem busca por voz. Use o microfone do teclado do celular.");return}
+  var R=new SR(),fin="",last="",err="",tm;MREC=R;
+  R.lang="pt-BR";R.interimResults=true;R.continuous=false;R.maxAlternatives=1;
+  R.onstart=function(){micUi(true);micMsg("Pode falar…")};
+  R.onresult=function(ev){var it="";for(var i=ev.resultIndex;i<ev.results.length;i++){var x=ev.results[i][0].transcript;if(ev.results[i].isFinal)fin+=x;else it+=x}
+    last=(fin+" "+it).replace(/\s+/g," ").trim();var q=$("hq");if(q)q.value=last;micMsg("");
+    if(fin){clearTimeout(tm);tm=setTimeout(function(){try{R.stop()}catch(e){}},400)}};
+  R.onerror=function(ev){err=ev.error||"erro"};
+  R.onend=function(){clearTimeout(tm);clearTimeout(R.safe);MREC=null;micUi(false);
+    var v=String(fin||last).replace(/[.!?,;:]+$/,"").trim();
+    if(v){var q=$("hq");if(q)q.value=v;term=v;micMsg("");if(location.hash==="#busca")route();else go("#busca");return}
+    micMsg(err==="not-allowed"||err==="service-not-allowed"?"O microfone está bloqueado. Toque no cadeado ao lado do endereço do site e permita o microfone.":
+      err==="audio-capture"?"Nenhum microfone encontrado neste aparelho.":err==="network"?"Sem conexão para reconhecer a voz. Tente de novo ou digite.":
+      "Não ouvi nada. Toque no microfone e fale o nome do produto.")};
+  try{R.start();R.safe=setTimeout(function(){try{R.stop()}catch(e){}},12000)}catch(e){MREC=null;micUi(false);micMsg("Não consegui ligar o microfone. Tente de novo.")}}
+document.addEventListener("click",function(e){var m=e.target.closest&&e.target.closest(".mic");if(!m)return;e.preventDefault();e.stopPropagation();micStart()});
 /* Oficina na página inicial: serviços com página própria (geradas em /servicos/) */
 var OFS=[["conserto-de-motosserra","Conserto de motosserra",'<path d="M3 15h11l3-3h3v6h-3l-3-3"/><path d="M5 15v3h6v-3"/><circle cx="18.5" cy="15" r=".8"/>'],
   ["conserto-de-rocadeira","Conserto de roçadeira",'<path d="M4 4l11 11"/><path d="M15 15l2 5 3-3-5-2z"/><path d="M6 8l-2 2"/>'],

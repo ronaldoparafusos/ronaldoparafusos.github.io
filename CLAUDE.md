@@ -172,7 +172,7 @@ O dono pediu que isso não aconteça mais.
 
 - Dicionário `QSY` (nomes do dia a dia → catálogo: lixadeira, enforca gato, fita métrica, bomba d'água, capinadeira...), usado por `qtoks`/`qsyn`. Para acrescentar nomes, editar só `QSY` (sem acento, minúsculo).
 - Caixa de busca: sugestões de categoria/marca no topo (`sgH`), "Não achou? Pergunte no WhatsApp" com o texto digitado (`waAskH`), sem microfone (o dono pediu para tirar em 28/11/2026: não é usual e não funciona bem em todos os aparelhos; não colocar de volta).
-- Buscas sem resultado: só a palavra vai para a tabela `buscas` do Supabase pela RPC `busca_registrar` (1 vez por palavra por aparelho/dia, limite por hash do IP 7 dias, apaga em 180 dias; termos 13.4.2). Dono vê no modo edição, botão "Buscas sem resultado" (`bsOpen`).
+- Buscas sem resultado: só a palavra vai para a tabela `buscas` do Supabase pela RPC `busca_registrar` (1 vez por palavra por aparelho/dia, limite por hash do IP 7 dias, apaga em 180 dias; termos 13.4.2). Dono vê no modo edição, botão "Buscas sem resultado" (`bsOpen`). Tabelas `buscas` e `buscas_limite` + RPC `busca_registrar` criadas em 28/11/2026 (anon só chama a RPC; não lê nem grava direto; testado).
 - Oficina: páginas `/servicos/conserto-de-motosserra/`, `conserto-de-rocadeira`, `conserto-de-motobomba`, `conserto-de-motor-estacionario`, `pecas-para-motosserra-e-rocadeira` (geradas, JSON-LD Service, sem prazo e sem preço) e a seção "Oficina: conserto e peças" na inicial (`ofiSec`, ícones SVG).
 - IndexNow: chave no arquivo `4a818b9ce70e0a09f7150d258830d7d6.txt` (raiz, não apagar) e `ferramentas/indexnow.py`, chamado pelo workflow a cada atualização das páginas (avisa Bing e outros buscadores).
 

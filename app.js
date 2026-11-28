@@ -33,7 +33,7 @@ function mailBox(href){
 }
 function catOf(id){return S.cats.filter(function(c){return c.id===id})[0]}
 function render(){CPC=null;clearInterval(bt);theme();if((pg==="cat"&&!catOf(pv))||(pg==="brand"&&!brandBySlug(slug(pv)))){pg="";pv="";location.hash=""}if(view&&!RPL&&!S.prods.some(function(x){return x.id===view})){view="";if(location.hash.indexOf("#p-")===0)location.hash=""}
-  var s=S.s,h='<header class="'+hcl()+'"><div class="wrap"><a class="brand" href="#inicio" data-ed="logo">'+brandLogo()+'</a><div class="sw"><input id="hq" class="hs" data-ed="tx:ph" type="search" autocomplete="off" placeholder="'+T("ph")+'" aria-label="Buscar produtos" value="'+esc(term)+'">'+micH()+'<div id="sr" class="sr" hidden></div></div><nav>'+(typeof tvH==="function"?tvH():"")+(canEdit?'<button class="btn dark" type="button" data-act="te">'+(edit?"Sair da edição":"Editar site")+'</button>':'')+cartHd()+'</nav></div>'+(typeof catBar==="function"?catBar():"")+'</header>';
+  var s=S.s,h='<header class="'+hcl()+'"><div class="wrap"><a class="brand" href="#inicio" data-ed="logo">'+brandLogo()+'</a><div class="sw"><input id="hq" class="hs" data-ed="tx:ph" type="search" autocomplete="off" placeholder="'+T("ph")+'" aria-label="Buscar produtos" value="'+esc(term)+'"><div id="sr" class="sr" hidden></div></div><nav>'+(typeof tvH==="function"?tvH():"")+(canEdit?'<button class="btn dark" type="button" data-act="te">'+(edit?"Sair da edição":"Editar site")+'</button>':'')+cartHd()+'</nav></div>'+(typeof catBar==="function"?catBar():"")+'</header>';
   if(canEdit&&edit)h+='<div class="bar"><div class="wrap"><b>Modo de edição <small style="font-weight:400">· dica: clique com o botão direito em qualquer texto, botão, endereço, produto, categoria ou marca para editar</small></b><button class="btn dark sm" type="button" data-act="np">+ Produto</button><button class="btn sm" type="button" data-act="mass">Edição em massa</button><button class="btn sm" type="button" data-act="bsl">Buscas sem resultado</button><button class="btn sm" type="button" data-act="avl">Avisos de erro<span class="avn">'+(typeof AVN!=="undefined"&&AVN?" ("+AVN+")":"")+'</span></button><button class="btn dark sm" type="button" data-act="ec">Categorias</button><button class="btn dark sm" type="button" data-act="es">Textos e contato</button><button class="btn dark sm" type="button" data-act="ebt">Botões de contato</button><button class="btn dark sm" type="button" data-act="ecm">Mensagem do carrinho</button><button class="btn dark sm" type="button" data-act="eb">Destaques</button><button class="btn dark sm" type="button" data-act="em">Marcas</button><button class="btn dark sm" type="button" data-act="ev">Vídeo e sobre</button><button class="btn dark sm" type="button" data-act="efs">Rodapé</button><button class="btn dark sm" type="button" data-act="efl">Links do rodapé</button><button class="btn dark sm" type="button" data-act="eo">Lojas</button><button class="btn sm" type="button" data-act="pub"'+(dirty?'':' disabled')+'>Publicar alterações</button></div></div>';
   var top=h;h+='<main id="inicio">'+home();
   h+=videoSec();h+=faqSec();h+=contactSec()+'</main>'+footer()+'';
@@ -193,6 +193,9 @@ var BST;function bindSearch(){
     if(r2.length)h+='<div class="si sih">'+(r.length?'Também citam “'+esc(q.value.trim())+'” na descrição:':'Nenhum produto com esse nome. Estes citam “'+esc(q.value.trim())+'” na descrição:')+'</div>'+r2.slice(0,Math.max(3,mx-r.length)).map(siH).join("");
     var tot=r.length>=12?r.length:r.length+r2.length;
     var r3=[];if(!r.length&&!r2.length){QPT=1;r3=S.prods.filter(function(p){return qm(qhx(p),t)});QPT=0;tot=r3.length;if(r3.length)h='<div class="si sih">Não achamos tudo o que você digitou. Veja itens parecidos:</div>'+r3.slice(0,mx).map(siH).join("")}
+    if(r.length+r2.length+r3.length<4){var sh={};r.concat(r2,r3).forEach(function(x){sh[x.id]=1});QPT=2;var r4=S.prods.filter(function(p){return!sh[p.id]&&qm(qhx(p),t)}).map(function(p,i){return{p:p,s:qsc(qhx(p),t),i:i}}).sort(function(a,b){return b.s-a.s||((b.p.img?1:0)-(a.p.img?1:0))||a.i-b.i}).map(function(o){return o.p});QPT=0;
+      if(r4.length){h+='<div class="si sih">Produtos relacionados:</div>'+r4.slice(0,6).map(siH).join("");tot=Math.max(tot,r.length+r2.length+r3.length+r4.length)}}
+    var dym=qDym(t);if(dym&&!r.length)h='<a class="si sidm" href="#busca" data-dym="'+esc(dym)+'">Você quis dizer: <b>'+esc(dym)+'</b>?</a>'+h;
     if(!r.length&&!r2.length){clearTimeout(BST);BST=setTimeout(function(){bsLog(q.value)},1500)}
     if(!r.length&&!r2.length&&!r3.length)h=sgH(t)+'<div class="si">Nenhum produto encontrado. Tente outra palavra ou <a href="'+tel()+'">ligue para a loja</a>.</div>';
     else h+='<button class="si all" type="button" data-act="sa">Ver todos os resultados ('+tot+')</button>';
@@ -299,7 +302,7 @@ function catIcon(c){if(c.img)return'<span class="ci"><img src="'+esc(rpImg(c.img
 function slug(n){return norm(n).replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")}
 function brandBySlug(s){return(S.brands||[]).filter(function(b){return slug(b.n)===s})[0]}
 function cnt(n){return n===1?"1 produto":n+" produtos"}
-function qm(x,t,nofz){var c=qprep(x),ts=qtoks(t),k=0;if(!ts.length)return true;ts.forEach(function(w){if(qtok(c,w,!nofz))k++});return QPT?k>=Math.max(1,Math.ceil(ts.length/2)):k===ts.length}var LN=48;
+function qm(x,t,nofz){var c=qprep(x),ts=qtoks(t),k=0;if(!ts.length)return true;ts.forEach(function(w){if(qtok(c,w,!nofz))k++});return QPT===2?k>=1:QPT?k>=Math.max(1,Math.ceil(ts.length/2)):k===ts.length}var LN=48;
 function rvList(p){return(p.rv||[]).filter(function(r){return r&&Number(r.r)>0})}
 function rvAvg(p){var a=rvList(p);if(!a.length)return 0;return Math.round(a.reduce(function(s,r){return s+Number(r.r)},0)/a.length*10)/10}
 var GREV_DEF="https://search.google.com/local/writereview?placeid=ChIJfRbYfmhZJ5MR5rC_iRDb6g8";
@@ -388,7 +391,8 @@ function listItems(){
     if(F.star&&!p.star&&!(typeof ORC==="object"&&ORC[p.id]))return false;
     return true};
   var a=S.prods.map(function(p,i){return{p:p,i:i}}).filter(flt);
-  if(t&&!a.length){QPT=1;a=S.prods.map(function(p,i){return{p:p,i:i}}).filter(flt);QPT=0}
+  QFB=0;if(t&&!a.length){QFB=1;QPT=1;a=S.prods.map(function(p,i){return{p:p,i:i}}).filter(flt);QPT=0}
+  if(t&&!a.length){QFB=2;QPT=2;a=S.prods.map(function(p,i){return{p:p,i:i}}).filter(flt);QPT=0}
   var s=F.sort;
   if(!s)a.sort(function(x,y){return (t?(y.sc||0)-(x.sc||0):0)||((y.p.img?1:0)-(x.p.img?1:0))||((F.nw&&typeof pDate==="function")?pDate(y.p)-pDate(x.p):0)});
   if(s)a.sort(function(x,y){
@@ -403,6 +407,7 @@ function listItems(){
 }
 function listUpd(){
   var it=listItems(),g=$("lgrid");if(!g)return;if(pg==="search"&&term.trim()&&!it.length)bsLog(term);
+  if(pg==="search"){var dy=$("sdym"),dm=term.trim()?qDym(norm(term)):"";if(!dy){dy=document.createElement("div");dy.id="sdym";g.parentNode.insertBefore(dy,g)}dy.innerHTML=(dm?'<a class="sidm2" href="#busca" data-dym="'+esc(dm)+'">Você quis dizer: <b>'+esc(dm)+'</b>?</a>':"")+(QFB&&it.length?'<p class="sidm2">Não achamos tudo o que você digitou. Veja os produtos relacionados ou '+waAskH(term,"lnkwa")+'</p>':"")}
   g.innerHTML=listCards(it);
   var e=$("lempty");if(e)e.hidden=it.length>0;
   var c=$("lcount");if(c)c.textContent=cnt(it.length);
@@ -985,37 +990,16 @@ async function bsOpen(){var d=document.getElementById("bsd");if(!d){d=document.c
   }catch(e){d.innerHTML='<p>Não consegui carregar a lista agora.</p><p><button class="btn dark sm" type="button" data-bsc="1">Fechar</button></p>'}
   d.onclick=async function(ev){var b=ev.target.closest("button");if(!b)return;if(b.hasAttribute("data-bsc")){d.close();return}var k=b.getAttribute("data-bsx");if(k){try{await SB.from("buscas").delete().eq("termo",k)}catch(x){}bsOpen()}}}
 /* Busca por voz (celular/Chrome): botão de microfone na barra de busca */
-/* Só mostra o microfone onde a busca por voz funciona bem: Chrome/Edge no Android e no computador.
-   iPhone/iPad, navegadores dentro de apps (Instagram, Facebook, WhatsApp), Android WebView e o app Claude ficam sem o botão:
-   lá o cliente usa o microfone do próprio teclado, que funciona sempre (pedido do dono: só deixar o que é 100% funcional). */
-var VOZ=(function(){try{var u=navigator.userAgent||"";if(!(window.SpeechRecognition||window.webkitSpeechRecognition))return false;
-  if(/iPhone|iPad|iPod|Macintosh.*Mobile|CriOS|FxiOS|EdgiOS|FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|; wv\)|Electron|Claude|SamsungBrowser|OPR\//.test(u))return false;
-  if(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)return false;
-  return/(Chrome|Edg)\/\d+/.test(u)}catch(e){return false}})();
-var MICI='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
-function micH(){return VOZ?'<button type="button" class="mic" aria-label="Buscar falando" title="Toque e fale o nome do produto">'+MICI+'</button>':""}
-/* Microfone (28/11/2026, refeito): resultado aparece enquanto fala, ao terminar abre a página de resultados; tocar de novo para; mensagens claras de erro */
-var MREC=null;
-function micMsg(t){var w=document.querySelector(".sw");if(!w)return;var d=w.querySelector(".micm");if(!d){d=document.createElement("div");d.className="micm";d.setAttribute("role","status");w.appendChild(d)}d.textContent=t;clearTimeout(micMsg.t);if(t)micMsg.t=setTimeout(function(){d.remove()},6000)}
-function micUi(on){var m=document.querySelector(".mic"),q=$("hq");if(m)m.classList.toggle("on",on);if(q)q.placeholder=on?"Fale o nome do produto…":T("ph")}
-function micStart(){
-  if(MREC){try{MREC.stop()}catch(e){}return}
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){micMsg("Seu navegador não tem busca por voz. Use o microfone do teclado do celular.");return}
-  var R=new SR(),fin="",last="",err="",tm;MREC=R;
-  R.lang="pt-BR";R.interimResults=true;R.continuous=false;R.maxAlternatives=1;
-  R.onstart=function(){micUi(true);micMsg("Pode falar…")};
-  R.onresult=function(ev){var it="";for(var i=ev.resultIndex;i<ev.results.length;i++){var x=ev.results[i][0].transcript;if(ev.results[i].isFinal)fin+=x;else it+=x}
-    last=(fin+" "+it).replace(/\s+/g," ").trim();var q=$("hq");if(q)q.value=last;micMsg("");
-    if(fin){clearTimeout(tm);tm=setTimeout(function(){try{R.stop()}catch(e){}},400)}};
-  R.onerror=function(ev){err=ev.error||"erro"};
-  R.onend=function(){clearTimeout(tm);clearTimeout(R.safe);MREC=null;micUi(false);
-    var v=String(fin||last).replace(/[.!?,;:]+$/,"").trim();
-    if(v){var q=$("hq");if(q)q.value=v;term=v;micMsg("");if(location.hash==="#busca")route();else go("#busca");return}
-    micMsg(err==="not-allowed"||err==="service-not-allowed"?"O microfone está bloqueado. Toque no cadeado ao lado do endereço do site e permita o microfone.":
-      err==="audio-capture"?"Nenhum microfone encontrado neste aparelho.":err==="network"?"Sem conexão para reconhecer a voz. Tente de novo ou digite.":
-      "Não ouvi nada. Toque no microfone e fale o nome do produto.")};
-  try{R.start();R.safe=setTimeout(function(){try{R.stop()}catch(e){}},12000)}catch(e){MREC=null;micUi(false);micMsg("Não consegui ligar o microfone. Tente de novo.")}}
-document.addEventListener("click",function(e){var m=e.target.closest&&e.target.closest(".mic");if(!m)return;e.preventDefault();e.stopPropagation();micStart()});
+/* "Você quis dizer" (28/11/2026): palavra digitada que não existe no catálogo é trocada pela mais parecida (erro de digitação) */
+var QVC={k:"",w:null},QFB=0;
+function qVocab(){var k=S.prods.length+":"+(S.ver||0);if(QVC.k===k)return QVC.w;var m=new Map();S.prods.forEach(function(p){norm(p.n+" "+(p.brand||"")).split(/[^a-z0-9]+/).forEach(function(w){if(w.length>=4&&!/^\d/.test(w))m.set(w,(m.get(w)||0)+1)})});QVC={k:k,w:m};return m}
+function qDym(t){var V=qVocab(),ws=String(t).trim().split(/\s+/),out=[],mud=false;
+  ws.forEach(function(w){if(w.length<4||/\d/.test(w)||QSW[w]||V.has(w)||V.has(w.replace(/s$/,""))||QSY[w]){out.push(w);return}
+    var ok=false;V.forEach(function(n,x){if(!ok&&x.indexOf(w)===0)ok=true});if(ok){out.push(w);return}
+    var k=w.length>=7?2:1,best="",bs=1e9,bn=0;V.forEach(function(n,x){if(Math.abs(x.length-w.length)>k)return;var d=qlev(x,w,k);if(d<=k&&(d<bs||(d===bs&&n>bn))){best=x;bs=d;bn=n}});
+    if(best){out.push(best);mud=true}else out.push(w)});
+  return mud?out.join(" "):""}
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("[data-dym]");if(!a)return;e.preventDefault();var v=a.getAttribute("data-dym");term=v;var q=$("hq");if(q)q.value=v;var sr=$("sr");if(sr)sr.hidden=true;if(location.hash==="#busca"&&location.pathname==="/")route();else go("#busca")});
 /* Oficina na página inicial: serviços com página própria (geradas em /servicos/) */
 var OFS=[["conserto-de-motosserra","Conserto de motosserra",'<path d="M3 15h11l3-3h3v6h-3l-3-3"/><path d="M5 15v3h6v-3"/><circle cx="18.5" cy="15" r=".8"/>'],
   ["conserto-de-rocadeira","Conserto de roçadeira",'<path d="M4 4l11 11"/><path d="M15 15l2 5 3-3-5-2z"/><path d="M6 8l-2 2"/>'],

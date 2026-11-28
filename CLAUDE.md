@@ -191,6 +191,16 @@ O dono pediu que isso não aconteça mais.
 - Páginas por tipo de produto `/produtos/<tipo>/` ("Porcas em Colinas do Tocantins", parafusos, brocas, abraçadeiras... 52 páginas, lista `TIPOS_PG` no gerador), ligadas em todas as páginas geradas, no sitemap e no llms.txt. Para criar outra: acrescentar em `TIPOS_PG`.
 - Página inicial tem H1 escondido para leitores e Google (`.sro`).
 
+## Estatísticas do site no painel do servidor (28/11/2026, pedido do dono)
+
+- `app.js`: `stEv`/`stEnv`/`stVisita`/`stRoute`/`stBusca` + um ouvinte de cliques em links somam contagens anônimas por dia pela RPC `site_registrar`:
+  visita (1 por aparelho/dia), origem, aparelho, produto/categoria/marca aberto (1 por dia), busca feita (só a palavra; nada com 7+ números),
+  cliques no WhatsApp (orçamento lista, orçamento produto, botão flutuante, outro), telefone, mapa, Instagram, Facebook, e-mail, orçamentos e itens pedidos.
+  Quem está logado (`canEdit`) não conta. Chamadas: `stRoute()` no fim do `route()`, `stBusca()` na caixa de busca e na página de busca. Não remover.
+- Supabase (SQL do dono, arquivo `supabase-estatisticas-do-site.sql` do Conector 2.0.4): tabelas `site_dia` (só admin lê) e `site_limite` (hash do IP, 7 dias),
+  RPC `site_registrar` (lista fixa de tipos, 30 por chamada, 400 por aparelho/dia, 100 mil/dia) e `site_resumo(dias)` (só admin; o painel do servidor usa).
+  Nunca guarda preço, nome, telefone ou IP. Termos 13.4.3. Ao criar evento novo, acrescentar o tipo na lista da RPC (senão o banco ignora).
+
 ## Nome da loja no masculino (27/11/2026, pedido do dono)
 
 - Escrever sempre **"o Ronaldo Parafusos"**: do, no, pelo, ao Ronaldo Parafusos (nunca "a/da/na/pela Ronaldo Parafusos"), em site, termos, páginas geradas, artes, posts e mensagens. Só a razão social fica "Ronaldo Parafusos Ltda ME".

@@ -55,7 +55,7 @@ function route(){
   else if(m=/^#cat-(.+)$/.exec(h)){if(catOf(m[1])){pg="cat";pv=m[1]}}
   else if(m=/^#marca-(.+)$/.exec(h)){var b=brandBySlug(m[1]);if(b){pg="brand";pv=b.n}}
   if(pg==="compare"&&!CMP.length){CPG=null;CPQ="";CPN=20}LN=48;F=newF();if(h==="#novidades")F.nw=true;if(pg==="cat")F.cats=[pv];if(pg==="brand")F.brands=[pv];
-  render();
+  render();try{stRoute()}catch(e){}
   if(view||pg)toY(0);else if(h.length>1){var t=$(h.slice(1));if(t)t.scrollIntoView()}else toY(HOMEY);
   RT_HOME=!(view||pg)&&h.length<=1;
 }
@@ -196,7 +196,7 @@ var BST;function bindSearch(){
     if(r.length+r2.length+r3.length<4){var sh={};r.concat(r2,r3).forEach(function(x){sh[x.id]=1});QPT=2;var r4=S.prods.filter(function(p){return!sh[p.id]&&qm(qhx(p),t)}).map(function(p,i){return{p:p,s:qsc(qhx(p),t),i:i}}).sort(function(a,b){return b.s-a.s||((b.p.img?1:0)-(a.p.img?1:0))||a.i-b.i}).map(function(o){return o.p});QPT=0;
       if(r4.length){h+='<div class="si sih">Produtos relacionados:</div>'+r4.slice(0,6).map(siH).join("");tot=Math.max(tot,r.length+r2.length+r3.length+r4.length)}}
     var dym=qDym(t);if(dym&&!r.length)h='<a class="si sidm" href="#busca" data-dym="'+esc(dym)+'">Você quis dizer: <b>'+esc(dym)+'</b>?</a>'+h;
-    if(!r.length&&!r2.length){clearTimeout(BST);BST=setTimeout(function(){bsLog(q.value)},1500)}
+    stBusca(q.value);if(!r.length&&!r2.length){clearTimeout(BST);BST=setTimeout(function(){bsLog(q.value)},1500)}
     if(!r.length&&!r2.length&&!r3.length)h=sgH(t)+'<div class="si">Nenhum produto encontrado. Tente outra palavra ou <a href="'+tel()+'">ligue para a loja</a>.</div>';
     else h+='<button class="si all" type="button" data-act="sa">Ver todos os resultados ('+tot+')</button>';
     h+=waAskH(q.value);box.innerHTML=h;box.hidden=false;
@@ -406,7 +406,7 @@ function listItems(){
   return a.map(function(o){return o.p});
 }
 function listUpd(){
-  var it=listItems(),g=$("lgrid");if(!g)return;if(pg==="search"&&term.trim()&&!it.length)bsLog(term);
+  var it=listItems(),g=$("lgrid");if(!g)return;if(pg==="search"&&term.trim()){stBusca(term);if(!it.length)bsLog(term)}
   if(pg==="search"){var dy=$("sdym"),dm=term.trim()?qDym(norm(term)):"";if(!dy){dy=document.createElement("div");dy.id="sdym";g.parentNode.insertBefore(dy,g)}dy.innerHTML=(dm?'<a class="sidm2" href="#busca" data-dym="'+esc(dm)+'">Você quis dizer: <b>'+esc(dm)+'</b>?</a>':"")+(QFB&&it.length?'<p class="sidm2">Não achamos tudo o que você digitou. Veja os produtos relacionados ou '+waAskH(term,"lnkwa")+'</p>':"")}
   g.innerHTML=listCards(it);
   var e=$("lempty");if(e)e.hidden=it.length>0;
@@ -616,6 +616,38 @@ document.addEventListener("click",function(e){var a=e.target.closest&&e.target.c
   else if(view&&a.classList.contains("xl"))ids=[view];
   else{var sc=a.closest(".sc[data-id]");if(sc)ids=[sc.getAttribute("data-id")]}
   if(ids.length)orcHit(ids)},true);
+/* Estatísticas anônimas do site (painel do servidor da loja, 28/11/2026): só contagens por dia, sem nenhum dado do visitante e sem preço.
+   Visita (1 por aparelho/dia), de onde veio (Google, Instagram...), celular ou computador, produto/categoria/marca aberto (1 por dia),
+   busca feita (só a palavra), cliques no WhatsApp, telefone, mapa e redes, e orçamentos enviados. RPC site_registrar (limite por aparelho no banco). */
+var STQ=[],STT=0,STM={},STB=0;
+function stOk(){return rpOn()&&!canEdit}
+function stDia(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function stUma(k){var o;try{o=JSON.parse(localStorage.getItem("rp_st")||"null")}catch(e){o=null}if(!o)o=STM;
+  if(o.d!==stDia())o={d:stDia(),k:{}};if(o.k[k])return false;if(Object.keys(o.k).length>=300)return false;o.k[k]=1;STM=o;try{localStorage.setItem("rp_st",JSON.stringify(o))}catch(e){}return true}
+function stEv(t,k,n){if(!stOk())return;STQ.push({t:t,k:String(k||"").toLowerCase().slice(0,40),n:n||1});clearTimeout(STT);if(STQ.length>=25)stEnv();else STT=setTimeout(stEnv,3000)}
+function stEnv(){clearTimeout(STT);if(!STQ.length||!stOk())return;var b=STQ.splice(0,30);
+  try{fetch(rpBase()+"/rest/v1/rpc/site_registrar",{method:"POST",keepalive:true,headers:{apikey:RPC.key,"Content-Type":"application/json"},body:JSON.stringify({ev:b})}).catch(function(){})}catch(e){}}
+addEventListener("pagehide",stEnv);document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")stEnv()});
+function stVisita(){if(!stOk()||!stUma("v"))return;var r="",o;try{r=document.referrer?new URL(document.referrer).hostname:""}catch(e){}
+  var us="";try{us=(new URLSearchParams(location.search).get("utm_source")||"").toLowerCase()}catch(e){}var s=us||r;
+  o=/google/.test(s)?"google":/instagram/.test(s)?"instagram":/facebook|fb\.|^fb$/.test(s)?"facebook":/whatsapp|wa\.me/.test(s)?"whatsapp":/bing|yahoo|duckduckgo|ecosia/.test(s)?"outros buscadores":(!s||r===location.hostname)?"direto":"outros sites";
+  stEv("visita","");stEv("origem",o);stEv("aparelho",matchMedia("(max-width:760px)").matches?"celular":"computador")}
+function stRoute(){if(!stOk())return;stVisita();if(view){if(stUma("p"+view))stEv("produto",view)}else if(pg==="cat"&&pv){if(stUma("c"+pv))stEv("categoria",pv)}else if(pg==="brand"&&pv){if(stUma("m"+pv))stEv("marca",norm(pv).replace(/[^a-z0-9 \/.-]/g," ").trim())}}
+function stBusca(t){t=norm(String(t||"")).replace(/[^a-z0-9 \/.-]/g," ").replace(/\s+/g," ").trim();clearTimeout(STB);if(t.length<3||/\d{7,}/.test(t))return;STB=setTimeout(function(){if(stUma("b"+t.slice(0,40)))stEv("busca",t)},2500)}
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a||!stOk())return;var h=a.getAttribute("href")||"";
+  if(/^https:\/\/wa\.me\//.test(h)){var k="outro";
+    if(a.id==="cwa"){k="orcamento lista";var n=0;try{n=cLines().length}catch(er){}stEv("orcamento","");if(n)stEv("orcitens","",Math.min(60,n))}
+    else if(view&&a.classList.contains("xl")){k="orcamento produto";stEv("orcamento","");stEv("orcitens","",1)}
+    else if(a.closest(".sc[data-id]")){k="orcamento produto";stEv("orcamento","");stEv("orcitens","",1)}
+    else if(a.classList.contains("wfab"))k="botao flutuante";
+    stEv("whats",k)}
+  else if(/^tel:/.test(h))stEv("contato","telefone");
+  else if(/maps\.google|google\.[a-z.]+\/maps|maps\.app\.goo|goo\.gl\/maps/.test(h))stEv("contato","mapa");
+  else if(/instagram\.com/.test(h))stEv("contato","instagram");
+  else if(/facebook\.com/.test(h))stEv("contato","facebook");
+  else if(/^mailto:/.test(h))stEv("contato","e-mail");
+  else return;
+  stEnv()},true);
 /* edição em massa */
 function msNew(){return{q:"",br:"",c:"",ft:"",nv:"",sel:{},lim:100}}
 function msItems(){if(!MS)MS=msNew();var q=norm(MS.q.trim());return S.prods.filter(function(p){

@@ -1056,6 +1056,29 @@ function acH(t){t=norm(t).replace(/\s+/g," ").trim();if(t.length<2||/\d/.test(t)
   var a=acList().filter(function(o){return o.k.indexOf(t)===0&&o.k!==t}).sort(function(x,y){return(y.p-x.p)||(y.n-x.n)||(x.k.length-y.k.length)});
   var out=[];a.forEach(function(o){if(out.length<4&&!out.some(function(x){return o.k.indexOf(x.k+" ")===0&&o.n===x.n}))out.push(o)});
   return out.map(function(o){return'<a class="si sac" href="#busca" data-dym="'+esc(o.d)+'"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>'+esc(o.d)+'</span><small>'+o.n+'</small></a>'}).join("")}
+/* Arrastar para voltar (28/11/2026, pedido do dono): no celular, arrastar o dedo da esquerda para a direita volta para a tela anterior.
+   Não começa na beirada esquerda (lá o iPhone/Android já têm o "voltar" deles), nem em carrossel, galeria, lista que rola para o lado, campo de texto ou janela aberta.
+   Só nas telas internas (produto, categoria, busca...). Se o cliente chegou direto (ex.: pelo Google), volta para a página inicial. */
+var NAVI=0;(function(){var hp=history.pushState,hr=history.replaceState;
+  history.pushState=function(st,t,u){NAVI++;return hp.call(history,{i:NAVI},t,u)};
+  history.replaceState=function(st,t,u){return hr.call(history,{i:NAVI},t,u)};
+  try{hr.call(history,{i:0},"")}catch(e){}
+  function sync(){var st=history.state;if(st&&typeof st.i==="number")NAVI=st.i;else{NAVI++;try{hr.call(history,{i:NAVI},"")}catch(e){}}}
+  window.addEventListener("popstate",sync);window.addEventListener("hashchange",sync)})();
+(function(){var sx=0,sy=0,st=0,on=false,ind=null,W=0;
+  function skip(t){if(!t||!t.closest)return true;if(t.closest("input,textarea,select,dialog[open],#bn,.bn,[data-noswipe],.kcs,.kcm,.kmn"))return true;
+    for(var e=t;e&&e!==document.body;e=e.parentElement){var cs=getComputedStyle(e);if((cs.overflowX==="auto"||cs.overflowX==="scroll")&&e.scrollWidth>e.clientWidth+4)return true}return false}
+  function show(p){if(!ind){ind=document.createElement("div");ind.className="swbk";ind.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';document.body.appendChild(ind)}
+    ind.style.opacity=Math.min(1,p);ind.style.transform="translate("+(Math.min(1,p)*56-44)+"px,-50%) scale("+(p>=1?1.12:.85+p*.15)+")";ind.classList.toggle("ok",p>=1)}
+  function hide(){if(ind){ind.style.opacity=0;ind.style.transform="translate(-44px,-50%)"}}
+  document.addEventListener("touchstart",function(e){on=false;if(e.touches.length!==1)return;var t=e.touches[0];W=innerWidth;
+    if(W>900||t.clientX<28||!(view||pg)||document.querySelector("dialog[open]")||skip(e.target))return;sx=t.clientX;sy=t.clientY;st=Date.now();on=true},{passive:true});
+  document.addEventListener("touchmove",function(e){if(!on)return;var t=e.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Math.abs(dy)>30&&Math.abs(dy)>dx*0.6){on=false;hide();return}if(dx>12)show(dx/Math.min(140,W*0.35))},{passive:true});
+  document.addEventListener("touchend",function(e){if(!on)return;on=false;var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;hide();
+    if(dx>=Math.min(140,W*0.35)&&Math.abs(dy)<dx*0.5&&Date.now()-st<900){if(NAVI>0)history.back();else{history.pushState(null,"","/");route()}}},{passive:true});
+  document.addEventListener("touchcancel",function(){on=false;hide()},{passive:true});
+})();
 /* Oficina na página inicial: serviços com página própria (geradas em /servicos/) */
 var OFS=[["conserto-de-motosserra","Conserto de motosserra",'<path d="M3 15h11l3-3h3v6h-3l-3-3"/><path d="M5 15v3h6v-3"/><circle cx="18.5" cy="15" r=".8"/>'],
   ["conserto-de-rocadeira","Conserto de roçadeira",'<path d="M4 4l11 11"/><path d="M15 15l2 5 3-3-5-2z"/><path d="M6 8l-2 2"/>'],

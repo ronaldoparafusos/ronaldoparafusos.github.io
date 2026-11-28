@@ -201,6 +201,12 @@ O dono pediu que isso não aconteça mais.
   RPC `site_registrar` (lista fixa de tipos, 30 por chamada, 400 por aparelho/dia, 100 mil/dia) e `site_resumo(dias)` (só admin; o painel do servidor usa).
   Nunca guarda preço, nome, telefone ou IP. Termos 13.4.3. Ao criar evento novo, acrescentar o tipo na lista da RPC (senão o banco ignora).
 
+## Arrastar para voltar no celular (28/11/2026, pedido do dono)
+
+- Nas telas internas (produto, categoria, busca...), arrastar o dedo da esquerda para a direita volta para a tela anterior (seta azul que fica amarela ao soltar). Se o cliente chegou direto (ex.: Google), vai para a página inicial.
+- Não começa a menos de 28 px da beirada (o "voltar" do próprio iPhone/Android fica livre), nem em listas que rolam para o lado, banner, campo de texto ou janela aberta. Telas acima de 900 px não usam.
+- `NAVI` (posição no histórico, guardada no `history.state` por `pushState`/`replaceState`) e `html,body{overscroll-behavior-x:none}` (evita voltar duas vezes). Testado com toque simulado. Não remover.
+
 ## Nome da loja no masculino (27/11/2026, pedido do dono)
 
 - Escrever sempre **"o Ronaldo Parafusos"**: do, no, pelo, ao Ronaldo Parafusos (nunca "a/da/na/pela Ronaldo Parafusos"), em site, termos, páginas geradas, artes, posts e mensagens. Só a razão social fica "Ronaldo Parafusos Ltda ME".

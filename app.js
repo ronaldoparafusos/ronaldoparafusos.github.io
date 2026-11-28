@@ -899,7 +899,7 @@ document.addEventListener("click",function(e){
    "10mm" = "10 mm" e "4.8" = "4,8". Números precisam bater. Se nada tiver todas as palavras, mostra os parecidos (QPT). */
 var QPT=0,QC=new Map(),QSW={x:1,de:1,da:1,do:1,das:1,dos:1,para:1,pra:1,pro:1,com:1,e:1,a:1,o:1,as:1,os:1,em:1,no:1,na:1,nos:1,nas:1,um:1,uma:1,p:1};
 /* Medidas (28/11/2026): "6mm" = "6 mm" = "M6" = "6,0"; 1/4" = 1/4'' = 1/4 pol = 1/4 polegada; "1 1/2" = "1.1/2"; 4.8 = 4,8 */
-function qn(s){return String(s).replace(/(\d)[.,](\d)/g,"$1,$2").replace(/(\d+),0+(?!\d)/g,"$1").replace(/(\d)\s*(?:"|''|”|″|pol(?:egadas?|egada|\.)?)(?![a-z])/g,"$1 pol").replace(/(^|[^a-z0-9])m\s?(\d{1,2}(?:,\d+)?)(?![\d,])(?!\s*(?:mm|cm|m)\b)/g,"$1$2 mm").replace(/(\d)\s*(mm|cm|m|pol|w|v|kg|g|l|ml|cv|hp|a|un|pc|pcs)\b/g,"$1 $2").replace(/(\d) (\d+\/\d+)/g,"$1,$2")}
+function qn(s){return String(s).replace(/(\d)\s*\/\s*(\d)/g,"$1/$2").replace(/\b(\d{1,2})\s*(?:e|-)\s*(\d{1,2}\/\d{1,2})\b/g,"$1,$2").replace(/\b(\d{1,2})[.,\s](\d{1,2})[.,\s](2|4|8|16|32|64)\b(?![.,]\d)/g,function(m,a,b,c){return+b<+c&&+b>0?a+","+b+"/"+c:m}).replace(/(\d)[.,](\d)/g,"$1,$2").replace(/(\d+),0+(?!\d)/g,"$1").replace(/(\d)\s*(?:"|''|”|″|pol(?:egadas?|egada|\.)?)(?![a-z])/g,"$1 pol").replace(/(^|[^a-z0-9])m\s?(\d{1,2}(?:,\d+)?)(?![\d,])(?!\s*(?:mm|cm|m)\b)/g,"$1$2 mm").replace(/(\d)\s*(mm|cm|m|pol|w|v|kg|g|l|ml|cv|hp|a|un|pc|pcs)\b/g,"$1 $2").replace(/(\d) (\d+\/\d+)/g,"$1,$2")}
 var QNR={};function qnum(x,w){var r=QNR[w];if(!r){r=QNR[w]=new RegExp("(^|[^\\d,/])"+w.replace(/[.*+?^${}()|[\]\\\/]/g,"\\$&")+"(?![\\d,]|\\/\\d)")}return r.test(x)}
 function qph(s){return s.replace(/ph/g,"f").replace(/[cs]h/g,"x").replace(/lh/g,"li").replace(/nh/g,"ni").replace(/qu|q/g,"c").replace(/gu(?=[ei])/g,"g").replace(/g(?=[ei])/g,"j").replace(/sc(?=[ei])|c(?=[ei])|ss|z/g,"s").replace(/k/g,"c").replace(/w/g,"v").replace(/y/g,"i").replace(/h/g,"").replace(/l(?![aeiou])/g,"u").replace(/m(?![aeiou\s]|$)/g,"n").replace(/([a-z])\1+/g,"$1")}
 function qhx(p){return norm(p.n+" "+(p.brand||"")+" "+(p.code||"")+" "+(p.bc||"")+" "+(p.ref||""))}
@@ -908,7 +908,7 @@ function qtoks(t){qsyLoad();var s0=" "+qn(norm(t)).replace(/\/(?!\d)|(\D)\//g,"$
 function qlev(a,b,k){var m=a.length,n=b.length,i,j;if(Math.abs(m-n)>k)return k+1;var p=[];for(j=0;j<=n;j++)p[j]=j;for(i=1;i<=m;i++){var c=[i],mn=i;for(j=1;j<=n;j++){c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a.charCodeAt(i-1)===b.charCodeAt(j-1)?0:1));if(c[j]<mn)mn=c[j]}if(mn>k)return k+1;p=c}return p[n]}
 function qtok(c,w,fz){
   if(w.charAt(0)==="\u00a7")return qsyn(c,QSYP[+w.slice(1)]);
-  if(/^\d/.test(w))return qnum(c.n,w)?3:0;
+  if(/^\d/.test(w))return qnum(c.n,w)?3:c.n.indexOf(w)>=0?1:0;
   if(c.n.indexOf(w)>=0)return 3;
   var v=[w.replace(/oes$|aes$/,"ao"),w.replace(/ns$/,"m"),w.replace(/is$/,"l"),w.replace(/es$/,""),w.replace(/s$/,"")],i;
   for(i=0;i<v.length;i++)if(v[i]!==w&&v[i].length>2&&c.n.indexOf(v[i])>=0)return 3;

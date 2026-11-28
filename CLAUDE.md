@@ -184,7 +184,7 @@ O dono pediu que isso não aconteça mais.
 
 ## Busca 4 e páginas por tipo (28/11/2026, pedido do dono)
 
-- Medidas (`qn`, `qnum`): "6mm" = "6 mm" = "M6" = "6,0"; 1/4" = 1/4'' = "1/4 pol" = "1/4 polegada"; "1 1/2" = "1.1/2"; "5/16 x 2" acha 5/16" x 2". Número só bate inteiro ("6 mm" não acha "16 mm"; "1/4" não acha "1.1/4"). Não desfazer.
+- Medidas (`qn`, `qnum`): "6mm" = "6 mm" = "M6" = "6,0"; 1/4" = 1/4'' = "1/4 pol" = "1/4 polegada"; "1 1/2" = "1.1/2"; "5/16 x 2" acha 5/16" x 2". Medida exata aparece primeiro; medidas que contêm o número ("1/4" → também 1.1/4"; "6 mm" → também 16 mm) aparecem depois (pedido do dono 28/11: "inteligente para tudo"). O cliente pode escrever 1 1/4, 1.1/4, 1,1,4, 1.1.4, 1-1/4 ou "1 e 1/4": tudo vira a mesma medida. Não desfazer.
 - Sugestões enquanto digita (`acH`/`acList`): começo dos nomes do catálogo ("abra" → "Abraçadeira de nylon"); tocou, abre a busca.
 - Mais procurados primeiro (`qpop`, pedidos de orçamento `ORC`) no desempate.
 - Sinônimos pelo painel: "Buscas sem resultado" → "Criar sinônimo"/"Novo sinônimo" (`bsSynH`, `bsSynSave`), gravados em `S.s.syn` na tabela `site`; valem na hora.

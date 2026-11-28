@@ -92,8 +92,10 @@ STF = ('<footer class="stf"><div class="w"><b>Ronaldo Parafusos</b> · Av. Pedro
        '<a href="tel:+556334761955">(63) 3476-1955</a> · <a href="https://wa.me/5563984514163">WhatsApp (63) 98451-4163</a> · '
        '<a href="/contato/">Contato</a> · <a href="/servicos/conserto-de-motosserra/">Oficina</a> · <a href="/perguntas-frequentes/">Perguntas frequentes</a> · <a href="/termos.html">Termos de Uso</a></div></footer>')
 def nav_html():
-    return '<nav class="c" aria-label="Categorias">' + "".join(
+    tp = globals().get("TIPO_URLS") or []
+    return ('<nav class="c" aria-label="Categorias">' + "".join(
         f'<a href="/categoria/{slug(c["n"])}/">{e(c["n"])}</a>' for c in cats if c["id"] in CATS_OK) + "</nav>"
+        + ('<nav class="c" aria-label="Mais procurados">' + "".join(f'<a href="{u[len(SITE):]}">{e(n)}</a>' for u, _, n in tp) + "</nav>" if tp else ""))
 def shell(path, title, desc, main, lds=(), og=None, pre=None, robots="index, follow, max-image-preview:large", canon=True):
     url = f"{SITE}/{path}/" if path else SITE + "/"
     og = og or SITE + "/img/og-ronaldo-parafusos-v5.jpg"
@@ -140,6 +142,57 @@ lists = []  # (url, lastmod, freq, prio)
 def lastmod(items):
     ds = [x for x in (pdate(p) for p in items) if x]
     return max(ds) if ds else None
+# ---------- páginas por tipo de produto (28/11/2026): "porcas em Colinas", "parafusos em Colinas"... ----------
+# Quem procura no Google "porcas em Colinas do Tocantins" cai direto numa página só de porcas, com foto e link de cada produto.
+def _nn(s):
+    s = unicodedata.normalize("NFD", str(s).lower()); return "".join(c for c in s if unicodedata.category(c) != "Mn")
+TIPOS_PG = [
+    ("parafusos", "Parafusos", r"^parafuso"), ("porcas", "Porcas", r"^porca"), ("arruelas", "Arruelas", r"^arruela"),
+    ("parafusos-sextavados", "Parafusos sextavados", r"^parafuso.*sextavad"), ("parafusos-allen", "Parafusos Allen", r"^parafuso.*(allen|sextavado interno|cilindrica)"),
+    ("parafusos-para-telha", "Parafusos para telha", r"^parafuso.*telha"), ("parafusos-de-madeira", "Parafusos para madeira (rosca soberba)", r"^parafuso.*(soberba|madeira|atarraxante|chipboard)"),
+    ("barras-roscadas", "Barras roscadas", r"^barra roscada|^vergalhao"), ("buchas", "Buchas", r"^bucha"), ("chumbadores", "Chumbadores e parabolts", r"^chumbador|^parabolt"),
+    ("rebites", "Rebites", r"^rebite"), ("pregos", "Pregos", r"^prego"), ("abracadeiras", "Abraçadeiras", r"^abracadeira"),
+    ("brocas", "Brocas", r"^broca|^jogo (de )?brocas"), ("discos-de-corte", "Discos de corte", r"^disco (de )?corte"), ("discos-diamantados", "Discos diamantados", r"^disco diamantado"),
+    ("lixas", "Lixas", r"^lixa|^disco (de )?lixa|^disco flap"), ("serras-copo", "Serras copo", r"^serra copo"),
+    ("chaves-combinadas", "Chaves combinadas", r"^chave combinada"), ("chaves-de-fenda", "Chaves de fenda e Phillips", r"^chave (de )?fenda|^chave phill?ips"),
+    ("soquetes", "Soquetes", r"^soquete|^chave soquete|^jogo (de )?soquete"), ("chaves-allen", "Chaves Allen (hexagonais)", r"^chave (hexagonal|allen)"),
+    ("alicates", "Alicates", r"^alicate"), ("martelos", "Martelos e marretas", r"^martelo|^marreta"), ("trenas", "Trenas", r"^trena"),
+    ("furadeiras", "Furadeiras e parafusadeiras", r"^furadeira(?!.*bristol)|^parafusadeira"), ("esmerilhadeiras", "Esmerilhadeiras", r"^esmerilhadeira|^lixadeira"),
+    ("motosserras", "Motosserras", r"^motosserra"), ("rocadeiras", "Roçadeiras", r"^rocadeira"), ("motobombas", "Motobombas", r"^motobomba"),
+    ("correntes-para-motosserra", "Correntes para motosserra", r"^corrente.*motosserra|^corrente \d"), ("sabres", "Sabres para motosserra", r"^sabre"),
+    ("carburadores", "Carburadores", r"^carburador"), ("velas-de-ignicao", "Velas de ignição", r"^vela"), ("filtros", "Filtros", r"^filtro"),
+    ("fio-de-nylon-para-rocadeira", "Fio de nylon para roçadeira", r"^fio (de )?nylon|^carretel"), ("rolamentos", "Rolamentos", r"^rolamento"), ("retentores", "Retentores", r"^retentor"),
+    ("mangueiras", "Mangueiras", r"^mangueira"), ("registros-e-torneiras", "Registros e torneiras", r"^registro|^torneira"),
+    ("conexoes", "Conexões hidráulicas", r"^(conexao|joelho|cotovelo|curva|te |tee|uniao|niple|bujao|luva (femea|roscavel|soldavel|reducao))"),
+    ("botinas", "Botinas e botas de segurança", r"^botina|^bota"), ("luvas-de-protecao", "Luvas de proteção", r"^luva(?! (femea|roscavel|soldavel|reducao))"),
+    ("oculos-de-protecao", "Óculos de proteção", r"^oculos"), ("tintas", "Tintas", r"^tinta|^esmalte|^rural |^lazzudur|^primer"),
+    ("dobradicas", "Dobradiças", r"^dobradica"), ("cadeados-e-fechaduras", "Cadeados e fechaduras", r"^cadeado|^fechadura"),
+    ("lampadas", "Lâmpadas", r"^lampada"), ("disjuntores", "Disjuntores", r"^disjuntor"), ("tomadas-e-interruptores", "Tomadas e interruptores", r"^tomada|^interruptor"),
+    ("cabos-eletricos", "Cabos e fios elétricos", r"^cabo (flex|pp|eletrico|triplex|duplex)"), ("eletrodos", "Eletrodos para solda", r"^eletrodo"),
+    ("arames", "Arames", r"^arame"), ("cordas", "Cordas", r"^corda"), ("telas", "Telas", r"^tela"), ("graxas-e-oleos", "Graxas, óleos e lubrificantes", r"^graxa|^oleo|^lubrificante|^desengripante"),
+]
+TIPO_URLS = []
+if os.path.isdir("produtos"): shutil.rmtree("produtos")
+for sl, nome, rx in TIPOS_PG:
+    it = ordem([p for p in prods if re.search(rx, _nn(p["n"]))])
+    if len(it) < 4: continue
+    path = f"produtos/{sl}"; url = f"{SITE}/{path}/"
+    titulo_h1 = f"{nome} em Colinas do Tocantins"
+    desc = f"{nome} no Ronaldo Parafusos, em Colinas do Tocantins (TO): {len(it)} opções com foto, medidas e ficha técnica. Entrega grátis em Colinas. Orçamento pelo WhatsApp."
+    og = next((absu(big_img(p)) for p in it if big_img(p)), None)
+    marcas = sorted({p.get("brand") for p in it if p.get("brand")})[:12]
+    main = (f'<p class="bcs"><a href="/">Início</a> › {e(nome)}</p><h1>{e(titulo_h1)}</h1><p>{e(desc)}</p>'
+            + (f'<p>Marcas: {e(", ".join(marcas))}.</p>' if marcas else "") +
+            f'<p><a class="sbt b" href="https://wa.me/{WA}?text=' + urllib.parse.quote(f"Olá! Vi no site e procuro {nome.lower()}.") + '">Pedir orçamento no WhatsApp</a></p>'
+            f'<ul class="l">{"".join(card(p) for p in it)}</ul>{nav_html()}')
+    il = {"@context": "https://schema.org", "@type": "CollectionPage", "name": titulo_h1, "url": url, "about": nome,
+          "mainEntity": {"@type": "ItemList", "numberOfItems": len(it), "itemListElement": [
+              {"@type": "ListItem", "position": i + 1, "url": f"{SITE}/{ppath(p)}/", "name": p["n"]} for i, p in enumerate(it[:30])]}}
+    write(path, shell(path, f"{titulo_h1} | Ronaldo Parafusos", desc, main,
+                      [bc_ld([("Ronaldo Parafusos", SITE + "/"), (nome, url)]), il], og, [safe(p) for p in it[:48]]))
+    TIPO_URLS.append((url, lastmod(it), nome))
+print(len(TIPO_URLS), "páginas por tipo de produto")
+
 for c in cats:
     it = ordem([p for p in prods if p.get("c") == c["id"]])
     if not it: continue
@@ -169,6 +222,7 @@ for bn, it in sorted(bc.items(), key=lambda x: -len(x[1])):
     write(path, shell(path, f"{bn} | Ronaldo Parafusos - Colinas do Tocantins", desc, main,
                       [bc_ld([("Ronaldo Parafusos", SITE + "/"), (f"Produtos {bn}", url)])], og, [safe(p) for p in it[:48]]))
     lists.append((url, lastmod(it), "weekly", "0.6"))
+
 
 # ---------- páginas de produto ----------
 for old in os.listdir("produto") if os.path.isdir("produto") else []:
@@ -321,6 +375,7 @@ LL = ["# Ronaldo Parafusos", "",
       f"- [Catálogo]({SITE}/): {len(prods)} produtos com foto, marca, código e ficha técnica",
       f"- [Contato]({SITE}/contato/)", f"- [Perguntas frequentes]({SITE}/perguntas-frequentes/)", "", "## Oficina", ""] + [f"- [{x[1]}]({SITE}/servicos/{x[0]}/)" for x in SERVICOS] + ["", "## Categorias", ""]
 LL += [f"- [{c['n']}]({SITE}/categoria/{slug(c['n'])}/)" for c in cats if c["id"] in CATS_OK]
+LL += ["", "## Produtos mais procurados", ""] + [f"- [{n}]({u})" for u, _, n in TIPO_URLS]
 LL += ["", f"Lista completa de páginas: {SITE}/sitemap.xml", ""]
 open("llms.txt", "w", encoding="utf-8").write("\n".join(LL))
 
@@ -334,6 +389,7 @@ add(SITE + "/", allm, "daily", "1.0")
 add(SITE + "/contato/", None, "monthly", "0.8")
 add(SITE + "/perguntas-frequentes/", None, "monthly", "0.7")
 for u in SRV_URLS: add(u, None, "monthly", "0.9")
+for u, lm, _ in TIPO_URLS: add(u, lm, "weekly", "0.8")
 for u, lm, f, pr in lists: add(u, lm, f, pr)
 for u, lm in purls: add(u, lm, "monthly", "0.6")
 # termos.html fica fora do sitemap e com noindex (pedido do dono, 25/11/2026)

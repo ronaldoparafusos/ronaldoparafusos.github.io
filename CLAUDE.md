@@ -28,7 +28,7 @@ O dono pediu que isso não aconteça mais.
    Não reescreva `app.js`/`app.css` num lote.
 3. **Antes do commit, confira** que o `app.js` (o JavaScript do site, desde 27/11/2026) ainda contém:
    `function tvH`, `function catBar`, `function kcContact`, `function waFab`, `function legalFoot`,
-   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, `function bibTick`, `function rpLib` (carregando `/sb-2.119.2.js`), `function pHref`, `function pathRt`, `function qtok`, `function dLoad`, `function faqSec`, `function cEntH`, `function ppInfo`, `function homeLite`, `function qsyn`, `function sgH`, `function bsLog`, `function bsOpen`, `function qDym`, `function ofiSec`; o `app.css` contém `/* Rodapé organizado:`, `/* === Cabeçalho: Televendas` e `/* === Ajustes 27/11/2026`; e o `index.html` carrega `/boot.js` e `/app.js`.
+   `function massPage`, `function rpMerge`, `function galEdH`, `function shrinkImg`, `function srDesc`, `function hrsH`, `function featFill`, `function brAuto`, `function novFit`, `function novSet`, `function bnPick`, `function rpFetchSite`, `function bnPicksH`, `function bnSwipe`, `function bnTick`, `function repOpen`, `function avOpen`, `function topLock`, `function bibFoot`, `function bibTick`, `function rpLib` (carregando `/sb-2.119.2.js`), `function pHref`, `function pathRt`, `function qtok`, `function dLoad`, `function faqSec`, `function cEntH`, `function ppInfo`, `function homeLite`, `function qsyn`, `function sgH`, `function bsLog`, `function bsOpen`, `function qDym`, `function qnum`, `function acH`, `function qpop`, `function bsSynH`, `function ofiSec`; o `app.css` contém `/* Rodapé organizado:`, `/* === Cabeçalho: Televendas` e `/* === Ajustes 27/11/2026`; e o `index.html` carrega `/boot.js` e `/app.js`.
    Se algum sumiu, você partiu de uma cópia antiga: pare e refaça a partir do passo 1.
 4. Rode `git diff --stat` e confira que só mudou o que você pretendia.
 5. Se o `git push` for recusado porque o repositório mudou, baixe de novo e reaplique só a sua mudança.
@@ -181,6 +181,15 @@ O dono pediu que isso não aconteça mais.
 - Quando a busca acha poucos itens (menos de 4), a caixa mostra "Produtos relacionados" (basta 1 palavra bater, `QPT=2`). A página de busca também cai para "1 palavra" se nada aparecer.
 - "Você quis dizer: …?" (`qDym`, vocabulário dos nomes do catálogo): troca palavra inexistente pela mais parecida; aparece na caixa e no topo da página de busca.
 - Descrições: `ferramentas/descricoes.py` trocou as descrições genéricas (repetidas em 5+ produtos) por texto de "para que serve" (regras `TIPOS`) + dados da ficha (marca, medida, material...) + o "Também conhecido como" que já existia. Sem inventar especificação; produtos com `et` não são mexidos; `up` = up do Supabase + 1 (não vira Novidade). Produto novo com descrição genérica: rodar o script de novo antes do gerador.
+
+## Busca 4 e páginas por tipo (28/11/2026, pedido do dono)
+
+- Medidas (`qn`, `qnum`): "6mm" = "6 mm" = "M6" = "6,0"; 1/4" = 1/4'' = "1/4 pol" = "1/4 polegada"; "1 1/2" = "1.1/2"; "5/16 x 2" acha 5/16" x 2". Número só bate inteiro ("6 mm" não acha "16 mm"; "1/4" não acha "1.1/4"). Não desfazer.
+- Sugestões enquanto digita (`acH`/`acList`): começo dos nomes do catálogo ("abra" → "Abraçadeira de nylon"); tocou, abre a busca.
+- Mais procurados primeiro (`qpop`, pedidos de orçamento `ORC`) no desempate.
+- Sinônimos pelo painel: "Buscas sem resultado" → "Criar sinônimo"/"Novo sinônimo" (`bsSynH`, `bsSynSave`), gravados em `S.s.syn` na tabela `site`; valem na hora.
+- Páginas por tipo de produto `/produtos/<tipo>/` ("Porcas em Colinas do Tocantins", parafusos, brocas, abraçadeiras... 52 páginas, lista `TIPOS_PG` no gerador), ligadas em todas as páginas geradas, no sitemap e no llms.txt. Para criar outra: acrescentar em `TIPOS_PG`.
+- Página inicial tem H1 escondido para leitores e Google (`.sro`).
 
 ## Nome da loja no masculino (27/11/2026, pedido do dono)
 

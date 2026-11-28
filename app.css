@@ -1128,3 +1128,5 @@ header .kcb .wrap{padding-right:12px}
 .stc ol.ctl{list-style:decimal}.stc ol.ctl li{list-style-position:inside}
 .si.sidm{background:#fff7d6;color:#1d2024}.sidm2{display:block;background:#fff7d6;border:1px solid #f5c518;border-radius:8px;padding:10px 14px;margin:0 0 12px;color:#1d2024;text-decoration:none;font-size:16px}.sidm2 b,.si.sidm b{color:#2b4ea2}
 .lnkwa{display:inline-flex;gap:6px;align-items:center;color:#14532d;font-weight:700}.lnkwa svg{width:18px;height:18px;color:#16a34a}
+.si.sac{display:flex;gap:8px;align-items:center;font-weight:600}.si.sac svg{width:16px;height:16px;color:#6b7280;flex:none}.si.sac span{flex:1}.si.sac small{color:#6b7280;font-weight:400}
+.sro{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

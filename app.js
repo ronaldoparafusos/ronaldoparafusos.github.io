@@ -95,7 +95,7 @@ function home(){
   if(fl.all.length&&S.s.feat!=="0")h+='<section style="padding:16px 0"><div class="wrap"><h2 class="sh">'+T("featT")+'</h2><div id="fgrid" class="g4">'+fl.shown.map(pcard).join("")+'</div><p class="frow">'+(fl.more?'<button id="fmbtn" class="btn" type="button" data-act="fmore">'+T("moreB")+'</button>':"")+'<a class="btn dark" href="#produtos">'+T("allB")+'</a></p></div></section>';
   if(typeof novSec==="function")h+=novSec();
   h+=ofiSec();
-  return h;
+  return '<h1 class="sro">Ronaldo Parafusos: parafusos, ferragens, ferramentas, peças e oficina de máquinas em Colinas do Tocantins (TO)</h1>'+h;
 }
 var DT={brand:"Ronaldo Parafusos",navProd:"Produtos",navCont:"Contato",call:"Ligar agora",bnBtn:"Ver produtos",brandsT:"Marcas",catsT:"Navegue por categorias",featT:"Mais vendidos",prodT:"Nossos produtos",ph:"Buscar: parafuso, luva, tinta…",contT:"Peça seu orçamento",contP:"Diga o produto e a quantidade que você precisa. Também atendemos pelo Instagram.",foot:"© Ronaldo Parafusos. Ferragens, ferramentas e parafusos.",quote:"Solicitar orçamento",order:"Fazer pedido",quoteB:"Solicitar orçamento via WhatsApp",orderB:"Fazer pedido pelo WhatsApp",noP:"Consulte o preço",cash:"à vista no dinheiro ou Pix",boxP:"Fale com a gente para confirmar disponibilidade e prazo.",descT:"Descrição",specT:"Ficha técnica",moreT:"Mais sobre o produto",simT:"Clientes também procuram",cmpL:"Comparar",cmpOn:"Na comparação",cmpB:"Comparar com outros produtos",cmpBon:"Na comparação (remover)",cmpPg:"Comparar produtos",fInst:"Institucional",fAt:"Atendimento",fSoc:"Siga nossas redes",kcat:"Categorias",fSt:"Nossas lojas",routeT:"Como chegar na loja",allT:"Todos os produtos",moreB:"Ver mais",allB:"Ver todos os produtos",menuT:"Menu",kfT:"Fale com a gente",bcH:"Início",fltT:"Filtros",fltC:"Limpar",fltS:"Mostrar filtros",fltH:"Ocultar filtros",srtT:"Ordenar por",railM:"Ver todas",railL:"Ver menos",fltP:"Preço (R$)",fltR:"Avaliação",fltO:"Outros",fltA:"Todas",flt4:"4 estrelas ou mais",flt3:"3 estrelas ou mais",fltN:"Novidades e lançamentos",fltV:"Mais vendidos",cartT:"Carrinho de orçamento",cartS:"Carrinho",cartAdd:"Adicionar ao carrinho",cartAddS:"+ Carrinho",cartBoxT:"Quer orçar vários produtos?",cartBoxD:"Escolha a quantidade, adicione ao carrinho e, no fim, envie a lista inteira de uma vez pelo WhatsApp.",cartObs:"Observação (ex.: medida, cor)",cartGo:"Ver carrinho",cartOk:"Adicionado ao carrinho",cartEmpty:"Seu carrinho está vazio.",cartEmptyD:"Escolha os produtos, defina a quantidade e toque em “Adicionar ao carrinho”.",cartMore:"Adicionar mais produtos",cartName:"Seu nome (opcional)",cartSend:"Solicitar orçamento via WhatsApp",cartNote:"A lista vai para o WhatsApp da loja com nome, código e quantidade de cada produto. A loja responde com valores e disponibilidade.",cartCopy:"Copiar lista",cartClr:"Limpar carrinho",cartClrQ:"Toque de novo para limpar",cartRm:"Remover"};
 var TX=[["brand","Nome da loja (topo da página)"],["navProd","Menu: produtos"],["navCont","Menu: contato"],["call","Botão de ligar"],["bnBtn","Botão dos destaques"],["brandsT","Título: marcas"],["catsT","Título: categorias"],["featT","Título: mais vendidos"],["prodT","Título: lista de produtos"],["ph","Texto da busca"],["contT","Título do contato"],["contP","Frase do contato"],["foot","Texto do rodapé"],["quote","Botão de orçamento (nos cards de produto sem preço)"],["order","Botão de pedido (nos cards de produto com preço)"],["quoteB","Botão de orçamento (página do produto sem preço)"],["orderB","Botão de pedido (página do produto com preço)"],["noP","Texto quando não há preço"],["cash","Texto abaixo do preço (à vista)"],["boxP","Frase na caixa de preço"],["descT","Título: descrição"],["specT","Título: ficha técnica"],["moreT","Título: mais sobre o produto"],["simT","Título: produtos similares"],["cmpL","Botão de comparar (nos cards)"],["cmpOn","Botão de comparar, quando já escolhido"],["cmpB","Botão de comparar (página do produto)"],["cmpBon","Botão de comparar (página do produto), quando já escolhido"],["cmpPg","Título da página de comparação (e item do menu)"],["allT","Botão: todos os produtos (início e menu)"],["moreB","Botão: ver mais (mais vendidos)"],["allB","Botão: ver todos os produtos (mais vendidos)"],["menuT","Menu do celular: título"],["kcat","Título: categorias (menu e rodapé)"],["kfT","Menu do celular: fale com a gente"],["fInst","Rodapé: título Institucional"],["fAt","Rodapé: título Atendimento"],["fSoc","Rodapé: título das redes"],["fSt","Rodapé: título das lojas"],["routeT","Rodapé: texto de como chegar"],["bcH","Caminho no topo das páginas: Início"],["fltT","Lista de produtos: título dos filtros"],["fltC","Filtros: botão limpar"],["fltS","Lista de produtos: botão mostrar filtros"],["fltH","Lista de produtos: botão ocultar filtros"],["srtT","Lista de produtos: ordenar por"],["railM","Categorias: botão ver todas"],["railL","Categorias: botão ver menos"],["fltP","Filtros: título do preço"],["fltR","Filtros: título da avaliação"],["fltO","Filtros: título de outros"],["fltA","Filtros: avaliação todas"],["flt4","Filtros: 4 estrelas"],["flt3","Filtros: 3 estrelas"],["fltN","Filtros: lançamentos"],["fltV","Filtros: mais vendidos"],["cartT","Carrinho: título da página"],["cartS","Carrinho: nome ao lado do ícone no topo"],["cartAdd","Carrinho: botão adicionar"],["cartAddS","Carrinho: botão adicionar (celular, nos cards)"],["cartBoxT","Carrinho: título do quadro no produto"],["cartBoxD","Carrinho: explicação do quadro no produto"],["cartObs","Carrinho: texto do campo de observação"],["cartGo","Carrinho: botão ver carrinho"],["cartOk","Carrinho: aviso ao adicionar"],["cartEmpty","Carrinho: título quando vazio"],["cartEmptyD","Carrinho: explicação quando vazio"],["cartMore","Carrinho: botão adicionar mais produtos"],["cartName","Carrinho: campo do nome"],["cartSend","Carrinho: botão enviar pelo WhatsApp"],["cartNote","Carrinho: explicação abaixo do botão"],["cartCopy","Carrinho: botão copiar lista"],["cartClr","Carrinho: botão limpar"],["cartClrQ","Carrinho: confirmação de limpar"],["cartRm","Carrinho: botão remover item"]];
@@ -186,10 +186,10 @@ var BST;function bindSearch(){
     var t=norm(q.value.trim()),box=$("sr");term=q.value;
     if(pg==="search"){LN=48;listUpd()}
     if(!t){box.hidden=true;box.innerHTML="";return}
-    var r=S.prods.filter(function(p){return qm(qhx(p),t)}).map(function(p,i){return{p:p,s:qsc(qhx(p),t),i:i}}).sort(function(a,b){return b.s-a.s||((b.p.img?1:0)-(a.p.img?1:0))||a.i-b.i}).map(function(o){return o.p}),mx=window.innerWidth<=760?8:6;
+    var r=S.prods.filter(function(p){return qm(qhx(p),t)}).map(function(p,i){return{p:p,s:qsc(qhx(p),t),i:i}}).sort(function(a,b){return b.s-a.s||qpop(b.p)-qpop(a.p)||((b.p.img?1:0)-(a.p.img?1:0))||a.i-b.i}).map(function(o){return o.p}),mx=window.innerWidth<=760?8:6;
     var r2=(r.length<mx&&typeof srDesc==="function")?S.prods.filter(function(p){return r.indexOf(p)<0&&srDesc(p,t)}):[];
     function siH(p){var c=catOf(p.c);return'<a class="si" href="'+esc(pHref(p))+'"><b>'+nmH(p)+'</b><span>'+esc(c?c.n:"")+'</span></a>'}
-    var h=sgH(t)+r.slice(0,mx).map(siH).join("");
+    var h=acH(t)+sgH(t)+r.slice(0,mx).map(siH).join("");
     if(r2.length)h+='<div class="si sih">'+(r.length?'Também citam “'+esc(q.value.trim())+'” na descrição:':'Nenhum produto com esse nome. Estes citam “'+esc(q.value.trim())+'” na descrição:')+'</div>'+r2.slice(0,Math.max(3,mx-r.length)).map(siH).join("");
     var tot=r.length>=12?r.length:r.length+r2.length;
     var r3=[];if(!r.length&&!r2.length){QPT=1;r3=S.prods.filter(function(p){return qm(qhx(p),t)});QPT=0;tot=r3.length;if(r3.length)h='<div class="si sih">Não achamos tudo o que você digitou. Veja itens parecidos:</div>'+r3.slice(0,mx).map(siH).join("")}
@@ -394,7 +394,7 @@ function listItems(){
   QFB=0;if(t&&!a.length){QFB=1;QPT=1;a=S.prods.map(function(p,i){return{p:p,i:i}}).filter(flt);QPT=0}
   if(t&&!a.length){QFB=2;QPT=2;a=S.prods.map(function(p,i){return{p:p,i:i}}).filter(flt);QPT=0}
   var s=F.sort;
-  if(!s)a.sort(function(x,y){return (t?(y.sc||0)-(x.sc||0):0)||((y.p.img?1:0)-(x.p.img?1:0))||((F.nw&&typeof pDate==="function")?pDate(y.p)-pDate(x.p):0)});
+  if(!s)a.sort(function(x,y){return (t?(y.sc||0)-(x.sc||0)||qpop(y.p)-qpop(x.p):0)||((y.p.img?1:0)-(x.p.img?1:0))||((F.nw&&typeof pDate==="function")?pDate(y.p)-pDate(x.p):0)});
   if(s)a.sort(function(x,y){
     var px=pnum(x.p.p),py=pnum(y.p.p),r=0;
     if(s==="pa"||s==="pd"){if(px==null&&py==null)r=0;else if(px==null)r=1;else if(py==null)r=-1;else r=s==="pa"?px-py:py-px}
@@ -897,15 +897,18 @@ document.addEventListener("click",function(e){
    Ignora acentos, maiúsculas e palavras de ligação ("cabo enxada" acha "cabo de enxada"); aceita escrita parecida
    (Blumenal = Blumenau, parafuzo = parafuso, filips = phillips), erro de digitação (furadera = furadeira), plural,
    "10mm" = "10 mm" e "4.8" = "4,8". Números precisam bater. Se nada tiver todas as palavras, mostra os parecidos (QPT). */
-var QPT=0,QC=new Map(),QSW={de:1,da:1,do:1,das:1,dos:1,para:1,pra:1,pro:1,com:1,e:1,a:1,o:1,as:1,os:1,em:1,no:1,na:1,nos:1,nas:1,um:1,uma:1,p:1};
-function qn(s){return String(s).replace(/(\d)[.,](\d)/g,"$1,$2").replace(/(\d)(mm|cm|m|pol|w|v|kg|g|l|ml|cv|hp|a|un|pc|pcs)\b/g,"$1 $2")}
+var QPT=0,QC=new Map(),QSW={x:1,de:1,da:1,do:1,das:1,dos:1,para:1,pra:1,pro:1,com:1,e:1,a:1,o:1,as:1,os:1,em:1,no:1,na:1,nos:1,nas:1,um:1,uma:1,p:1};
+/* Medidas (28/11/2026): "6mm" = "6 mm" = "M6" = "6,0"; 1/4" = 1/4'' = 1/4 pol = 1/4 polegada; "1 1/2" = "1.1/2"; 4.8 = 4,8 */
+function qn(s){return String(s).replace(/(\d)[.,](\d)/g,"$1,$2").replace(/(\d+),0+(?!\d)/g,"$1").replace(/(\d)\s*(?:"|''|”|″|pol(?:egadas?|egada|\.)?)(?![a-z])/g,"$1 pol").replace(/(^|[^a-z0-9])m\s?(\d{1,2}(?:,\d+)?)(?![\d,])(?!\s*(?:mm|cm|m)\b)/g,"$1$2 mm").replace(/(\d)\s*(mm|cm|m|pol|w|v|kg|g|l|ml|cv|hp|a|un|pc|pcs)\b/g,"$1 $2").replace(/(\d) (\d+\/\d+)/g,"$1,$2")}
+var QNR={};function qnum(x,w){var r=QNR[w];if(!r){r=QNR[w]=new RegExp("(^|[^\\d,/])"+w.replace(/[.*+?^${}()|[\]\\\/]/g,"\\$&")+"(?![\\d,]|\\/\\d)")}return r.test(x)}
 function qph(s){return s.replace(/ph/g,"f").replace(/[cs]h/g,"x").replace(/lh/g,"li").replace(/nh/g,"ni").replace(/qu|q/g,"c").replace(/gu(?=[ei])/g,"g").replace(/g(?=[ei])/g,"j").replace(/sc(?=[ei])|c(?=[ei])|ss|z/g,"s").replace(/k/g,"c").replace(/w/g,"v").replace(/y/g,"i").replace(/h/g,"").replace(/l(?![aeiou])/g,"u").replace(/m(?![aeiou\s]|$)/g,"n").replace(/([a-z])\1+/g,"$1")}
 function qhx(p){return norm(p.n+" "+(p.brand||"")+" "+(p.code||"")+" "+(p.bc||"")+" "+(p.ref||""))}
 function qprep(x){var c=QC.get(x);if(!c){if(QC.size>40000)QC.clear();var n=qn(x);c={n:n,p:qph(n),w:null};QC.set(x,c)}return c}
-function qtoks(t){var s0=" "+qn(norm(t)).replace(/[\s\/]+/g," ")+" ";if(typeof QSYP!=="undefined")QSYP.forEach(function(k,i){if(s0.indexOf(" "+k+" ")>=0)s0=s0.replace(" "+k+" "," \u00a7"+i+" ")});var a=s0.split(" ").filter(Boolean),b=a.filter(function(w){return!QSW[w]});return b.length?b:a}
+function qtoks(t){qsyLoad();var s0=" "+qn(norm(t)).replace(/\/(?!\d)|(\D)\//g,"$1 ").replace(/\s+/g," ")+" ";if(typeof QSYP!=="undefined")QSYP.forEach(function(k,i){if(s0.indexOf(" "+k+" ")>=0)s0=s0.replace(" "+k+" "," \u00a7"+i+" ")});var a0=s0.split(" ").filter(Boolean),a=[];a0.forEach(function(w,i){if(/^(mm|cm|m|pol|w|v|kg|g|l|ml|cv|hp|a)$/.test(w)&&a.length&&/^\d[\d,\/]*$/.test(a[a.length-1]))a[a.length-1]+=" "+w;else a.push(w)});var b=a.filter(function(w){return!QSW[w]});return b.length?b:a}
 function qlev(a,b,k){var m=a.length,n=b.length,i,j;if(Math.abs(m-n)>k)return k+1;var p=[];for(j=0;j<=n;j++)p[j]=j;for(i=1;i<=m;i++){var c=[i],mn=i;for(j=1;j<=n;j++){c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a.charCodeAt(i-1)===b.charCodeAt(j-1)?0:1));if(c[j]<mn)mn=c[j]}if(mn>k)return k+1;p=c}return p[n]}
 function qtok(c,w,fz){
   if(w.charAt(0)==="\u00a7")return qsyn(c,QSYP[+w.slice(1)]);
+  if(/^\d/.test(w))return qnum(c.n,w)?3:0;
   if(c.n.indexOf(w)>=0)return 3;
   var v=[w.replace(/oes$|aes$/,"ao"),w.replace(/ns$/,"m"),w.replace(/is$/,"l"),w.replace(/es$/,""),w.replace(/s$/,"")],i;
   for(i=0;i<v.length;i++)if(v[i]!==w&&v[i].length>2&&c.n.indexOf(v[i])>=0)return 3;
@@ -969,6 +972,7 @@ abracadeira:["abracadeira"],nivel:["nivel"],prumo:["prumo"],esquadro:["esquadro"
 talhadeira:["talhadeira"],ponteiro:["ponteiro"],colher:["colher de pedreiro","colher"],desempenadeira:["desempenadeira"]
 };
 var QSYP=Object.keys(QSY).filter(function(k){return k.indexOf(" ")>0}).sort(function(a,b){return b.length-a.length});
+var QSYL=null;function qsyLoad(){var y=S.s&&S.s.syn;if(y===QSYL)return;QSYL=y;if(y)Object.keys(y).forEach(function(k){var a=norm(k).trim(),b=String(y[k]).split(/[;\n]/).map(function(v){return norm(v).trim()}).filter(Boolean);if(a&&b.length)QSY[a]=b});QSYP=Object.keys(QSY).filter(function(k){return k.indexOf(" ")>0}).sort(function(a,b){return b.length-a.length})}
 function qsyn(c,w){var a=QSY[w];if(!a)return 0;for(var i=0;i<a.length;i++){var p=a[i].split(" "),ok=true;for(var j=0;j<p.length;j++)if(c.n.indexOf(p[j])<0){ok=false;break}if(ok)return 2}return 0}
 /* Sugestões de categoria e marca no topo da caixa de busca */
 function sgH(t){var out=[],k;if(t.length<3)return"";
@@ -984,12 +988,19 @@ function bsLog(t){t=norm(String(t||"")).replace(/\s+/g," ").trim().slice(0,60);i
   try{var d=new Date().toISOString().slice(0,10),o=JSON.parse(localStorage.getItem("rp_bs")||"{}");if(o.d!==d)o={d:d,l:[]};if(o.l.indexOf(t)>=0||o.l.length>=30)return;o.l.push(t);localStorage.setItem("rp_bs",JSON.stringify(o))}catch(e){if(BSL[t])return;BSL[t]=1}
   try{fetch(rpBase()+"/rest/v1/rpc/busca_registrar",{method:"POST",headers:{apikey:RPC.key,"Content-Type":"application/json"},body:JSON.stringify({t:t}),keepalive:true}).catch(function(){})}catch(e){}}
 async function bsOpen(){var d=document.getElementById("bsd");if(!d){d=document.createElement("dialog");d.id="bsd";d.className="bsd";document.body.appendChild(d)}
-  d.innerHTML='<p>Carregando…</p>';if(!d.open)d.showModal();
+  d.innerHTML='<p>Carregando…</p>';if(!d.open)d.showModal();var lista="";
   try{var r=await SB.from("buscas").select("termo,n,ult").order("n",{ascending:false}).limit(300);if(r.error)throw r.error;var a=r.data||[];
-    d.innerHTML='<h2>Buscas sem resultado</h2><p class="note">O que os clientes procuraram no site e não encontraram (sem nenhum dado do cliente). Use para saber o que cadastrar ou comprar. Somem sozinhas em 180 dias.</p>'+(a.length?'<table class="bst"><tr><th>Palavra buscada</th><th>Vezes</th><th>Última</th><th></th></tr>'+a.map(function(x){return'<tr><td>'+esc(x.termo)+'</td><td>'+x.n+'</td><td>'+new Date(x.ult).toLocaleDateString("pt-BR")+'</td><td><button class="lnk2" type="button" data-bsx="'+esc(x.termo)+'">Apagar</button></td></tr>'}).join("")+'</table>':'<p>Nenhuma busca sem resultado até agora.</p>')+'<p><button class="btn dark sm" type="button" data-bsc="1">Fechar</button></p>';
-  }catch(e){d.innerHTML='<p>Não consegui carregar a lista agora.</p><p><button class="btn dark sm" type="button" data-bsc="1">Fechar</button></p>'}
-  d.onclick=async function(ev){var b=ev.target.closest("button");if(!b)return;if(b.hasAttribute("data-bsc")){d.close();return}var k=b.getAttribute("data-bsx");if(k){try{await SB.from("buscas").delete().eq("termo",k)}catch(x){}bsOpen()}}}
-/* Busca por voz (celular/Chrome): botão de microfone na barra de busca */
+    lista=a.length?'<table class="bst"><tr><th>Palavra buscada</th><th>Vezes</th><th>Última</th><th></th></tr>'+a.map(function(x){return'<tr><td>'+esc(x.termo)+'</td><td>'+x.n+'</td><td>'+new Date(x.ult).toLocaleDateString("pt-BR")+'</td><td><button class="lnk2" type="button" data-bss="'+esc(x.termo)+'">Criar sinônimo</button> <button class="lnk2" type="button" data-bsx="'+esc(x.termo)+'">Apagar</button></td></tr>'}).join("")+'</table>':'<p>Nenhuma busca sem resultado até agora.</p>';
+  }catch(e){lista='<p>Não consegui carregar a lista agora.</p>'}
+  d.innerHTML='<h2>Buscas sem resultado</h2><p class="note">O que os clientes procuraram no site e não encontraram (sem nenhum dado do cliente). Use para saber o que cadastrar ou comprar, ou crie um sinônimo. Somem sozinhas em 180 dias.</p>'+lista+bsSynH()+'<p><button class="btn dark sm" type="button" data-bsc="1">Fechar</button></p>';
+  d.onclick=async function(ev){var b=ev.target.closest("button");if(!b)return;if(b.hasAttribute("data-bsc")){d.close();return}
+    var k=b.getAttribute("data-bsx");if(k){try{await SB.from("buscas").delete().eq("termo",k)}catch(x){}bsOpen();return}
+    var ns=b.getAttribute("data-bss");if(ns!==null){var a=ns||prompt("Quando o cliente escrever:"),v=a&&prompt("Quando o cliente escrever \""+a+"\", procurar por (como está no site; separe várias opções com ;):");if(a&&v){await bsSynSave(a,v);bsOpen()}return}
+    var rm=b.getAttribute("data-bsr");if(rm){if(confirm("Apagar o sinônimo \""+rm+"\"?")){await bsSynSave(rm,null);bsOpen()}}}}
+/* Sinônimos criados pelo dono no painel (S.s.syn, gravados na tabela site): valem na hora, sem atualizar o site */
+function bsSynH(){var sy=(S.s&&S.s.syn)||{},ks=Object.keys(sy).sort();return'<h3>Sinônimos da busca</h3><p class="note">Ex.: quando o cliente escrever "rebite pop", procurar por "rebite de repuxo".</p>'+(ks.length?'<table class="bst"><tr><th>Cliente escreve</th><th>Procura por</th><th></th></tr>'+ks.map(function(k){return'<tr><td>'+esc(k)+'</td><td>'+esc(sy[k])+'</td><td><button class="lnk2" type="button" data-bsr="'+esc(k)+'">Apagar</button></td></tr>'}).join("")+'</table>':"")+'<p><button class="btn sm" type="button" data-bss="">Novo sinônimo</button></p>'}
+async function bsSynSave(k,v){S.s=S.s||{};var y=Object.assign({},S.s.syn||{});k=String(k).trim().toLowerCase();if(v===null)delete y[k];else y[k]=String(v).trim();S.s.syn=y;QSYL=null;
+  try{var r=await SB.from("site").upsert({id:1,data:S,updated_at:new Date().toISOString()});if(r.error)throw r.error}catch(e){alert("Não consegui salvar agora. Tente de novo.")}}
 /* "Você quis dizer" (28/11/2026): palavra digitada que não existe no catálogo é trocada pela mais parecida (erro de digitação) */
 var QVC={k:"",w:null},QFB=0;
 function qVocab(){var k=S.prods.length+":"+(S.ver||0);if(QVC.k===k)return QVC.w;var m=new Map();S.prods.forEach(function(p){norm(p.n+" "+(p.brand||"")).split(/[^a-z0-9]+/).forEach(function(w){if(w.length>=4&&!/^\d/.test(w))m.set(w,(m.get(w)||0)+1)})});QVC={k:k,w:m};return m}
@@ -1000,6 +1011,19 @@ function qDym(t){var V=qVocab(),ws=String(t).trim().split(/\s+/),out=[],mud=fals
     if(best){out.push(best);mud=true}else out.push(w)});
   return mud?out.join(" "):""}
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("[data-dym]");if(!a)return;e.preventDefault();var v=a.getAttribute("data-dym");term=v;var q=$("hq");if(q)q.value=v;var sr=$("sr");if(sr)sr.hidden=true;if(location.hash==="#busca"&&location.pathname==="/")route();else go("#busca")});
+/* Mais procurados primeiro (desempate pelos pedidos de orçamento, ORC) */
+function qpop(p){return(typeof ORC==="object"&&ORC&&ORC[p.id])||0}
+/* Sugestões enquanto digita (28/11/2026): "abra" -> "Abraçadeira de nylon", "Abraçadeira rosca sem fim"... tocou, buscou */
+var ACV={k:"",l:null};
+function acList(){var k=S.prods.length+":"+(S.ver||0);if(ACV.k===k)return ACV.l;var m=new Map();
+  S.prods.forEach(function(p){var ws=String(p.n||"").replace(/[()]/g," ").split(/\s+/).filter(Boolean),out=[];
+    for(var i=0;i<ws.length&&out.length<4;i++){var w=ws[i];if(/\d|["'\/]/.test(w)||w.length>18)break;out.push(w);
+      if(out.length>=2){var d=out.join(" ").replace(/[,.;:\-]+$/,""),n=norm(d);if(/ (de|da|do|para|com|e|em)$/.test(n))continue;var o=m.get(n);if(!o){o={d:d.charAt(0).toUpperCase()+d.slice(1).toLowerCase(),n:0,p:0};m.set(n,o)}o.n++;o.p+=qpop(p)}}});
+  var l=[];m.forEach(function(o,n){if(o.n>=2)l.push({k:n,d:o.d,n:o.n,p:o.p})});ACV={k:k,l:l};return l}
+function acH(t){t=norm(t).replace(/\s+/g," ").trim();if(t.length<2||/\d/.test(t))return"";
+  var a=acList().filter(function(o){return o.k.indexOf(t)===0&&o.k!==t}).sort(function(x,y){return(y.p-x.p)||(y.n-x.n)||(x.k.length-y.k.length)});
+  var out=[];a.forEach(function(o){if(out.length<4&&!out.some(function(x){return o.k.indexOf(x.k+" ")===0&&o.n===x.n}))out.push(o)});
+  return out.map(function(o){return'<a class="si sac" href="#busca" data-dym="'+esc(o.d)+'"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>'+esc(o.d)+'</span><small>'+o.n+'</small></a>'}).join("")}
 /* Oficina na página inicial: serviços com página própria (geradas em /servicos/) */
 var OFS=[["conserto-de-motosserra","Conserto de motosserra",'<path d="M3 15h11l3-3h3v6h-3l-3-3"/><path d="M5 15v3h6v-3"/><circle cx="18.5" cy="15" r=".8"/>'],
   ["conserto-de-rocadeira","Conserto de roçadeira",'<path d="M4 4l11 11"/><path d="M15 15l2 5 3-3-5-2z"/><path d="M6 8l-2 2"/>'],
